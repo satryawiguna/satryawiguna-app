@@ -1,36 +1,115 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Satryawiguna Monorepo
 
-## Getting Started
+A modern Next.js monorepo with clean architecture, built with Turborepo, pnpm, and TypeScript.
 
-First, run the development server:
+## 🏗️ Project Structure
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+.
+├── apps/
+│   ├── admin/          # Admin dashboard application
+│   └── web/            # Public web application
+├── packages/
+│   ├── ui/             # Shared UI components (including Formik components)
+│   └── utils/          # Shared utilities and helpers
+└── shared/
+    ├── types/          # Shared TypeScript types
+    ├── api/            # API client and services
+    ├── store/          # Redux store configuration
+    └── constants/      # Shared constants and validation rules
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Framework**: Next.js 15 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: Material-UI (MUI)
+- **Form Management**: Formik + Yup
+- **State Management**: Redux Toolkit + React Query
+- **API Client**: Axios
+- **Monorepo**: Turborepo + pnpm workspaces
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📦 Getting Started
 
-## Learn More
+### Prerequisites
 
-To learn more about Next.js, take a look at the following resources:
+- Node.js >= 18.0.0
+- pnpm >= 8.0.0
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Installation
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+# Install dependencies
+pnpm install
 
-## Deploy on Vercel
+# Run development servers
+pnpm dev
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Build all apps
+pnpm build
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Run linting
+pnpm lint
+```
+
+### Development
+
+```bash
+# Run admin app only
+pnpm --filter admin dev
+
+# Run web app only
+pnpm --filter web dev
+```
+
+## 📁 Clean Architecture
+
+Each application follows clean architecture principles:
+
+- **Presentation Layer**: Components, pages, layouts, forms
+- **Domain Layer**: Business logic, entities, use cases
+- **Data Layer**: API services, repositories
+- **Infrastructure**: External services, utilities
+
+## 📋 Features
+
+✅ **Clean Architecture** - Organized by layers (presentation, domain, data, infrastructure)  
+✅ **Type Safety** - Full TypeScript support with shared types  
+✅ **Form Validation** - Formik + Yup with pre-built validation schemas  
+✅ **Shared Constants** - Centralized constants and validation rules  
+✅ **Modern Stack** - Latest Next.js, React, and MUI  
+✅ **State Management** - Redux + React Query  
+✅ **Code Sharing** - Shared components, utilities, and types  
+✅ **Fast Builds** - Turborepo for optimized builds
+
+## 📚 Documentation
+
+- [QUICKSTART.md](QUICKSTART.md) - Quick start guide
+- [SETUP.md](SETUP.md) - Detailed setup instructions
+- [STRUCTURE.md](STRUCTURE.md) - Complete project structure
+- [FORMIK_GUIDE.md](FORMIK_GUIDE.md) - Form validation guide
+
+## 🎯 Example Pages
+
+### Admin App (http://localhost:3001)
+
+- `/` - Dashboard home
+- `/login` - Login form with validation
+- `/register` - Registration form with validation
+
+### Web App (http://localhost:3000)
+
+- `/` - Landing page
+- `/contact` - Contact form with validation
+
+## 🎨 Code Style
+
+- ESLint for code quality
+- Prettier for code formatting
+- TypeScript for type safety
+- Consistent naming conventions
+
+## 📄 License
+
+MIT

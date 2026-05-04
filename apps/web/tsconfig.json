@@ -1,0 +1,23 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/components/*": ["./src/presentation/components/*"],
+      "@/hooks/*": ["./src/presentation/hooks/*"],
+      "@/services/*": ["./src/data/services/*"],
+      "@/repositories/*": ["./src/data/repositories/*"],
+      "@/entities/*": ["./src/domain/entities/*"],
+      "@/usecases/*": ["./src/domain/usecases/*"],
+      "@/utils/*": ["./src/infrastructure/utils/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}
