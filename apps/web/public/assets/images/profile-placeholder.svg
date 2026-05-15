@@ -1,0 +1,20 @@
+<svg width="576" height="700" viewBox="0 0 576 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="576" height="700" fill="url(#gradient)" />
+  <circle cx="288" cy="280" r="80" fill="rgba(0, 219, 233, 0.2)" />
+  <circle cx="288" cy="280" r="60" fill="rgba(0, 219, 233, 0.3)" />
+  <path d="M288 240C266.909 240 250 256.909 250 278C250 299.091 266.909 316 288 316C309.091 316 326 299.091 326 278C326 256.909 309.091 240 288 240Z" fill="rgba(255, 255, 255, 0.1)" />
+  <path d="M230 380C230 350 254 330 288 330C322 330 346 350 346 380V420H230V380Z" fill="rgba(255, 255, 255, 0.1)" />
+  <text x="288" y="500" text-anchor="middle" fill="rgba(0, 219, 233, 0.5)" font-family="Space Grotesk, sans-serif" font-size="18" font-weight="600">
+    PROFILE PHOTO
+  </text>
+  <text x="288" y="530" text-anchor="middle" fill="rgba(255, 255, 255, 0.3)" font-family="Inter, sans-serif" font-size="14">
+    Replace with your photo
+  </text>
+  <defs>
+    <linearGradient id="gradient" x1="0" y1="0" x2="576" y2="700" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="rgba(15, 23, 42, 0.8)" />
+      <stop offset="50%" stop-color="rgba(0, 219, 233, 0.1)" />
+      <stop offset="100%" stop-color="rgba(15, 23, 42, 0.8)" />
+    </linearGradient>
+  </defs>
+</svg>

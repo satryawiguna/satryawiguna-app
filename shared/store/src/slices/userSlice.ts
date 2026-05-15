@@ -33,13 +33,13 @@ const userSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
     },
-    clearError: (state) => {
+    clearUserError: (state) => {
       state.error = null;
     },
   },
 });
 
-export const { setCurrentUser, clearCurrentUser, setLoading, setError, clearError } =
+export const { setCurrentUser, clearCurrentUser, setLoading, setError, clearUserError } =
   userSlice.actions;
 
 // Selectors

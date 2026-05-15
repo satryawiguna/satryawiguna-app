@@ -39,4 +39,7 @@ export const API_ENDPOINTS = {
     STATS: '/dashboard/stats',
     ACTIVITY: '/dashboard/activity',
   },
+  MEDIA: {
+    BASE: '/media',
+  },
 } as const;

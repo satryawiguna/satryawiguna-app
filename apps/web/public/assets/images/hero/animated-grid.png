@@ -1,0 +1,9 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 576 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect id="Animated Glowing Grid:mask" width="576" height="700" fill="url(#paint0_radial_0_28)"/>
+<defs>
+<radialGradient id="paint0_radial_0_28" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(288 350) scale(453.259 453.259)">
+<stop/>
+<stop offset="0.8" stop-opacity="0"/>
+</radialGradient>
+</defs>
+</svg>

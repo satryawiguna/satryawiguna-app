@@ -1,14 +1,14 @@
 'use client';
 
-import { Container, Box } from '@mui/material';
-import { ContactForm } from '@/presentation/components/forms';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function ContactPage() {
-  return (
-    <Container maxWidth="md">
-      <Box sx={{ py: 8 }}>
-        <ContactForm />
-      </Box>
-    </Container>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace('/');
+  }, [router]);
+
+  return null;
 }

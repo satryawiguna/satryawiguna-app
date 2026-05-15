@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 112 96" fill="none">
+  <g opacity="0.3">
+    <circle cx="72" cy="24" r="40" fill="url(#gradient-performance)" fill-opacity="0.3"/>
+  </g>
+  <defs>
+    <radialGradient id="gradient-performance" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#00dbe9" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="#00dbe9" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>

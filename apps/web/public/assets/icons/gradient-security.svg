@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 112" fill="none">
+  <g opacity="0.3">
+    <circle cx="56" cy="72" r="40" fill="url(#gradient-security)" fill-opacity="0.3"/>
+  </g>
+  <defs>
+    <radialGradient id="gradient-security" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4edea3" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="#4edea3" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>

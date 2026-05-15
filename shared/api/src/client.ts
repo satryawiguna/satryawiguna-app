@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
-import { ApiResponse } from 'shared-types';
+import { AuthData, AUTH_DATA_DEFAULTS } from 'shared-types';
 
 export class ApiClient {
   private instance: AxiosInstance;
@@ -44,7 +44,14 @@ export class ApiClient {
 
   private getAuthToken(): string | null {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('authToken');
+      try {
+        const raw = localStorage.getItem('auth-data');
+        if (!raw) return null;
+        const data: AuthData = JSON.parse(raw);
+        return data.accessToken;
+      } catch {
+        return null;
+      }
     }
     return null;
   }
@@ -57,7 +64,7 @@ export class ApiClient {
       if (error.response.status === 401) {
         // Handle unauthorized
         if (typeof window !== 'undefined') {
-          localStorage.removeItem('authToken');
+          this.clearAuthData();
           window.location.href = '/login';
         }
       }
@@ -70,15 +77,15 @@ export class ApiClient {
     }
   }
 
-  public setAuthToken(token: string): void {
+  public setAuthData(data: AuthData): void {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('authToken', token);
+      localStorage.setItem('auth-data', JSON.stringify(data));
     }
   }
 
-  public clearAuthToken(): void {
+  public clearAuthData(): void {
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('authToken');
+      localStorage.setItem('auth-data', JSON.stringify(AUTH_DATA_DEFAULTS));
     }
   }
 

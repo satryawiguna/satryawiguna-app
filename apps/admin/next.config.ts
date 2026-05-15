@@ -6,6 +6,15 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['@mui/material', '@mui/icons-material'],
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'www.figma.com',
+        pathname: '/api/mcp/asset/**',
+      },
+    ],
+  },
 };
 
 export default nextConfig;

@@ -9,6 +9,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        space: ['Space Grotesk', 'sans-serif'],
+        mono: ['Courier New', 'Nimbus Mono PS', 'monospace'],
+      },
       colors: {
         primary: {
           50: '#f0f9ff',
@@ -21,6 +25,18 @@ const config: Config = {
           700: '#0369a1',
           800: '#075985',
           900: '#0c4a6e',
+        },
+        cyan: {
+          DEFAULT: '#00f0ff',
+          dim: '#22d3ee',
+        },
+        green: {
+          neon: '#4edea3',
+        },
+        dark: {
+          DEFAULT: '#020617',
+          card: 'rgba(15,23,42,0.6)',
+          sidebar: '#020617',
         },
       },
     },

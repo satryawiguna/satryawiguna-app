@@ -4,7 +4,7 @@ import { BlogPost } from '../entities';
  * Use case: Get Published Blog Posts
  */
 export class GetPublishedPostsUseCase {
-  async execute(limit?: number): Promise<BlogPost[]> {
+  async execute(_limit?: number): Promise<BlogPost[]> {
     // Business logic here
     return [];
   }

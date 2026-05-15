@@ -1,0 +1,6 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 36 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Overlay">
+<rect width="36" height="29" rx="2" fill="var(--fill-0, #D2BBFF)" fill-opacity="0.1"/>
+<path id="Icon" d="M9.5 21L8 19.5L15.5 12L19.5 16L26.6 8L28 9.4L19.5 19L15.5 15L9.5 21V21" fill="var(--fill-0, #D2BBFF)"/>
+</g>
+</svg>

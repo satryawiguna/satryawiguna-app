@@ -1,38 +1,49 @@
-'use client';
+import { Box } from '@mui/material';
+import { Navigation, Footer } from '@/presentation/components/common';
+import { HeroBanner, TechnicalPhilosophy, KeyExpertise } from '@/presentation/components/home';
 
-import { Container, Typography, Box, Button } from '@mui/material';
-import { Home as HomeIcon } from '@mui/icons-material';
-import Link from 'next/link';
+export const metadata = {
+  title: 'Satrya Wiguna - Full Stack Developer & Software Engineer',
+  description:
+    'Architecting high-performance web ecosystems with precision. I transform complex business logic into elegant, scalable software solutions.',
+  keywords: [
+    'Full Stack Developer',
+    'Software Engineer',
+    'Next.js',
+    'React',
+    'TypeScript',
+    'Node.js',
+    'Laravel',
+    'AWS',
+  ],
+  openGraph: {
+    title: 'Satrya Wiguna - Full Stack Developer',
+    description: 'Building Digital Excellence Through Full Stack Mastery',
+    type: 'website',
+  },
+};
 
 export default function Home() {
   return (
-    <Container maxWidth="lg">
-      <Box
-        sx={{
-          minHeight: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          gap: 3,
-        }}
-      >
-        <HomeIcon sx={{ fontSize: 80, color: 'primary.main' }} />
-        <Typography variant="h2" component="h1" gutterBottom>
-          Welcome to Satryawiguna
-        </Typography>
-        <Typography variant="h6" color="text.secondary" align="center">
-          Full Stack Developer | Software Engineer | Tech Enthusiast
-        </Typography>
-        <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
-          <Button variant="contained" size="large" component={Link} href="/about">
-            About Me
-          </Button>
-          <Button variant="outlined" size="large" component={Link} href="/contact">
-            Contact
-          </Button>
-        </Box>
+    <Box
+      sx={{
+        minHeight: '100vh',
+        backgroundColor: '#0b1326',
+        background: `
+          radial-gradient(circle at top left, rgba(0, 219, 233, 0.05) 0%, transparent 50%),
+          radial-gradient(circle at bottom right, rgba(116, 47, 229, 0.05) 0%, transparent 50%),
+          linear-gradient(90deg, rgb(11, 19, 38) 0%, rgb(11, 19, 38) 100%)
+        `,
+      }}
+    >
+      <Navigation />
+      <Box component="main">
+        <HeroBanner />
+        <KeyExpertise />
+        {/* <FeaturedProjects /> */}
+        <TechnicalPhilosophy />
       </Box>
-    </Container>
+      <Footer />
+    </Box>
   );
 }
