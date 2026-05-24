@@ -11,6 +11,7 @@ export * from './services/skillService';
 export * from './services/categoryService';
 export * from './services/tagService';
 export * from './services/adminUserService';
+export * from './services/profileService';
 
 // Interceptors
 export * from './interceptors';

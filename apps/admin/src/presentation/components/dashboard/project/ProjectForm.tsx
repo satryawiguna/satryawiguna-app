@@ -111,6 +111,7 @@ function toSlug(text: string): string {
 // ── Component ─────────────────────────────────────────────────────
 
 export function ProjectForm({ initialData, isSubmitting, onSubmit, onCancel }: ProjectFormProps) {
+  const isEditMode = Boolean(initialData);
   const [thumbnailPickerOpen, setThumbnailPickerOpen] = useState(false);
   const [imagesPickerOpen, setImagesPickerOpen] = useState(false);
 
@@ -638,109 +639,111 @@ export function ProjectForm({ initialData, isSubmitting, onSubmit, onCancel }: P
             />
           </div>
 
-          {/* Published At */}
-          <div>
-            <label style={labelStyle}>Published At</label>
-            <DateTimePicker
-              value={values.published_at ? dayjs(values.published_at) : null}
-              onChange={(newValue) => {
-                setFieldValue('published_at', newValue ? newValue.toISOString() : null);
-              }}
-              slotProps={{
-                textField: {
-                  placeholder: 'Select publish date…',
-                  fullWidth: true,
-                  sx: {
-                    '& .MuiOutlinedInput-root': {
-                      background: '#0d1526',
-                      border: '1px solid rgba(255,255,255,0.1)',
-                      borderRadius: '4px',
-                      color: '#dae2fd',
-                      fontFamily: "'Space Grotesk', sans-serif",
-                      fontSize: 13,
-                      '&:hover': { borderColor: 'rgba(255,255,255,0.2)' },
-                      '&.Mui-focused': { borderColor: '#22d3ee' },
-                    },
-                    '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
-                    '& .MuiInputBase-input': {
-                      color: '#dae2fd',
-                      fontFamily: "'Space Grotesk', sans-serif",
-                      fontSize: 13,
-                      '&::placeholder': { color: '#475569', opacity: 1 },
-                    },
-                    '& .MuiIconButton-root': {
-                      color: '#64748b',
-                      '&:hover': { color: '#22d3ee' },
-                    },
-                    '& .MuiSvgIcon-root': {
-                      fontSize: 18,
+          {/* Published At — edit mode only */}
+          {isEditMode && (
+            <div>
+              <label style={labelStyle}>Published At</label>
+              <DateTimePicker
+                value={values.published_at ? dayjs(values.published_at) : null}
+                onChange={(newValue) => {
+                  setFieldValue('published_at', newValue ? newValue.toISOString() : null);
+                }}
+                slotProps={{
+                  textField: {
+                    placeholder: 'Select publish date…',
+                    fullWidth: true,
+                    sx: {
+                      '& .MuiOutlinedInput-root': {
+                        background: '#0d1526',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        borderRadius: '4px',
+                        color: '#dae2fd',
+                        fontFamily: "'Space Grotesk', sans-serif",
+                        fontSize: 13,
+                        '&:hover': { borderColor: 'rgba(255,255,255,0.2)' },
+                        '&.Mui-focused': { borderColor: '#22d3ee' },
+                      },
+                      '& .MuiOutlinedInput-notchedOutline': { border: 'none' },
+                      '& .MuiInputBase-input': {
+                        color: '#dae2fd',
+                        fontFamily: "'Space Grotesk', sans-serif",
+                        fontSize: 13,
+                        '&::placeholder': { color: '#475569', opacity: 1 },
+                      },
+                      '& .MuiIconButton-root': {
+                        color: '#64748b',
+                        '&:hover': { color: '#22d3ee' },
+                      },
+                      '& .MuiSvgIcon-root': {
+                        fontSize: 18,
+                      },
                     },
                   },
-                },
-                popper: {
-                  sx: {
-                    '& .MuiPaper-root': {
-                      background: '#1e293b',
-                      border: '1px solid rgba(255,255,255,0.12)',
-                      borderRadius: '4px',
-                      color: '#dae2fd',
-                    },
-                    '& .MuiPickersDay-root': {
-                      color: '#cbd5e1',
-                      fontFamily: "'Space Grotesk', sans-serif",
-                      fontSize: 13,
-                      '&:hover': {
-                        background: 'rgba(34,211,238,0.12)',
-                        color: '#22d3ee',
+                  popper: {
+                    sx: {
+                      '& .MuiPaper-root': {
+                        background: '#1e293b',
+                        border: '1px solid rgba(255,255,255,0.12)',
+                        borderRadius: '4px',
+                        color: '#dae2fd',
                       },
-                      '&.Mui-selected': {
-                        background: '#00f0ff !important',
-                        color: '#006970 !important',
-                      },
-                    },
-                    '& .MuiPickersCalendarHeader-label': {
-                      color: '#94a3b8',
-                      fontFamily: "'Space Grotesk', sans-serif",
-                    },
-                    '& .MuiPickersArrowSwitcher-button': {
-                      color: '#64748b',
-                    },
-                    '& .MuiDayCalendar-weekDayLabel': {
-                      color: '#475569',
-                      fontFamily: "'Space Grotesk', sans-serif",
-                    },
-                    '& .MuiClockPicker-root, & .MuiClock-root': {
-                      '& .MuiClock-clock': {
-                        background: '#0d1526',
-                      },
-                      '& .MuiClockNumber-root': {
+                      '& .MuiPickersDay-root': {
                         color: '#cbd5e1',
                         fontFamily: "'Space Grotesk', sans-serif",
+                        fontSize: 13,
+                        '&:hover': {
+                          background: 'rgba(34,211,238,0.12)',
+                          color: '#22d3ee',
+                        },
+                        '&.Mui-selected': {
+                          background: '#00f0ff !important',
+                          color: '#006970 !important',
+                        },
                       },
-                      '& .MuiClockPointer-root': {
-                        background: '#00f0ff',
-                      },
-                      '& .MuiClockPointer-thumb': {
-                        background: '#00f0ff',
-                        borderColor: '#00f0ff',
-                      },
-                    },
-                    '& .MuiPickersLayout-actionBar': {
-                      '& .MuiButton-root': {
-                        color: '#22d3ee',
+                      '& .MuiPickersCalendarHeader-label': {
+                        color: '#94a3b8',
                         fontFamily: "'Space Grotesk', sans-serif",
-                        fontSize: 12,
+                      },
+                      '& .MuiPickersArrowSwitcher-button': {
+                        color: '#64748b',
+                      },
+                      '& .MuiDayCalendar-weekDayLabel': {
+                        color: '#475569',
+                        fontFamily: "'Space Grotesk', sans-serif",
+                      },
+                      '& .MuiClockPicker-root, & .MuiClock-root': {
+                        '& .MuiClock-clock': {
+                          background: '#0d1526',
+                        },
+                        '& .MuiClockNumber-root': {
+                          color: '#cbd5e1',
+                          fontFamily: "'Space Grotesk', sans-serif",
+                        },
+                        '& .MuiClockPointer-root': {
+                          background: '#00f0ff',
+                        },
+                        '& .MuiClockPointer-thumb': {
+                          background: '#00f0ff',
+                          borderColor: '#00f0ff',
+                        },
+                      },
+                      '& .MuiPickersLayout-actionBar': {
+                        '& .MuiButton-root': {
+                          color: '#22d3ee',
+                          fontFamily: "'Space Grotesk', sans-serif",
+                          fontSize: 12,
+                        },
                       },
                     },
                   },
-                },
-              }}
-              format="DD/MM/YYYY HH:mm"
-            />
-            {touched.published_at && errors.published_at && (
-              <p style={errorStyle}>{errors.published_at as string}</p>
-            )}
-          </div>
+                }}
+                format="DD/MM/YYYY HH:mm"
+              />
+              {touched.published_at && errors.published_at && (
+                <p style={errorStyle}>{errors.published_at as string}</p>
+              )}
+            </div>
+          )}
 
           {/* Actions */}
           <div

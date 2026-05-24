@@ -99,9 +99,9 @@ export function AdminUserForm({
       validationSchema={isEditMode ? updateSchema : createSchema}
       enableReinitialize
       onSubmit={async (values) => {
-        const { password, ...rest } = values;
         if (isEditMode) {
-          await onSubmit(rest as UpdateAdminUserRequest);
+          const { name, phone, avatar_url } = values;
+          await onSubmit({ name, phone, avatar_url } as UpdateAdminUserRequest);
         } else {
           await onSubmit(values as CreateAdminUserRequest);
         }
