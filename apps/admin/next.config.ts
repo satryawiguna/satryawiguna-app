@@ -1,6 +1,7 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
+  output: 'standalone',
   reactStrictMode: true,
   transpilePackages: ['ui', 'shared-types', 'shared-api', 'shared-store'],
   experimental: {
@@ -12,6 +13,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'www.figma.com',
         pathname: '/api/mcp/asset/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.digitaloceanspaces.com',
       },
     ],
   },

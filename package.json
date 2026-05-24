@@ -9,7 +9,19 @@
     "start": "turbo run start",
     "lint": "turbo run lint",
     "clean": "turbo run clean",
-    "format": "prettier --write \"**/*.{ts,tsx,md,json}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "docker:dev:pull": "docker-compose -f docker-compose.dev.yml pull",
+    "docker:dev:up": "docker-compose -f docker-compose.dev.yml up -d",
+    "docker:dev:down": "docker-compose -f docker-compose.dev.yml down",
+    "docker:dev:logs": "docker-compose -f docker-compose.dev.yml logs -f",
+    "docker:dev:ps": "docker-compose -f docker-compose.dev.yml ps",
+    "docker:dev:restart": "pnpm run docker:dev:down && pnpm run docker:dev:up",
+    "docker:prod:pull": "docker-compose -f docker-compose.prod.yml pull",
+    "docker:prod:up": "docker-compose -f docker-compose.prod.yml up -d",
+    "docker:prod:down": "docker-compose -f docker-compose.prod.yml down",
+    "docker:prod:logs": "docker-compose -f docker-compose.prod.yml logs -f",
+    "docker:prod:ps": "docker-compose -f docker-compose.prod.yml ps",
+    "docker:prod:restart": "pnpm run docker:prod:down && pnpm run docker:prod:up"
   },
   "devDependencies": {
     "prettier": "^3.2.5",

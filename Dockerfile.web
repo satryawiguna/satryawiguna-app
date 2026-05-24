@@ -1,0 +1,91 @@
+################################################################################
+# BASE — shared foundation for all stages
+################################################################################
+FROM node:20-alpine AS base
+RUN apk add --no-cache libc6-compat
+RUN npm install -g pnpm@9.1.0
+WORKDIR /app
+
+################################################################################
+# DEVELOPMENT — hot-reload stage (used by docker-compose.yml + docker-compose.dev.yml)
+# Source code is bind-mounted at runtime; this stage only pre-installs deps.
+################################################################################
+FROM base AS development
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json tsconfig.json ./
+COPY apps/web/package.json         ./apps/web/
+COPY apps/admin/package.json       ./apps/admin/
+COPY packages/ui/package.json      ./packages/ui/
+COPY packages/utils/package.json   ./packages/utils/
+COPY shared/api/package.json       ./shared/api/
+COPY shared/constants/package.json ./shared/constants/
+COPY shared/datatable/package.json ./shared/datatable/
+COPY shared/store/package.json     ./shared/store/
+COPY shared/types/package.json     ./shared/types/
+
+RUN pnpm install --frozen-lockfile
+
+ENV NEXT_TELEMETRY_DISABLED=1
+# PORT is set to 3000 here as a default; docker-compose can override it.
+# Next.js respects the PORT env var when --port is not passed explicitly.
+ENV PORT=3000
+WORKDIR /app/apps/web
+EXPOSE 3000
+CMD ["pnpm", "exec", "next", "dev"]
+
+################################################################################
+# PRUNER — uses turbo prune to create a minimal workspace for the web app.
+#          Only runs during a production build.
+################################################################################
+FROM base AS pruner
+RUN npm install -g turbo@2
+COPY . .
+RUN turbo prune web --docker
+
+################################################################################
+# PROD-DEPS — installs only the dependencies required by the pruned workspace
+################################################################################
+FROM base AS prod-deps
+COPY --from=pruner /app/out/json/         .
+COPY --from=pruner /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+RUN pnpm install --frozen-lockfile
+
+################################################################################
+# BUILDER — compiles the production build
+################################################################################
+FROM base AS builder
+# Layer 1: pre-installed node_modules from prod-deps
+COPY --from=prod-deps /app/ .
+# Layer 2: full pruned source overlaid on top (no node_modules in out/full)
+COPY --from=pruner /app/out/full/ .
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_ENV=production
+# turbo is in root devDependencies, so pnpm exec turbo is available
+RUN pnpm exec turbo run build --filter=web
+
+################################################################################
+# RUNNER — minimal production image (~200 MB vs ~1 GB)
+# Runs as non-root user for security.
+################################################################################
+FROM node:20-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV HOSTNAME="0.0.0.0"
+
+RUN addgroup --system --gid 1001 nodejs \
+ && adduser  --system --uid 1001 nextjs
+
+# Public assets
+COPY --from=builder /app/apps/web/public ./apps/web/public
+
+# Standalone server (includes minimal node_modules)
+COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/standalone ./
+
+# Static files must be placed where Next.js standalone server expects them
+COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/static ./apps/web/.next/static
+
+USER nextjs
+ENV PORT=3004
+EXPOSE 3004
+CMD ["node", "apps/web/server.js"]
