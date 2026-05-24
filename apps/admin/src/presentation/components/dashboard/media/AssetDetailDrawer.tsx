@@ -1,19 +1,54 @@
 'use client';
 
-import { Drawer } from '@mui/material';
+import { useState } from 'react';
+import {
+  Drawer,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Button,
+} from '@mui/material';
 import type { Asset } from 'shared-types';
+import { mediaRepository } from '@/data/repositories';
 
 interface AssetDetailDrawerProps {
   open: boolean;
   asset: Asset | null;
   onClose: () => void;
+  onDeleted?: () => void;
 }
 
-export function AssetDetailDrawer({ open, asset, onClose }: AssetDetailDrawerProps) {
+export function AssetDetailDrawer({ open, asset, onClose, onDeleted }: AssetDetailDrawerProps) {
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+
   if (!asset) return null;
 
   const handleCopyUrl = () => {
     navigator.clipboard.writeText(asset.publicUrl);
+  };
+
+  const handleDownload = () => {
+    window.open(asset.publicUrl, '_blank');
+  };
+
+  const handleDeleteClick = () => {
+    setConfirmOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (isDeleting) return;
+    setIsDeleting(true);
+    setConfirmOpen(false);
+    try {
+      await mediaRepository.deleteMedia(asset.id);
+      onDeleted?.();
+      onClose();
+    } catch {
+      setIsDeleting(false);
+    }
   };
 
   const typeLabel = () => {
@@ -48,7 +83,7 @@ export function AssetDetailDrawer({ open, asset, onClose }: AssetDetailDrawerPro
     >
       <div className="flex flex-col h-full bg-[#020617]">
         {/* ===== Header ===== */}
-        <div className="border-b border-[rgba(255,255,255,0.1)] shrink-0">
+        <div className="border-b border-[rgba(255,255,255,0.1)] shrink-0 relative">
           <div className="flex flex-col gap-[4px] items-start pb-[25px] pt-[24px] px-[24px]">
             <h3 className="font-['Space_Grotesk',sans-serif] font-normal text-[18px] text-white leading-[28px]">
               Asset Details
@@ -57,6 +92,21 @@ export function AssetDetailDrawer({ open, asset, onClose }: AssetDetailDrawerPro
               SELECTED: 1 FILE
             </span>
           </div>
+          {/* Close X */}
+          <button
+            onClick={onClose}
+            className="absolute top-[20px] right-[20px] border-0 bg-transparent cursor-pointer text-[#64748b] hover:text-white transition-colors"
+            style={{ outline: 'none' }}
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path
+                d="M3 3L11 11M11 3L3 11"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+              />
+            </svg>
+          </button>
         </div>
 
         {/* ===== Body ===== */}
@@ -156,6 +206,7 @@ export function AssetDetailDrawer({ open, asset, onClose }: AssetDetailDrawerPro
 
               {/* Download File */}
               <button
+                onClick={handleDownload}
                 className="border border-[rgba(34,211,238,0.2)] bg-[rgba(34,211,238,0.1)] rounded-[2px] w-full cursor-pointer hover:opacity-80 transition-opacity"
                 style={{ outline: 'none' }}
               >
@@ -176,32 +227,11 @@ export function AssetDetailDrawer({ open, asset, onClose }: AssetDetailDrawerPro
                 </div>
               </button>
 
-              {/* Share Access */}
-              <button
-                className="border border-[rgba(255,255,255,0.05)] bg-[#222a3d] rounded-[2px] w-full cursor-pointer hover:opacity-80 transition-opacity"
-                style={{ outline: 'none' }}
-              >
-                <div className="flex gap-[12px] items-center px-[17px] py-[11px]">
-                  <svg width="10.5" height="11.667" viewBox="0 0 11 12" fill="none">
-                    <circle cx="9" cy="2.5" r="1.5" stroke="white" strokeWidth="1.2" />
-                    <circle cx="9" cy="9.5" r="1.5" stroke="white" strokeWidth="1.2" />
-                    <circle cx="2" cy="6" r="1.5" stroke="white" strokeWidth="1.2" />
-                    <path
-                      d="M3.5 5.25L7.5 3.25M3.5 6.75L7.5 8.75"
-                      stroke="white"
-                      strokeWidth="1.2"
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                  <span className="font-['Inter',sans-serif] font-bold text-white text-[12px] tracking-[1.2px] uppercase leading-[16px]">
-                    SHARE ACCESS
-                  </span>
-                </div>
-              </button>
-
               {/* Delete Forever */}
               <button
-                className="border border-[rgba(239,68,68,0.2)] bg-[rgba(239,68,68,0.1)] rounded-[2px] w-full cursor-pointer hover:opacity-80 transition-opacity"
+                onClick={handleDeleteClick}
+                disabled={isDeleting}
+                className="border border-[rgba(239,68,68,0.2)] bg-[rgba(239,68,68,0.1)] rounded-[2px] w-full cursor-pointer hover:opacity-80 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{ outline: 'none' }}
               >
                 <div className="flex gap-[12px] items-center px-[17px] py-[11px]">
@@ -222,7 +252,7 @@ export function AssetDetailDrawer({ open, asset, onClose }: AssetDetailDrawerPro
                     />
                   </svg>
                   <span className="font-['Inter',sans-serif] font-bold text-[#f87171] text-[12px] tracking-[1.2px] uppercase leading-[16px]">
-                    DELETE FOREVER
+                    {isDeleting ? 'DELETING...' : 'DELETE FOREVER'}
                   </span>
                 </div>
               </button>
@@ -230,6 +260,68 @@ export function AssetDetailDrawer({ open, asset, onClose }: AssetDetailDrawerPro
           </div>
         </div>
       </div>
+
+      {/* Confirmation Dialog */}
+      <Dialog
+        open={confirmOpen}
+        onClose={() => setConfirmOpen(false)}
+        PaperProps={{
+          sx: {
+            bgcolor: '#0f172a',
+            border: '1px solid rgba(255,255,255,0.1)',
+            borderRadius: '8px',
+            maxWidth: 380,
+          },
+        }}
+      >
+        <DialogTitle
+          sx={{
+            color: 'white',
+            fontFamily: "'Space Grotesk', sans-serif",
+            fontSize: '18px',
+            fontWeight: 600,
+          }}
+        >
+          Delete Forever
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText
+            sx={{ color: '#94a3b8', fontSize: 13, fontFamily: "'Inter', sans-serif" }}
+          >
+            Are you sure you want to permanently delete{' '}
+            <strong style={{ color: '#f87171' }}>{asset?.fileName}</strong>? This action cannot be
+            undone.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions sx={{ px: 3, pb: 2 }}>
+          <Button
+            onClick={() => setConfirmOpen(false)}
+            sx={{
+              color: '#94a3b8',
+              fontFamily: 'Space Grotesk, sans-serif',
+              fontSize: 12,
+              textTransform: 'uppercase',
+              letterSpacing: '1.2px',
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={handleDeleteConfirm}
+            disabled={isDeleting}
+            sx={{
+              color: '#f87171',
+              fontFamily: 'Space Grotesk, sans-serif',
+              fontSize: 12,
+              textTransform: 'uppercase',
+              letterSpacing: '1.2px',
+              fontWeight: 700,
+            }}
+          >
+            {isDeleting ? 'Deleting...' : 'Delete'}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Drawer>
   );
 }

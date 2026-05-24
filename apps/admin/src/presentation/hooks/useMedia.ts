@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo, useDeferredValue } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { mediaRepository } from '../../data/repositories';
-import type { Media, MediaListResponse } from 'shared-types';
+import type { MediaListResponse } from 'shared-types';
 
 export interface MediaFilters {
   page: number;

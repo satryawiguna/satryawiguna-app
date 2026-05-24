@@ -22,7 +22,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           />
         )}
         <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-        <div className="flex flex-col flex-1 lg:pl-[256px]">
+        <div className="flex flex-col flex-1 min-w-0 lg:pl-[256px]">
           <Topbar onMenuClick={() => setSidebarOpen((prev) => !prev)} />
           <main className="flex-1">{children}</main>
         </div>
