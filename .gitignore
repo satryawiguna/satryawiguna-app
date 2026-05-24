@@ -2,6 +2,15 @@
 
 # dependencies
 /node_modules
+/apps/admin/node_modules
+/apps/web/node_modules
+/packages/ui/node_modules
+/packages/utils/node_modules
+/shared/api/node_modules
+/shared/constants/node_modules
+/shared/datatable/node_modules
+/shared/store/node_modules
+/shared/types/node_modules
 /.pnp
 .pnp.*
 .yarn/*
@@ -15,6 +24,8 @@
 
 # next.js
 /.next/
+/apps/admin/.next/
+/apps/web/.next/
 /out/
 
 # production
@@ -42,6 +53,8 @@ next-env.d.ts
 
 # turbo
 .turbo
+/apps/admin/.turbo
+/apps/web/.turbo
 
 # IDE
 .vscode/*

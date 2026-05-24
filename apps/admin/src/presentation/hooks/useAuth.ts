@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from 'shared-store';
 import {
   loginStart,
@@ -25,6 +25,7 @@ import { verify2faUseCase } from '../../domain/usecases/verify2fa';
 export const useLogin = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [step, setStep] = useState<'email' | 'otp'>('email');
   const [email, setEmail] = useState('');
 
@@ -73,7 +74,8 @@ export const useLogin = () => {
       dispatch(
         loginSuccess({ accessToken, refreshToken, tokenType, expiresIn, refreshExpiresIn, user })
       );
-      router.push('/dashboard');
+      const returnUrl = searchParams.get('returnUrl');
+      router.push(returnUrl ?? '/dashboard');
     },
     onError: (error: any) => {
       const message =
