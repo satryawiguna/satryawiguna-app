@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import { DateProvider } from '@/presentation/components/providers/DateProvider';
 import { Providers } from '@/presentation/components/providers/Providers';
 import { theme } from '@/presentation/theme';
 import './globals.css';
@@ -21,8 +22,10 @@ export default function RootLayout({
       <body suppressHydrationWarning>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Providers>{children}</Providers>
+            <DateProvider>
+              <CssBaseline />
+              <Providers>{children}</Providers>
+            </DateProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

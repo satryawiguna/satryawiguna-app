@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import type { Asset, AssetThumbnailMap } from 'shared-types';
 import { mapMediaToAsset } from 'shared-types';
 import { AssetDetailDrawer } from './AssetDetailDrawer';
-import { useMedia } from '@/presentation/hooks';
+import { useMedia, useMediaUpload } from '@/presentation/hooks';
 
 const MEDIA_THUMBNAILS: AssetThumbnailMap = {
   image: '/assets/media/thumb-image.svg',
@@ -24,10 +24,15 @@ const FILTER_OPTIONS: { label: string; value: FilterType }[] = [
 ];
 
 export function MediaLibraryContent() {
-  const { media, isLoading, isError, isFetching, pagination, filters, setPage } = useMedia();
+  const { media, isLoading, isError, isFetching, pagination, filters, setPage, refetch } =
+    useMedia();
+  const onUploadSuccess = useCallback(() => refetch(), [refetch]);
+  const { snapshot, upload, isUploading, reset } = useMediaUpload(onUploadSuccess);
   const [filter, setFilter] = useState<FilterType>('all');
   const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
   const [isGridView, setIsGridView] = useState(true);
+  const [isDragOver, setIsDragOver] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Map API data to Asset format
   const assets = useMemo(() => media.map((m) => mapMediaToAsset(m, MEDIA_THUMBNAILS)), [media]);
@@ -42,13 +47,65 @@ export function MediaLibraryContent() {
     setSelectedAsset((prev) => (prev?.id === asset.id ? null : asset));
   }
 
+  // ── Drag & Drop handlers ──────────────────────────────────────
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(true);
+  }, []);
+
+  const handleDragLeave = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(false);
+  }, []);
+
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setIsDragOver(false);
+
+      const files = e.dataTransfer.files;
+      if (files.length > 0 && !isUploading) {
+        upload(files[0]); // only 1 file at a time
+      }
+    },
+    [upload, isUploading]
+  );
+
+  const handleFileSelect = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const files = e.target.files;
+      if (files && files.length > 0 && !isUploading) {
+        upload(files[0]);
+      }
+      // Reset so the same file can be re-selected
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    },
+    [upload, isUploading]
+  );
+
+  const triggerFileInput = useCallback(() => {
+    fileInputRef.current?.click();
+  }, []);
+
   return (
     <div className="flex h-full w-full overflow-hidden bg-[#060e20]">
       {/* ===== Scrollable Content Area ===== */}
       <div className="flex-1 overflow-auto">
         <div className="flex flex-col gap-[16px] md:gap-[24px] lg:gap-[32px] p-[16px] md:p-[24px] lg:p-[32px]">
           {/* Upload Zone */}
-          <div className="relative bg-[#060e20] border-2 border-dashed border-[rgba(255,255,255,0.1)] rounded-[8px] overflow-hidden">
+          <div
+            className={`relative border-2 border-dashed rounded-[8px] overflow-hidden transition-colors ${
+              isDragOver
+                ? 'border-[#22d3ee] bg-[rgba(34,211,238,0.08)]'
+                : 'border-[rgba(255,255,255,0.1)] bg-[#060e20]'
+            }`}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+          >
             <div className="absolute inset-0 bg-[rgba(34,211,238,0.05)] opacity-0 pointer-events-none" />
             <div className="flex flex-col items-center justify-center p-[24px] md:p-[32px] lg:p-[42px] gap-[8px]">
               <div className="bg-[rgba(34,211,238,0.1)] rounded-[12px] w-[52px] h-[52px] md:w-[64px] md:h-[64px] flex items-center justify-center">
@@ -77,15 +134,26 @@ export function MediaLibraryContent() {
                   Support for PNG, JPG, SVG, MP4, and PDF. Max file size 50MB.
                 </p>
               </div>
-              <button className="border-0 cursor-pointer bg-[#22d3ee] px-[18px] md:px-[24px] py-[8px] md:py-[10px] rounded-[2px] font-['Space_Grotesk',sans-serif] font-bold text-[11px] md:text-[12px] text-[#020617] tracking-[1.2px] uppercase leading-[16px]">
-                SELECT FILES
+              <input
+                ref={fileInputRef}
+                type="file"
+                className="hidden"
+                onChange={handleFileSelect}
+                accept="image/*,video/*,audio/*,.pdf,.svg"
+              />
+              <button
+                onClick={triggerFileInput}
+                disabled={isUploading}
+                className="border-0 cursor-pointer bg-[#22d3ee] px-[18px] md:px-[24px] py-[8px] md:py-[10px] rounded-[2px] font-['Space_Grotesk',sans-serif] font-bold text-[11px] md:text-[12px] text-[#020617] tracking-[1.2px] uppercase leading-[16px] disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isUploading ? 'UPLOADING...' : 'SELECT FILES'}
               </button>
             </div>
           </div>
 
           {/* Filter Bar */}
-          <div className="flex flex-col gap-[16px] items-start">
-            {/* Filter pills - wrap on mobile */}
+          <div className="flex items-center justify-between flex-wrap gap-[10px]">
+            {/* Filter pills */}
             <div className="inline-flex flex-wrap items-center bg-[#222a3d] border border-[rgba(255,255,255,0.05)] p-[5px] rounded-[4px]">
               {FILTER_OPTIONS.map((opt) => (
                 <button
@@ -102,14 +170,18 @@ export function MediaLibraryContent() {
               ))}
             </div>
 
-            {/* View toggle + divider + sort - wrap on mobile */}
-            <div className="flex items-center flex-wrap gap-[12px]">
+            {/* View toggle buttons */}
+            <div className="inline-flex items-center bg-[#222a3d] border border-[rgba(255,255,255,0.05)] p-[5px] rounded-[4px] gap-[2px]">
               <button
                 onClick={() => setIsGridView(true)}
-                className="border border-[rgba(255,255,255,0.05)] bg-[#222a3d] w-[36px] h-[36px] flex items-center justify-center cursor-pointer rounded-[2px] p-[9px] transition-colors"
+                className={`border-0 w-[32px] h-[32px] flex items-center justify-center cursor-pointer rounded-[4px] transition-colors ${
+                  isGridView
+                    ? 'bg-[rgba(34,211,238,0.15)]'
+                    : 'bg-transparent hover:bg-[rgba(255,255,255,0.05)]'
+                }`}
                 style={{ outline: 'none' }}
               >
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <svg width="16" height="16" viewBox="0 0 18 18" fill="none">
                   <rect
                     x="1"
                     y="1"
@@ -150,10 +222,14 @@ export function MediaLibraryContent() {
               </button>
               <button
                 onClick={() => setIsGridView(false)}
-                className="border border-[rgba(255,255,255,0.05)] bg-[#222a3d] w-[36px] h-[36px] flex items-center justify-center cursor-pointer rounded-[2px] p-[9px] transition-colors"
+                className={`border-0 w-[32px] h-[32px] flex items-center justify-center cursor-pointer rounded-[4px] transition-colors ${
+                  !isGridView
+                    ? 'bg-[rgba(34,211,238,0.15)]'
+                    : 'bg-transparent hover:bg-[rgba(255,255,255,0.05)]'
+                }`}
                 style={{ outline: 'none' }}
               >
-                <svg width="20" height="16" viewBox="0 0 20 16" fill="none">
+                <svg width="16" height="14" viewBox="0 0 20 16" fill="none">
                   <rect
                     x="1"
                     y="1"
@@ -183,22 +259,52 @@ export function MediaLibraryContent() {
                   />
                 </svg>
               </button>
-              <div className="flex items-center h-[24px] px-[8px]">
-                <div className="bg-[rgba(255,255,255,0.1)] h-[24px] w-px" />
-              </div>
-              <button
-                className="border border-[rgba(255,255,255,0.05)] bg-[#222a3d] flex items-center gap-[8px] px-[13px] py-[7px] rounded-[2px] cursor-pointer hover:opacity-80 transition-opacity"
-                style={{ outline: 'none' }}
-              >
-                <svg width="10.5" height="7" viewBox="0 0 11 7" fill="none">
-                  <path d="M0.5 0.5H10.5L5.5 6.5L0.5 0.5Z" fill="#94a3b8" />
-                </svg>
-                <span className="font-['Space_Grotesk',sans-serif] font-normal text-[12px] text-[#94a3b8] tracking-[1.2px] uppercase leading-[16px]">
-                  DATE MODIFIED
-                </span>
-              </button>
             </div>
           </div>
+
+          {/* Temporary Upload Card */}
+          {(snapshot.state === 'uploading' || snapshot.state === 'success') && (
+            <UploadingCard
+              file={snapshot.file!}
+              progress={snapshot.progress}
+              isDone={snapshot.state === 'success'}
+              uploadedMedia={snapshot.uploadedMedia}
+              onDismiss={snapshot.state === 'success' ? reset : undefined}
+            />
+          )}
+
+          {/* Upload Error */}
+          {snapshot.state === 'error' && (
+            <div className="flex items-center gap-[12px] bg-[rgba(239,68,68,0.1)] border border-[rgba(239,68,68,0.2)] rounded-[8px] px-[16px] py-[12px]">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="shrink-0">
+                <circle cx="12" cy="12" r="10" stroke="#f87171" strokeWidth="1.5" />
+                <path
+                  d="M12 8v4M12 16h.01"
+                  stroke="#f87171"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                />
+              </svg>
+              <div className="flex-1">
+                <p className="font-['Space_Grotesk',sans-serif] text-[12px] text-[#f87171]">
+                  {snapshot.error ?? 'Upload failed'}
+                </p>
+              </div>
+              <button
+                onClick={reset}
+                className="border-0 bg-transparent cursor-pointer text-[#64748b] hover:text-white transition-colors shrink-0"
+              >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path
+                    d="M4 4L12 12M12 4L4 12"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          )}
 
           {/* Asset Grid / List */}
           {isLoading ? (
@@ -290,6 +396,7 @@ export function MediaLibraryContent() {
         open={!!selectedAsset}
         asset={selectedAsset}
         onClose={() => setSelectedAsset(null)}
+        onDeleted={() => refetch()}
       />
     </div>
   );
@@ -550,5 +657,137 @@ function AssetListRow({
         {asset.size}
       </span>
     </button>
+  );
+}
+
+/* ── Helpers ──────────────────────────────────────────────────── */
+
+function formatFileSize(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  if (bytes < 1024 * 1024 * 1024) return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  return `${(bytes / (1024 * 1024 * 1024)).toFixed(1)} GB`;
+}
+
+/* ── Uploading Card (temporary, shown during/after upload) ────── */
+function UploadingCard({
+  file,
+  progress,
+  isDone,
+  uploadedMedia,
+  onDismiss,
+}: {
+  file: File;
+  progress: number;
+  isDone: boolean;
+  uploadedMedia: import('shared-types').Media | null;
+  onDismiss?: () => void;
+}) {
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const isImage = file.type.startsWith('image/');
+
+  useEffect(() => {
+    if (isImage) {
+      const url = URL.createObjectURL(file);
+      setPreviewUrl(url);
+      return () => URL.revokeObjectURL(url);
+    }
+  }, [file, isImage]);
+
+  const displayName = uploadedMedia?.file_name ?? file.name;
+  const sizeBytes = uploadedMedia?.size ?? file.size;
+  const sizeStr = formatFileSize(sizeBytes);
+
+  return (
+    <div className="flex items-center gap-[16px] bg-[#0f172a] border border-[rgba(34,211,238,0.2)] rounded-[8px] px-[16px] py-[12px]">
+      {/* Thumbnail */}
+      <div className="w-[48px] h-[48px] rounded-[4px] bg-[#0f172a] overflow-hidden shrink-0 relative flex items-center justify-center">
+        {isImage && previewUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={previewUrl} alt={displayName} className="w-full h-full object-cover" />
+        ) : (
+          <UploadFileIcon file={file} />
+        )}
+      </div>
+
+      {/* Info */}
+      <div className="flex-1 min-w-0">
+        <p className="font-['Space_Grotesk',sans-serif] font-normal text-[13px] text-[#dbfcff] leading-[18px] truncate">
+          {displayName}
+        </p>
+        <p className="font-['Inter',sans-serif] font-normal text-[10px] text-[#64748b] leading-[15px]">
+          {sizeStr}
+        </p>
+
+        {/* Progress Bar */}
+        {!isDone ? (
+          <div className="mt-[6px] h-[4px] bg-[rgba(255,255,255,0.1)] rounded-[2px] overflow-hidden">
+            <div
+              className="h-full bg-[#22d3ee] rounded-[2px] transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+        ) : (
+          <p className="font-['Space_Grotesk',sans-serif] font-normal text-[10px] text-[#4edea3] leading-[15px] mt-[4px]">
+            ✓ Upload complete
+          </p>
+        )}
+      </div>
+
+      {/* Dismiss button (only when done) */}
+      {onDismiss && (
+        <button
+          onClick={onDismiss}
+          className="border-0 bg-transparent cursor-pointer text-[#64748b] hover:text-white transition-colors shrink-0"
+        >
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path
+              d="M4 4L12 12M12 4L4 12"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            />
+          </svg>
+        </button>
+      )}
+    </div>
+  );
+}
+
+function UploadFileIcon({ file }: { file: File }) {
+  if (file.type.startsWith('video/')) {
+    return (
+      <svg width="24" height="20" viewBox="0 0 40 32" fill="none">
+        <rect x="1" y="5" width="24" height="22" rx="3" stroke="#22d3ee" strokeWidth="1.5" />
+        <path
+          d="M25 12L38 6V26L25 20V12Z"
+          stroke="#22d3ee"
+          strokeWidth="1.5"
+          strokeLinejoin="round"
+        />
+      </svg>
+    );
+  }
+
+  if (file.type.startsWith('audio/')) {
+    return (
+      <svg width="24" height="24" viewBox="0 0 32 48" fill="none">
+        <circle cx="8" cy="40" r="5.5" stroke="#4edea3" strokeWidth="1.5" />
+        <circle cx="24" cy="34" r="5.5" stroke="#4edea3" strokeWidth="1.5" />
+        <path d="M13.5 40V12L29.5 6V34" stroke="#4edea3" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+    );
+  }
+
+  // Default: document icon
+  return (
+    <svg width="22" height="24" viewBox="0 0 40 40" fill="none">
+      <path
+        d="M8 4H24L34 14V36C34 37.1 33.1 38 32 38H8C6.9 38 6 37.1 6 36V6C6 4.9 6.9 4 8 4Z"
+        stroke="#f87171"
+        strokeWidth="1.5"
+      />
+      <path d="M24 4V14H34" stroke="#f87171" strokeWidth="1.5" />
+    </svg>
   );
 }

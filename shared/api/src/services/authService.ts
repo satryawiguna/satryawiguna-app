@@ -2,7 +2,7 @@ import { apiClient } from '../client';
 import { AuthLoginResponse, Login2faRequest, Verify2faRequest } from 'shared-types';
 
 export class AuthService {
-  private readonly basePath = '/v1/auth';
+  private readonly basePath = '/auth';
 
   /**
    * Step 1: Initiate 2FA challenge - sends OTP to email

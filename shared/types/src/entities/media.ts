@@ -1,5 +1,3 @@
-import { BaseEntity } from '../common';
-
 export interface Media {
   id: string;
   file_name: string;
