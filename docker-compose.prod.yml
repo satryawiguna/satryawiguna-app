@@ -1,0 +1,95 @@
+# Production environment — registry images, ports 3004 (web) & 3005 (admin)
+# Usage: pnpm docker:prod:pull && pnpm docker:prod:up
+#
+# Images are built by CI and pushed to Docker Hub.
+# Override defaults via env vars: REGISTRY, DOCKER_USERNAME, IMAGE_TAG
+
+name: satryawiguna-prod
+
+networks:
+  prod-network:
+    name: satryawiguna-prod-network
+    driver: bridge
+
+services:
+  # ── Web (portfolio) ────────────────────────────────────────────────────────
+  web:
+    image: ${REGISTRY:-docker.io}/${DOCKER_USERNAME:-satryawiguna}/satryawiguna-web:${IMAGE_TAG:-latest}
+    container_name: satryawiguna-web-prod
+    restart: unless-stopped
+    ports:
+      - "3004:3004"
+    environment:
+      NODE_ENV: production
+      PORT: "3004"
+      NEXT_TELEMETRY_DISABLED: 1
+    env_file:
+      - .env.production
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://localhost:3004/api/health",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - prod-network
+
+  # ── Admin (dashboard) ──────────────────────────────────────────────────────
+  admin:
+    image: ${REGISTRY:-docker.io}/${DOCKER_USERNAME:-satryawiguna}/satryawiguna-admin:${IMAGE_TAG:-latest}
+    container_name: satryawiguna-admin-prod
+    restart: unless-stopped
+    ports:
+      - "3005:3005"
+    environment:
+      NODE_ENV: production
+      PORT: "3005"
+      NEXT_TELEMETRY_DISABLED: 1
+    env_file:
+      - .env.production
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://localhost:3005/api/health",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - prod-network
+
+  # ── Nginx reverse proxy ────────────────────────────────────────────────────
+  # Routes satryawiguna.me → web:3004 and admin.satryawiguna.me → admin:3005.
+  # Remove or comment this service if you handle routing at the host/CDN level.
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: satryawiguna-nginx-prod
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.prod.conf:/etc/nginx/conf.d/default.conf:ro
+      # Mount your SSL certificates here (e.g. from Certbot/Let's Encrypt)
+      # - /etc/letsencrypt:/etc/letsencrypt:ro
+    depends_on:
+      web:
+        condition: service_healthy
+      admin:
+        condition: service_healthy
+    networks:
+      - prod-network

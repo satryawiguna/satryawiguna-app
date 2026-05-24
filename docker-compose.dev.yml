@@ -1,0 +1,73 @@
+# Development environment — registry images, ports 3002 (web) & 3003 (admin)
+# Usage: pnpm docker:dev:pull && pnpm docker:dev:up
+#
+# Images are built by CI and pushed to Docker Hub.
+# Override defaults via env vars: REGISTRY, DOCKER_USERNAME, IMAGE_TAG
+
+name: satryawiguna-dev
+
+networks:
+  dev-network:
+    name: satryawiguna-dev-network
+    driver: bridge
+
+services:
+  # ── Web (portfolio) ────────────────────────────────────────────────────────
+  web:
+    image: ${REGISTRY:-docker.io}/${DOCKER_USERNAME:-satryawiguna}/satryawiguna-web:${IMAGE_TAG:-dev}
+    container_name: satryawiguna-web-dev
+    restart: unless-stopped
+    ports:
+      - "3002:3002"
+    environment:
+      NODE_ENV: development
+      PORT: "3002"
+      NEXT_TELEMETRY_DISABLED: 1
+    env_file:
+      - .env.development
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://localhost:3002/api/health",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - dev-network
+
+  # ── Admin (dashboard) ──────────────────────────────────────────────────────
+  admin:
+    image: ${REGISTRY:-docker.io}/${DOCKER_USERNAME:-satryawiguna}/satryawiguna-admin:${IMAGE_TAG:-dev}
+    container_name: satryawiguna-admin-dev
+    restart: unless-stopped
+    ports:
+      - "3003:3003"
+    environment:
+      NODE_ENV: development
+      PORT: "3003"
+      NEXT_TELEMETRY_DISABLED: 1
+    env_file:
+      - .env.development
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://localhost:3003/api/health",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - dev-network
