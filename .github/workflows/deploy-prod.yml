@@ -12,7 +12,6 @@ jobs:
   deploy:
     name: Deploy Prod
     runs-on: ubuntu-latest
-    environment: production
 
     steps:
       - name: SSH into Droplet and deploy
