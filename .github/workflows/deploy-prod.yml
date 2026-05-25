@@ -1,0 +1,28 @@
+name: Deploy to Production
+
+# Manual trigger only — run this after verifying dev looks good.
+# Pulls the :latest images (built alongside :dev in build.yml) and deploys
+# them to the production stack on the same Droplet.
+# Trigger from: GitHub → Actions → "Deploy to Production" → Run workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy Prod
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: SSH into Droplet and deploy
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd ${{ secrets.SSH_APP_DIR }}
+            docker-compose -f docker-compose.prod.yml pull
+            docker-compose -f docker-compose.prod.yml up -d
+            docker image prune -f

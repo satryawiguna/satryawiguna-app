@@ -1,0 +1,27 @@
+name: Deploy to Development
+
+# Manual trigger only — run this after build.yml completes to deploy
+# the :dev images to the development server.
+# Trigger from: GitHub → Actions → "Deploy to Development" → Run workflow
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy Dev
+    runs-on: ubuntu-latest
+    environment: development
+
+    steps:
+      - name: SSH into Droplet and deploy
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd ${{ secrets.SSH_APP_DIR }}
+            docker-compose -f docker-compose.dev.yml pull
+            docker-compose -f docker-compose.dev.yml up -d
+            docker image prune -f
