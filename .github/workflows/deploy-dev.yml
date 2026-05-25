@@ -16,11 +16,11 @@ jobs:
       - name: SSH into Droplet and deploy
         uses: appleboy/ssh-action@v1
         with:
-          host: ${{ secrets.SSH_HOST }}
+          host: ${{ secrets.DEV_SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            cd ${{ secrets.SSH_APP_DIR }}
+            cd ${{ secrets.DEV_SSH_APP_DIR }}
             docker-compose -f docker-compose.dev.yml pull
             docker-compose -f docker-compose.dev.yml up -d
             docker image prune -f
