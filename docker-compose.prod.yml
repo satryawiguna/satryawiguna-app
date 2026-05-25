@@ -6,11 +6,6 @@
 
 name: satryawiguna-prod
 
-networks:
-  prod-network:
-    name: satryawiguna-prod-network
-    driver: bridge
-
 services:
   # ── Web (portfolio) ────────────────────────────────────────────────────────
   web:
@@ -93,3 +88,8 @@ services:
         condition: service_healthy
     networks:
       - prod-network
+
+networks:
+  prod-network:
+    name: satryawiguna-prod-network
+    driver: bridge
