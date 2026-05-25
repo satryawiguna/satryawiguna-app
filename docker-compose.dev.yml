@@ -6,11 +6,6 @@
 
 name: satryawiguna-dev
 
-networks:
-  dev-network:
-    name: satryawiguna-dev-network
-    driver: bridge
-
 services:
   # ── Web (portfolio) ────────────────────────────────────────────────────────
   web:
@@ -71,3 +66,8 @@ services:
       start_period: 40s
     networks:
       - dev-network
+
+networks:
+  dev-network:
+    name: satryawiguna-dev-network
+    driver: bridge
