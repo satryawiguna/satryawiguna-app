@@ -21,6 +21,6 @@ jobs:
           key: ${{ secrets.DEV_SSH_KEY }}
           script: |
             cd ${{ secrets.DEV_SSH_APP_DIR }}
-            docker-compose -f docker-compose.dev.yml pull
-            docker-compose -f docker-compose.dev.yml up -d
+            docker compose -f docker-compose.dev.yml pull
+            docker compose -f docker-compose.dev.yml up -d
             docker image prune -f
