@@ -17,8 +17,8 @@ jobs:
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.DEV_SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
+          username: ${{ secrets.DEV_SSH_USER }}
+          key: ${{ secrets.DEV_SSH_KEY }}
           script: |
             cd ${{ secrets.DEV_SSH_APP_DIR }}
             docker-compose -f docker-compose.dev.yml pull
