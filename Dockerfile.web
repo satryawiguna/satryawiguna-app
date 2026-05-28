@@ -58,8 +58,13 @@ FROM base AS builder
 COPY --from=prod-deps /app/ .
 # Layer 2: full pruned source overlaid on top (no node_modules in out/full)
 COPY --from=pruner /app/out/full/ .
+# Layer 3: ensure root config files that turbo prune may skip are present
+COPY --from=pruner /app/tsconfig.json ./tsconfig.json
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
+# Injected at build time by CI — baked into the JS bundle by Next.js
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 # turbo is in root devDependencies, so pnpm exec turbo is available
 RUN pnpm exec turbo run build --filter=web
 
