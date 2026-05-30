@@ -8,3 +8,6 @@ export * from './useSkills';
 export * from './useCategories';
 export * from './useTags';
 export * from './useAdminUsers';
+export * from './useExperiences';
+export * from './useEducations';
+export * from './useSettings';
