@@ -88,15 +88,8 @@ function DateRange({ start, end }: { start: string; end: string | null }) {
 // ── Content component ─────────────────────────────────────────────
 
 export function ExperienceContent() {
-  const {
-    experiences,
-    pagination,
-    isLoading,
-    isFetching,
-    filters,
-    setPage,
-    setKeyword,
-  } = useExperiences();
+  const { experiences, pagination, isLoading, isFetching, filters, setPage, setKeyword } =
+    useExperiences();
 
   // ── Drawer state ─────────────────────────────────────────────
   const [drawerOpen, setDrawerOpen] = useState(false);
