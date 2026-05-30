@@ -8,7 +8,6 @@ import { Datatable } from 'shared-datatable';
 import type { DatatableColumn } from 'shared-datatable';
 import type {
   Experience,
-  ExperienceDetail,
   CreateExperienceRequest,
   UpdateExperienceRequest,
   EmploymentType,
@@ -89,18 +88,8 @@ function DateRange({ start, end }: { start: string; end: string | null }) {
 // ── Content component ─────────────────────────────────────────────
 
 export function ExperienceContent() {
-  const {
-    experiences,
-    pagination,
-    isLoading,
-    isFetching,
-    filters,
-    setPage,
-    setKeyword,
-    setSortBy,
-    setSortOrder,
-    refetch,
-  } = useExperiences();
+  const { experiences, pagination, isLoading, isFetching, filters, setPage, setKeyword } =
+    useExperiences();
 
   // ── Drawer state ─────────────────────────────────────────────
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -287,12 +276,10 @@ export function ExperienceContent() {
           pagination={
             pagination
               ? {
-                  page: pagination.page,
-                  limit: pagination.limit,
-                  total: pagination.total,
+                  currentPage: pagination.page,
+                  displayedItems: pagination.limit,
+                  totalItems: pagination.total,
                   totalPages: pagination.totalPages,
-                  hasNextPage: pagination.hasNextPage,
-                  hasPreviousPage: pagination.hasPreviousPage,
                   onPageChange: setPage,
                 }
               : undefined

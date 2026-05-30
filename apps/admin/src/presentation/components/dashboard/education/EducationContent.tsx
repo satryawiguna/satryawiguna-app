@@ -49,18 +49,8 @@ function formatDate(dateStr: string): string {
 // ── Content component ─────────────────────────────────────────────
 
 export function EducationContent() {
-  const {
-    educations,
-    pagination,
-    isLoading,
-    isFetching,
-    filters,
-    setPage,
-    setKeyword,
-    setSortBy,
-    setSortOrder,
-    refetch,
-  } = useEducations();
+  const { educations, pagination, isLoading, isFetching, filters, setPage, setKeyword } =
+    useEducations();
 
   // ── Drawer state ─────────────────────────────────────────────
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -243,12 +233,10 @@ export function EducationContent() {
           pagination={
             pagination
               ? {
-                  page: pagination.page,
-                  limit: pagination.limit,
-                  total: pagination.total,
+                  currentPage: pagination.page,
+                  displayedItems: pagination.limit,
+                  totalItems: pagination.total,
                   totalPages: pagination.totalPages,
-                  hasNextPage: pagination.hasNextPage,
-                  hasPreviousPage: pagination.hasPreviousPage,
                   onPageChange: setPage,
                 }
               : undefined
@@ -300,10 +288,8 @@ export function EducationContent() {
       <ConfirmDialog
         open={deleteId !== null}
         title="Delete Education"
-        description="Are you sure you want to delete this education record? This action cannot be undone."
+        message="Are you sure you want to delete this education record? This action cannot be undone."
         confirmLabel="Delete"
-        confirmColor="error"
-        loading={deleteMutation.isPending}
         onConfirm={() => deleteId !== null && deleteMutation.mutate(deleteId)}
         onCancel={() => setDeleteId(null)}
       />

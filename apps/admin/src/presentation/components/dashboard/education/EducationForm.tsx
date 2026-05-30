@@ -2,7 +2,6 @@
 
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import { TextField } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs, { type Dayjs } from 'dayjs';
 import type { Education, CreateEducationRequest, UpdateEducationRequest } from 'shared-types';

@@ -7,7 +7,12 @@ import * as Yup from 'yup';
 import { Autocomplete, TextField, Chip, CircularProgress } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
-import type { ExperienceDetail, CreateExperienceRequest, UpdateExperienceRequest, EmploymentType } from 'shared-types';
+import type {
+  ExperienceDetail,
+  CreateExperienceRequest,
+  UpdateExperienceRequest,
+  EmploymentType,
+} from 'shared-types';
 import { useSkillsSearch } from '@/presentation/hooks';
 
 const MDXEditorField = dynamic(
@@ -106,13 +111,17 @@ const errorStyle: React.CSSProperties = {
 
 // ── Component ─────────────────────────────────────────────────────
 
-export function ExperienceForm({ initialData, isSubmitting, onSubmit, onCancel }: ExperienceFormProps) {
-  const isEditMode = Boolean(initialData);
-
+export function ExperienceForm({
+  initialData,
+  isSubmitting,
+  onSubmit,
+  onCancel,
+}: ExperienceFormProps) {
   // ── Skills autocomplete ──────────────────────────────────────
   const [skillKeyword, setSkillKeyword] = useState('');
   const deferredSkillKeyword = useDeferredValue(skillKeyword);
-  const { data: skillOptions = [], isLoading: skillsLoading } = useSkillsSearch(deferredSkillKeyword);
+  const { data: skillOptions = [], isLoading: skillsLoading } =
+    useSkillsSearch(deferredSkillKeyword);
 
   const [selectedSkills, setSelectedSkills] = useState<(typeof skillOptions)[number][]>(
     () => initialData?.skills ?? []
@@ -149,22 +158,14 @@ export function ExperienceForm({ initialData, isSubmitting, onSubmit, onCancel }
           {/* Title */}
           <div>
             <label style={labelStyle}>Title *</label>
-            <Field
-              name="title"
-              placeholder="Full Stack Developer"
-              style={inputStyle}
-            />
+            <Field name="title" placeholder="Full Stack Developer" style={inputStyle} />
             {touched.title && errors.title && <p style={errorStyle}>{errors.title}</p>}
           </div>
 
           {/* Company */}
           <div>
             <label style={labelStyle}>Company *</label>
-            <Field
-              name="company"
-              placeholder="Explnc"
-              style={inputStyle}
-            />
+            <Field name="company" placeholder="Explnc" style={inputStyle} />
             {touched.company && errors.company && <p style={errorStyle}>{errors.company}</p>}
           </div>
 
@@ -355,12 +356,7 @@ export function ExperienceForm({ initialData, isSubmitting, onSubmit, onCancel }
           {/* Sort Order */}
           <div>
             <label style={labelStyle}>Sort Order</label>
-            <Field
-              name="sort_order"
-              type="number"
-              placeholder="0"
-              style={inputStyle}
-            />
+            <Field name="sort_order" type="number" placeholder="0" style={inputStyle} />
             {touched.sort_order && errors.sort_order && (
               <p style={errorStyle}>{errors.sort_order as string}</p>
             )}
