@@ -1,47 +1,11 @@
-import { Box, Typography } from '@mui/material';
-import Image from 'next/image';
+'use client';
 
-interface TechItem {
-  iconSrc: string;
-  iconWidth: number;
-  iconHeight: number;
-  label: string;
-}
-
-const techItems: TechItem[] = [
-  {
-    iconSrc: '/assets/about/icon-postgres.svg',
-    iconWidth: 18,
-    iconHeight: 18,
-    label: 'PostgreSQL / MySQL',
-  },
-  {
-    iconSrc: '/assets/about/icon-typescript.svg',
-    iconWidth: 20,
-    iconHeight: 12,
-    label: 'Typescript / Javascript / PHP / Python',
-  },
-  {
-    iconSrc: '/assets/about/icon-aws.svg',
-    iconWidth: 22,
-    iconHeight: 16,
-    label: 'AWS / Serverless',
-  },
-  {
-    iconSrc: '/assets/about/icon-react.svg',
-    iconWidth: 18,
-    iconHeight: 18,
-    label: 'React / Next.js',
-  },
-  {
-    iconSrc: '/assets/about/icon-nodejs.svg',
-    iconWidth: 18,
-    iconHeight: 19,
-    label: 'NodeJs / NestJs / Laravel / FastApi',
-  },
-];
+import { Box, Typography, Skeleton } from '@mui/material';
+import { useSkills } from '@/presentation/hooks';
 
 export function AboutTechStack() {
+  const { data: skills = [], isLoading } = useSkills({ sortBy: 'sort_order', orderBy: 'asc' });
+
   return (
     <Box
       sx={{
@@ -59,45 +23,71 @@ export function AboutTechStack() {
           justifyContent: { xs: 'flex-start', md: 'center' },
         }}
       >
-        {techItems.map((item) => (
-          <Box
-            key={item.label}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-            }}
-          >
-            <Box
-              sx={{
-                width: `${item.iconWidth}px`,
-                height: `${item.iconHeight}px`,
-                position: 'relative',
-                flexShrink: 0,
-              }}
-            >
-              <Image
-                src={item.iconSrc}
-                alt={item.label}
-                fill
-                style={{ objectFit: 'contain' }}
-              />
-            </Box>
-            <Typography
-              sx={{
-                fontFamily: '"Nimbus Mono PS", "Courier New", monospace',
-                fontWeight: 400,
-                fontSize: '14px',
-                lineHeight: '20px',
-                color: '#dae2fd',
-                whiteSpace: 'nowrap',
-                fontStyle: 'normal',
-              }}
-            >
-              {item.label}
-            </Typography>
-          </Box>
-        ))}
+        {isLoading
+          ? Array.from({ length: 5 }).map((_, i) => (
+              <Box
+                key={i}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                }}
+              >
+                <Skeleton
+                  variant="circular"
+                  width={22}
+                  height={22}
+                  sx={{ bgcolor: 'rgba(255,255,255,0.08)' }}
+                />
+                <Skeleton
+                  variant="rounded"
+                  width={130}
+                  height={16}
+                  sx={{ bgcolor: 'rgba(255,255,255,0.08)', borderRadius: '4px' }}
+                />
+              </Box>
+            ))
+          : skills.map((skill) => (
+              <Box
+                key={skill.id}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                }}
+              >
+                {skill.icon_url && (
+                  <Box
+                    sx={{
+                      width: 22,
+                      height: 22,
+                      position: 'relative',
+                      flexShrink: 0,
+                    }}
+                  >
+                    <Box
+                      component="img"
+                      src={skill.icon_url}
+                      alt={skill.name}
+                      sx={{ width: 22, height: 22, objectFit: 'contain' }}
+                    />
+                  </Box>
+                )}
+                <Typography
+                  sx={{
+                    fontFamily: '"Nimbus Mono PS", "Courier New", monospace',
+                    fontWeight: 400,
+                    fontSize: '14px',
+                    lineHeight: '20px',
+                    color: '#dae2fd',
+                    whiteSpace: 'nowrap',
+                    fontStyle: 'normal',
+                  }}
+                >
+                  {skill.name}
+                </Typography>
+              </Box>
+            ))}
       </Box>
     </Box>
   );

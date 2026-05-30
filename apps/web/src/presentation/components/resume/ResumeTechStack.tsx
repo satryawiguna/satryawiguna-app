@@ -1,21 +1,11 @@
-import { Box, Typography } from '@mui/material';
+'use client';
+
+import { Box, Typography, Skeleton } from '@mui/material';
 import Image from 'next/image';
-
-interface Skill {
-  label: string;
-  percentage: number;
-}
-
-const skills: Skill[] = [
-  { label: 'Next.js / React', percentage: 95 },
-  { label: 'Node.js / Laravel', percentage: 92 },
-  { label: 'PostgreSQL / MySQL', percentage: 90 },
-  { label: 'AWS / CI/CD', percentage: 85 },
-  { label: 'Python / .NET Core', percentage: 56 },
-  { label: 'MongoDB', percentage: 53 },
-];
+import { useSkills } from '@/presentation/hooks';
 
 export function ResumeTechStack() {
+  const { data: skills = [], isLoading } = useSkills({ sortBy: 'level', orderBy: 'desc' });
   return (
     <Box
       sx={{
@@ -56,53 +46,82 @@ export function ResumeTechStack() {
 
       {/* Skills list */}
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-        {skills.map((skill) => (
-          <Box key={skill.label} sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-            {/* Label + percentage row */}
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Typography
-                sx={{
-                  fontFamily: 'Nimbus Mono PS, monospace',
-                  fontSize: '13px',
-                  lineHeight: '19.5px',
-                  color: '#dae2fd',
-                }}
-              >
-                {skill.label}
-              </Typography>
-              <Typography
-                sx={{
-                  fontFamily: 'Nimbus Mono PS, monospace',
-                  fontSize: '13px',
-                  lineHeight: '19.5px',
-                  color: '#00dbe9',
-                }}
-              >
-                {skill.percentage}%
-              </Typography>
-            </Box>
+        {isLoading
+          ? Array.from({ length: 6 }).map((_, i) => (
+              <Box key={i} sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <Box
+                  sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                >
+                  <Skeleton
+                    variant="rounded"
+                    width={140}
+                    height={16}
+                    sx={{ bgcolor: 'rgba(255,255,255,0.08)', borderRadius: '4px' }}
+                  />
+                  <Skeleton
+                    variant="rounded"
+                    width={32}
+                    height={16}
+                    sx={{ bgcolor: 'rgba(255,255,255,0.08)', borderRadius: '4px' }}
+                  />
+                </Box>
+                <Skeleton
+                  variant="rounded"
+                  width="100%"
+                  height={8}
+                  sx={{ bgcolor: 'rgba(255,255,255,0.08)', borderRadius: '12px' }}
+                />
+              </Box>
+            ))
+          : skills.map((skill) => (
+              <Box key={skill.id} sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                {/* Label + percentage row */}
+                <Box
+                  sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                >
+                  <Typography
+                    sx={{
+                      fontFamily: 'Nimbus Mono PS, monospace',
+                      fontSize: '13px',
+                      lineHeight: '19.5px',
+                      color: '#dae2fd',
+                    }}
+                  >
+                    {skill.name}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontFamily: 'Nimbus Mono PS, monospace',
+                      fontSize: '13px',
+                      lineHeight: '19.5px',
+                      color: '#00dbe9',
+                    }}
+                  >
+                    {skill.level}%
+                  </Typography>
+                </Box>
 
-            {/* Progress bar */}
-            <Box
-              sx={{
-                width: '100%',
-                height: '8px',
-                borderRadius: '12px',
-                backgroundColor: '#2d3449',
-                overflow: 'hidden',
-              }}
-            >
-              <Box
-                sx={{
-                  height: '100%',
-                  width: `${skill.percentage}%`,
-                  backgroundColor: '#00f0ff',
-                  borderRadius: '12px',
-                }}
-              />
-            </Box>
-          </Box>
-        ))}
+                {/* Progress bar */}
+                <Box
+                  sx={{
+                    width: '100%',
+                    height: '8px',
+                    borderRadius: '12px',
+                    backgroundColor: '#2d3449',
+                    overflow: 'hidden',
+                  }}
+                >
+                  <Box
+                    sx={{
+                      height: '100%',
+                      width: `${skill.level}%`,
+                      backgroundColor: '#00f0ff',
+                      borderRadius: '12px',
+                    }}
+                  />
+                </Box>
+              </Box>
+            ))}
       </Box>
     </Box>
   );
