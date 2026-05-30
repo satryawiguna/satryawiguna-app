@@ -8,7 +8,6 @@ import { Datatable } from 'shared-datatable';
 import type { DatatableColumn } from 'shared-datatable';
 import type {
   Experience,
-  ExperienceDetail,
   CreateExperienceRequest,
   UpdateExperienceRequest,
   EmploymentType,
@@ -97,9 +96,6 @@ export function ExperienceContent() {
     filters,
     setPage,
     setKeyword,
-    setSortBy,
-    setSortOrder,
-    refetch,
   } = useExperiences();
 
   // ── Drawer state ─────────────────────────────────────────────
@@ -287,12 +283,10 @@ export function ExperienceContent() {
           pagination={
             pagination
               ? {
-                  page: pagination.page,
-                  limit: pagination.limit,
-                  total: pagination.total,
+                  currentPage: pagination.page,
+                  displayedItems: pagination.limit,
+                  totalItems: pagination.total,
                   totalPages: pagination.totalPages,
-                  hasNextPage: pagination.hasNextPage,
-                  hasPreviousPage: pagination.hasPreviousPage,
                   onPageChange: setPage,
                 }
               : undefined

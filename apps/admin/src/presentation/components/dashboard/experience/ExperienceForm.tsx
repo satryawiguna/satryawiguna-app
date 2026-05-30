@@ -107,8 +107,6 @@ const errorStyle: React.CSSProperties = {
 // ── Component ─────────────────────────────────────────────────────
 
 export function ExperienceForm({ initialData, isSubmitting, onSubmit, onCancel }: ExperienceFormProps) {
-  const isEditMode = Boolean(initialData);
-
   // ── Skills autocomplete ──────────────────────────────────────
   const [skillKeyword, setSkillKeyword] = useState('');
   const deferredSkillKeyword = useDeferredValue(skillKeyword);
