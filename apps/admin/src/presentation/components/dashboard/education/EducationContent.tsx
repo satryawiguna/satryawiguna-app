@@ -57,8 +57,6 @@ export function EducationContent() {
     filters,
     setPage,
     setKeyword,
-    setSortBy,
-    setSortOrder,
     refetch,
   } = useEducations();
 
