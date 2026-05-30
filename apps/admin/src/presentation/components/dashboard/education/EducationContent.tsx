@@ -49,16 +49,8 @@ function formatDate(dateStr: string): string {
 // ── Content component ─────────────────────────────────────────────
 
 export function EducationContent() {
-  const {
-    educations,
-    pagination,
-    isLoading,
-    isFetching,
-    filters,
-    setPage,
-    setKeyword,
-    refetch,
-  } = useEducations();
+  const { educations, pagination, isLoading, isFetching, filters, setPage, setKeyword, refetch } =
+    useEducations();
 
   // ── Drawer state ─────────────────────────────────────────────
   const [drawerOpen, setDrawerOpen] = useState(false);
