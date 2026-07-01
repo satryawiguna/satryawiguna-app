@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Container, Typography } from '@mui/material';
 import Image from 'next/image';
 
@@ -115,8 +117,8 @@ export function TechnicalPhilosophy() {
               >
                 With over 20 years of evolution in the IT landscape, I bridge the gap between
                 complex engineering challenges and high-performance software solutions. My journey
-                spans from foundational programming to leading regional and international development
-                teams.
+                spans from foundational programming to leading regional and international
+                development teams.
               </Typography>
               <Typography
                 sx={{

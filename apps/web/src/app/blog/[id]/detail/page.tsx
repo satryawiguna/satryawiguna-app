@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { Box, Container } from '@mui/material';
-import { Navigation, Footer } from '@/presentation/components/common';
+import { PageShell, ClientBox } from '@/presentation/components/common';
 import {
   BlogDetailHero,
   BlogDetailContent,
@@ -43,48 +42,33 @@ export default async function BlogDetailPage({ params }: Props) {
   const relatedPosts = allPosts.filter((p) => p.id !== post.id).slice(0, 3);
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        backgroundColor: 'rgb(11, 19, 38)',
+    <PageShell
+      boxSx={{ backgroundColor: 'rgb(11, 19, 38)', display: 'flex', flexDirection: 'column' }}
+      containerSx={{
+        flex: 1,
+        pt: '128px',
+        pb: '96px',
+        px: { xs: '16px', md: '32px' },
         display: 'flex',
         flexDirection: 'column',
+        gap: '80px',
       }}
     >
-      <Navigation />
+      <BlogDetailHero post={post} />
 
-      <Container
-        maxWidth="xl"
-        sx={{
-          flex: 1,
-          pt: '128px',
-          pb: '96px',
-          px: { xs: '16px', md: '32px' },
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '80px',
-        }}
-      >
-        {/* Hero */}
-        <BlogDetailHero post={post} />
+      <ClientBox
+        sx={{ width: '100%', height: '1px', backgroundColor: 'rgba(255, 255, 255, 0.08)' }}
+      />
 
-        {/* Divider */}
-        <Box sx={{ width: '100%', height: '1px', backgroundColor: 'rgba(255, 255, 255, 0.08)' }} />
+      {post.content && post.content.length > 0 && <BlogDetailContent content={post.content} />}
 
-        {/* Article content */}
-        {post.content && post.content.length > 0 && <BlogDetailContent content={post.content} />}
+      <ClientBox
+        sx={{ width: '100%', height: '1px', backgroundColor: 'rgba(255, 255, 255, 0.08)' }}
+      />
 
-        {/* Divider */}
-        <Box sx={{ width: '100%', height: '1px', backgroundColor: 'rgba(255, 255, 255, 0.08)' }} />
+      <BlogDetailRelated posts={relatedPosts} />
 
-        {/* Related posts */}
-        <BlogDetailRelated posts={relatedPosts} />
-
-        {/* Newsletter */}
-        <BlogNewsletter />
-      </Container>
-
-      <Footer />
-    </Box>
+      <BlogNewsletter />
+    </PageShell>
   );
 }

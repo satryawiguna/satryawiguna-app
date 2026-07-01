@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 
@@ -119,12 +121,7 @@ export function AboutCareerImpact() {
                   flexShrink: 0,
                 }}
               >
-                <Image
-                  src={card.iconSrc}
-                  alt={card.title}
-                  fill
-                  style={{ objectFit: 'contain' }}
-                />
+                <Image src={card.iconSrc} alt={card.title} fill style={{ objectFit: 'contain' }} />
               </Box>
             </Box>
 

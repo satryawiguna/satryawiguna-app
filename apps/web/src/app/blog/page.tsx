@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
-import { Box, Container } from '@mui/material';
-import { Navigation, Footer } from '@/presentation/components/common';
+import { PageShell, ClientBox } from '@/presentation/components/common';
 import {
   BlogHero,
   BlogSearch,
@@ -19,53 +18,34 @@ export const metadata: Metadata = {
 
 export default function BlogPage() {
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        background: 'linear-gradient(90deg, rgb(11, 19, 38) 0%, rgb(11, 19, 38) 100%)',
+    <PageShell
+      boxSx={{ background: 'linear-gradient(90deg, rgb(11, 19, 38) 0%, rgb(11, 19, 38) 100%)' }}
+      containerSx={{
+        px: { xs: '16px', md: '32px' },
+        pt: '128px',
+        pb: '80px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '0',
       }}
     >
-      <Navigation />
+      <BlogHero />
+      <BlogSearch />
 
-      {/* Main content */}
-      <Container
-        maxWidth="xl"
-        sx={{
-          px: { xs: '16px', md: '32px' },
-          pt: '128px',
-          pb: '80px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '0',
-        }}
+      <ClientBox
+        sx={{ pt: '48px', pb: '0', display: 'flex', flexDirection: 'column', gap: '24px' }}
       >
-        {/* Hero */}
-        <BlogHero />
+        <BlogFeaturedPost post={featuredPost} />
+        <BlogBentoGrid posts={benchmarkPosts} />
+      </ClientBox>
 
-        {/* Search */}
-        <BlogSearch />
+      <ClientBox sx={{ mt: '48px' }}>
+        <BlogPagination totalResults={24} totalPages={4} perPage={6} />
+      </ClientBox>
 
-        {/* Blog grid section */}
-        <Box sx={{ pt: '48px', pb: '0', display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          {/* Featured post */}
-          <BlogFeaturedPost post={featuredPost} />
-
-          {/* Bento grid */}
-          <BlogBentoGrid posts={benchmarkPosts} />
-        </Box>
-
-        {/* Pagination */}
-        <Box sx={{ mt: '48px' }}>
-          <BlogPagination totalResults={24} totalPages={4} perPage={6} />
-        </Box>
-
-        {/* Newsletter */}
-        <Box sx={{ mt: '48px', mb: '48px' }}>
-          <BlogNewsletter />
-        </Box>
-      </Container>
-
-      <Footer />
-    </Box>
+      <ClientBox sx={{ mt: '48px', mb: '48px' }}>
+        <BlogNewsletter />
+      </ClientBox>
+    </PageShell>
   );
 }

@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Typography } from '@mui/material';
 import SpeedIcon from '@mui/icons-material/Speed';
 import TimelineIcon from '@mui/icons-material/Timeline';
