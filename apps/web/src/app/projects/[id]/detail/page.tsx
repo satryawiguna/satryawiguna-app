@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { PageShell, ClientBox, ClientContainer } from '@/presentation/components/common';
+import { PageShell, ClientContainer } from '@/presentation/components/common';
 import {
   ProjectDetailHero,
   ProjectDetailMetrics,

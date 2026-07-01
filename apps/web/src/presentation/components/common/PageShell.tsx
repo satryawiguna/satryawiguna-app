@@ -36,6 +36,3 @@ export function PageShell({ children, containerSx, boxSx, noContainer }: PageShe
     </Box>
   );
 }
-    </Box>
-  );
-}

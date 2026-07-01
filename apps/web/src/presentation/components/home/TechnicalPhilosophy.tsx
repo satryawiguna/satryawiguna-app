@@ -258,7 +258,7 @@ export function TechnicalPhilosophy() {
                     color: '#dbfcff',
                   }}
                 >
-                  AI Integration
+                  AI-Native Orchestration
                 </Typography>
               </Box>
               <Typography
@@ -270,8 +270,8 @@ export function TechnicalPhilosophy() {
                   color: '#b9cacb',
                 }}
               >
-                Specializing in embedding cutting-edge AI capabilities into modern web architectures
-                to drive business value.
+                Designing and orchestrating AI-native workflows that combine LLMs, agents, tools,
+                and human expertise to accelerate software delivery and business outcomes.
               </Typography>
             </Box>
 
