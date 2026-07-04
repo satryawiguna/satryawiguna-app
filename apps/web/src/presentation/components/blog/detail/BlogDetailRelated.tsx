@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
 import NorthEastIcon from '@mui/icons-material/NorthEast';
@@ -14,7 +16,9 @@ export function BlogDetailRelated({ posts }: BlogDetailRelatedProps) {
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '40px', width: '100%' }}>
       {/* Section heading */}
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <Box sx={{ width: '4px', height: '32px', backgroundColor: '#4edea3', borderRadius: '2px' }} />
+        <Box
+          sx={{ width: '4px', height: '32px', backgroundColor: '#4edea3', borderRadius: '2px' }}
+        />
         <Typography
           component="h2"
           sx={{

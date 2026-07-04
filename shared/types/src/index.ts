@@ -14,6 +14,7 @@ export * from './entities/adminUser';
 export * from './entities/experience';
 export * from './entities/education';
 export * from './entities/setting';
+export * from './entities/strength';
 
 // API types
 export * from './api';

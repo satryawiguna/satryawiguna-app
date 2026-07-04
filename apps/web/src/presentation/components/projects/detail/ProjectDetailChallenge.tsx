@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Typography } from '@mui/material';
 import HubIcon from '@mui/icons-material/Hub';
 import StorageIcon from '@mui/icons-material/Storage';

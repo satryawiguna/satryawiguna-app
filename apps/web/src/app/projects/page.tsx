@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
-import { Box, Container } from '@mui/material';
-import { Navigation, Footer } from '@/presentation/components/common';
+import { PageShell } from '@/presentation/components/common';
 import { ProjectsHero, ProjectsGrid, ProjectsCTA } from '@/presentation/components/projects';
 
 export const metadata: Metadata = {
@@ -11,37 +10,20 @@ export const metadata: Metadata = {
 
 export default function ProjectsPage() {
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        background: 'linear-gradient(90deg, rgb(6, 14, 32) 0%, rgb(6, 14, 32) 100%)',
+    <PageShell
+      boxSx={{ background: 'linear-gradient(90deg, rgb(6, 14, 32) 0%, rgb(6, 14, 32) 100%)' }}
+      containerSx={{
+        px: { xs: '16px', md: '32px' },
+        pt: '128px',
+        pb: '80px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '48px',
       }}
     >
-      <Navigation />
-
-      {/* Main content */}
-      <Container
-        maxWidth="xl"
-        sx={{
-          px: { xs: '16px', md: '32px' },
-          pt: '128px',
-          pb: '80px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '48px',
-        }}
-      >
-        {/* Header section */}
-        <ProjectsHero />
-
-        {/* Projects grid */}
-        <ProjectsGrid />
-
-        {/* CTA section */}
-        <ProjectsCTA />
-      </Container>
-
-      <Footer />
-    </Box>
+      <ProjectsHero />
+      <ProjectsGrid />
+      <ProjectsCTA />
+    </PageShell>
   );
 }

@@ -290,72 +290,37 @@ function TechStackSection() {
           mx: 'auto',
         }}
       >
-        <Box sx={{ position: 'relative', opacity: 0.8 }}>
-          {/* Skeleton Row 1 */}
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: { xs: 2, md: 4 },
-              mb: { xs: 2, md: 3 },
-              flexWrap: 'wrap',
-            }}
-          >
-            {skeletonItems.slice(0, 7).map((_, i) => (
-              <Box key={i} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <Skeleton
-                  variant="circular"
-                  width={22}
-                  height={22}
-                  sx={{ bgcolor: 'rgba(255,255,255,0.08)' }}
-                />
-                <Skeleton
-                  variant="rounded"
-                  width={90}
-                  height={16}
-                  sx={{ bgcolor: 'rgba(255,255,255,0.08)', borderRadius: '4px' }}
-                />
-              </Box>
-            ))}
-          </Box>
-          {/* Skeleton Row 2 */}
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              gap: { xs: 2, md: 4 },
-              flexWrap: 'wrap',
-            }}
-          >
-            {skeletonItems.slice(7).map((_, i) => (
-              <Box key={i} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <Skeleton
-                  variant="circular"
-                  width={22}
-                  height={22}
-                  sx={{ bgcolor: 'rgba(255,255,255,0.08)' }}
-                />
-                <Skeleton
-                  variant="rounded"
-                  width={90}
-                  height={16}
-                  sx={{ bgcolor: 'rgba(255,255,255,0.08)', borderRadius: '4px' }}
-                />
-              </Box>
-            ))}
-          </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: { xs: 2, md: 4 },
+            flexWrap: 'wrap',
+          }}
+        >
+          {skeletonItems.map((_, i) => (
+            <Box key={i} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Skeleton
+                variant="circular"
+                width={22}
+                height={22}
+                sx={{ bgcolor: 'rgba(255,255,255,0.08)' }}
+              />
+              <Skeleton
+                variant="rounded"
+                width={90}
+                height={16}
+                sx={{ bgcolor: 'rgba(255,255,255,0.08)', borderRadius: '4px' }}
+              />
+            </Box>
+          ))}
         </Box>
       </Box>
     );
   }
 
   if (skills.length === 0) return null;
-
-  const midpoint = Math.ceil(skills.length / 2);
-  const firstRow = skills.slice(0, midpoint);
-  const secondRow = skills.slice(midpoint);
 
   return (
     <Box
@@ -382,113 +347,58 @@ function TechStackSection() {
       />
 
       {/* Tech Stack Content */}
-      <Box sx={{ position: 'relative', opacity: 0.8 }}>
-        {/* First Row */}
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: { xs: 2, md: 4 },
-            mb: { xs: 2, md: 3 },
-            flexWrap: 'wrap',
-          }}
-        >
-          {firstRow.map((skill) => (
-            <Box
-              key={skill.id}
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1,
-              }}
-            >
-              {skill.icon_url && (
-                <Box
-                  sx={{
-                    width: 22,
-                    height: 22,
-                    position: 'relative',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <img
-                    src={skill.icon_url}
-                    alt={skill.name}
-                    width={22}
-                    height={22}
-                    style={{ objectFit: 'contain' }}
-                  />
-                </Box>
-              )}
-              <Typography
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: { xs: 2, md: 4 },
+          flexWrap: 'wrap',
+          position: 'relative',
+          opacity: 0.8,
+        }}
+      >
+        {skills.map((skill) => (
+          <Box
+            key={skill.id}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1,
+            }}
+          >
+            {skill.icon_url && (
+              <Box
                 sx={{
-                  fontFamily: 'Nimbus Mono PS, monospace',
-                  fontSize: '14px',
-                  color: '#dae2fd',
-                  lineHeight: '20px',
+                  width: 22,
+                  height: 22,
+                  position: 'relative',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
               >
-                {skill.name}
-              </Typography>
-            </Box>
-          ))}
-        </Box>
-
-        {/* Second Row */}
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            gap: { xs: 2, md: 4 },
-            flexWrap: 'wrap',
-          }}
-        >
-          {secondRow.map((skill) => (
-            <Box
-              key={skill.id}
+                <img
+                  src={skill.icon_url}
+                  alt={skill.name}
+                  width={22}
+                  height={22}
+                  style={{ objectFit: 'contain' }}
+                />
+              </Box>
+            )}
+            <Typography
               sx={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 1,
+                fontFamily: 'Nimbus Mono PS, monospace',
+                fontSize: '14px',
+                color: '#dae2fd',
+                lineHeight: '20px',
               }}
             >
-              {skill.icon_url && (
-                <Box
-                  sx={{
-                    width: 22,
-                    height: 22,
-                    position: 'relative',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <img
-                    src={skill.icon_url}
-                    alt={skill.name}
-                    width={22}
-                    height={22}
-                    style={{ objectFit: 'contain' }}
-                  />
-                </Box>
-              )}
-              <Typography
-                sx={{
-                  fontFamily: 'Nimbus Mono PS, monospace',
-                  fontSize: { xs: '12px', md: '14px' },
-                  color: '#dae2fd',
-                  lineHeight: '20px',
-                }}
-              >
-                {skill.name}
-              </Typography>
-            </Box>
-          ))}
-        </Box>
+              {skill.name}
+            </Typography>
+          </Box>
+        ))}
       </Box>
     </Box>
   );

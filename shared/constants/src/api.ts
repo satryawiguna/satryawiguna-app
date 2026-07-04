@@ -42,4 +42,7 @@ export const API_ENDPOINTS = {
   MEDIA: {
     BASE: '/media',
   },
+  STRENGTHS: {
+    BASE: '/strengths',
+  },
 } as const;

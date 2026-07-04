@@ -39,9 +39,27 @@ export const useLogin = () => {
       setStep('otp');
       dispatch(clearAuthError());
     },
-    onError: (error: any) => {
-      const message =
-        error?.response?.data?.message || 'Failed to initiate challenge. Please try again.';
+    onError: (error: any, emailValue: string) => {
+      // Extract server message — FastAPI uses `detail`, some APIs use `message`.
+      const data = error?.response?.data ?? {};
+      const serverMessage: string | undefined = data?.detail || data?.message;
+
+      // If the user was not found, show the error in any environment.
+      if (serverMessage?.toLowerCase().includes('not found')) {
+        dispatch(loginFailure(serverMessage));
+        return;
+      }
+
+      // In local development, bypass the error so developers can retrieve
+      // the OTP from the local database directly (user exists but email failed).
+      if (process.env.NEXT_PUBLIC_APP_ENV === 'local') {
+        setEmail(emailValue);
+        setStep('otp');
+        dispatch(clearAuthError());
+        return;
+      }
+
+      const message = serverMessage || 'Failed to initiate challenge. Please try again.';
       dispatch(loginFailure(message));
     },
   });

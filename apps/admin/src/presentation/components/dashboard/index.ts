@@ -9,3 +9,4 @@ export * from './user';
 export * from './experience';
 export * from './education';
 export * from './setting';
+export * from './strength';
