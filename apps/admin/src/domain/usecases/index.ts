@@ -41,3 +41,8 @@ export * from './updateAdminUser';
 export * from './deleteAdminUser';
 export * from './getSetting';
 export * from './updateSetting';
+export * from './getStrengths';
+export * from './getStrengthById';
+export * from './createStrength';
+export * from './updateStrength';
+export * from './deleteStrength';

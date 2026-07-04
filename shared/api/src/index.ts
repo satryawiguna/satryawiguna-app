@@ -15,6 +15,7 @@ export * from './services/profileService';
 export * from './services/experienceService';
 export * from './services/educationService';
 export * from './services/settingService';
+export * from './services/strengthService';
 
 // Interceptors
 export * from './interceptors';

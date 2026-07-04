@@ -1,11 +1,43 @@
 'use client';
 
+import { useMemo } from 'react';
 import { Box, Typography, Skeleton } from '@mui/material';
 import Image from 'next/image';
 import { useSkills } from '@/presentation/hooks';
 
 export function ResumeTechStack() {
   const { data: skills = [], isLoading } = useSkills({ sortBy: 'level', orderBy: 'desc' });
+
+  // Group skills by category_id, compute average level, sort by avgLevel desc
+  const groupedSkills = useMemo(() => {
+    const groups = new Map<number, { categoryName: string; names: string[]; avgLevel: number }>();
+
+    for (const skill of skills) {
+      const catId = skill.category_id;
+      if (!groups.has(catId)) {
+        groups.set(catId, {
+          categoryName: skill.category?.name ?? `Category ${catId}`,
+          names: [],
+          avgLevel: 0,
+        });
+      }
+      groups.get(catId)!.names.push(skill.name);
+    }
+
+    // Compute averages
+    const result: { categoryName: string; names: string[]; avgLevel: number }[] = [];
+    for (const [catId, group] of groups) {
+      const categorySkills = skills.filter((s) => s.category_id === catId);
+      const avg = Math.round(
+        categorySkills.reduce((sum, s) => sum + s.level, 0) / categorySkills.length,
+      );
+      group.avgLevel = avg;
+      result.push(group);
+    }
+
+    result.sort((a, b) => b.avgLevel - a.avgLevel);
+    return result;
+  }, [skills]);
   return (
     <Box
       sx={{
@@ -54,7 +86,7 @@ export function ResumeTechStack() {
                 >
                   <Skeleton
                     variant="rounded"
-                    width={140}
+                    width={200}
                     height={16}
                     sx={{ bgcolor: 'rgba(255,255,255,0.08)', borderRadius: '4px' }}
                   />
@@ -73,9 +105,9 @@ export function ResumeTechStack() {
                 />
               </Box>
             ))
-          : skills.map((skill) => (
-              <Box key={skill.id} sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                {/* Label + percentage row */}
+          : groupedSkills.map((group, idx) => (
+              <Box key={idx} sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                {/* Label row: joined skill names + average percentage */}
                 <Box
                   sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
                 >
@@ -87,7 +119,7 @@ export function ResumeTechStack() {
                       color: '#dae2fd',
                     }}
                   >
-                    {skill.name}
+                    {group.names.join(' / ')}
                   </Typography>
                   <Typography
                     sx={{
@@ -97,7 +129,7 @@ export function ResumeTechStack() {
                       color: '#00dbe9',
                     }}
                   >
-                    {skill.level}%
+                    {group.avgLevel}%
                   </Typography>
                 </Box>
 
@@ -114,7 +146,7 @@ export function ResumeTechStack() {
                   <Box
                     sx={{
                       height: '100%',
-                      width: `${skill.level}%`,
+                      width: `${group.avgLevel}%`,
                       backgroundColor: '#00f0ff',
                       borderRadius: '12px',
                     }}

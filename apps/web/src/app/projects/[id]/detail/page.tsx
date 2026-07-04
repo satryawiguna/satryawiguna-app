@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Box, Container } from '@mui/material';
-import { Navigation, Footer } from '@/presentation/components/common';
+import { PageShell, ClientContainer } from '@/presentation/components/common';
 import {
   ProjectDetailHero,
   ProjectDetailMetrics,
@@ -47,15 +46,11 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
   }
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        background: 'linear-gradient(90deg, rgb(11, 19, 38) 0%, rgb(11, 19, 38) 100%)',
-      }}
+    <PageShell
+      noContainer
+      boxSx={{ background: 'linear-gradient(90deg, rgb(11, 19, 38) 0%, rgb(11, 19, 38) 100%)' }}
     >
-      <Navigation />
-
-      <Container
+      <ClientContainer
         maxWidth="xl"
         sx={{
           px: { xs: '16px', md: '32px' },
@@ -70,11 +65,11 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         <ProjectDetailMetrics metrics={project.metrics} />
         <ProjectDetailChallenge project={project} />
         <ProjectDetailCapabilities project={project} />
-      </Container>
+      </ClientContainer>
 
       <ProjectDetailTechStack project={project} />
 
-      <Container
+      <ClientContainer
         maxWidth="xl"
         sx={{
           px: { xs: '16px', md: '32px' },
@@ -83,9 +78,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
         }}
       >
         <ProjectDetailCTA project={project} />
-      </Container>
-
-      <Footer />
-    </Box>
+      </ClientContainer>
+    </PageShell>
   );
 }

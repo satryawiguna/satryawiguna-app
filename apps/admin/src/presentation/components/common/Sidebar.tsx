@@ -181,6 +181,7 @@ const navItems: { label: string; href: string; icon: ReactNode }[] = [
   { label: 'Experiences', href: '/dashboard/experiences', icon: <IconExperience /> },
   { label: 'Educations', href: '/dashboard/educations', icon: <IconEducation /> },
   { label: 'Skills', href: '/dashboard/skills', icon: <IconSkill /> },
+  { label: 'Strengths', href: '/dashboard/strengths', icon: <IconSkill /> },
   { label: 'Categories', href: '/dashboard/categories', icon: <IconCategory /> },
   { label: 'Tags', href: '/dashboard/tags', icon: <IconTag /> },
   { label: 'Users', href: '/dashboard/users', icon: <IconUsers /> },

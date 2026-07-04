@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
 import type { BlogPost } from '@/data/blog';
