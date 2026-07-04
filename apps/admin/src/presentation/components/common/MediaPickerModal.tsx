@@ -5,6 +5,8 @@ import { Dialog } from '@mui/material';
 import type { Asset, AssetThumbnailMap } from 'shared-types';
 import { mapMediaToAsset } from 'shared-types';
 import { useMedia, useMediaUpload } from '@/presentation/hooks';
+import { ConfirmDialog } from '@/presentation/components/common';
+import { mediaRepository } from '@/data/repositories';
 
 const MEDIA_THUMBNAILS: AssetThumbnailMap = {
   image: '/assets/media/thumb-image.svg',
@@ -43,6 +45,8 @@ export function MediaPickerModal({
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [activeAsset, setActiveAsset] = useState<Asset | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const assets = useMemo(() => media.map((m) => mapMediaToAsset(m, MEDIA_THUMBNAILS)), [media]);
@@ -70,7 +74,7 @@ export function MediaPickerModal({
         return next;
       });
     },
-    [multiple]
+    [multiple],
   );
 
   const handleConfirm = () => {
@@ -85,6 +89,30 @@ export function MediaPickerModal({
     setActiveAsset(null);
     onClose();
   };
+
+  const handleDeleteClick = useCallback(() => {
+    setConfirmDeleteOpen(true);
+  }, []);
+
+  const handleDeleteConfirm = useCallback(async () => {
+    if (!activeAsset || isDeleting) return;
+    setIsDeleting(true);
+    setConfirmDeleteOpen(false);
+    try {
+      await mediaRepository.deleteMedia(activeAsset.id);
+      setSelected((prev) => {
+        const next = new Set(prev);
+        next.delete(activeAsset.publicUrl);
+        return next;
+      });
+      setActiveAsset(null);
+      refetch();
+    } catch {
+      // Error handled silently — asset remains selected for retry
+    } finally {
+      setIsDeleting(false);
+    }
+  }, [activeAsset, isDeleting, refetch]);
 
   // ── Drag & Drop ───────────────────────────────────────────────
   const handleDragOver = useCallback((e: React.DragEvent) => {
@@ -107,7 +135,7 @@ export function MediaPickerModal({
       const files = e.dataTransfer.files;
       if (files.length > 0 && !isUploading) upload(files[0]);
     },
-    [upload, isUploading]
+    [upload, isUploading],
   );
 
   const handleFileSelect = useCallback(
@@ -116,7 +144,7 @@ export function MediaPickerModal({
       if (files && files.length > 0 && !isUploading) upload(files[0]);
       if (fileInputRef.current) fileInputRef.current.value = '';
     },
-    [upload, isUploading]
+    [upload, isUploading],
   );
 
   const totalAssets = pagination?.total ?? assets.length;
@@ -512,7 +540,10 @@ export function MediaPickerModal({
                         </span>
                       </button>
                       <span className="text-[#334155] text-[16px] leading-[24px]">|</span>
-                      <button className="border-none outline-none bg-transparent cursor-pointer py-[4.5px] hover:opacity-70 transition-opacity">
+                      <button
+                        onClick={handleDeleteClick}
+                        className="border-none outline-none bg-transparent cursor-pointer py-[4.5px] hover:opacity-70 transition-opacity"
+                      >
                         <span className="text-[10px] font-['Space_Grotesk',sans-serif] text-[#f87171] leading-[15px]">
                           DELETE PERMANENTLY
                         </span>
@@ -709,6 +740,17 @@ export function MediaPickerModal({
           </button>
         </div>
       </div>
+
+      {/* ── Delete Confirmation Dialog ─────────────────────────── */}
+      <ConfirmDialog
+        open={confirmDeleteOpen}
+        title="Delete Media"
+        message={`Are you sure you want to permanently delete "${activeAsset?.fileName ?? 'this file'}"? This action cannot be undone.`}
+        confirmLabel="DELETE"
+        cancelLabel="CANCEL"
+        onConfirm={handleDeleteConfirm}
+        onCancel={() => setConfirmDeleteOpen(false)}
+      />
     </Dialog>
   );
 }

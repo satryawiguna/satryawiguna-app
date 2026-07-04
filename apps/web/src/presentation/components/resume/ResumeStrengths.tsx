@@ -1,15 +1,12 @@
 'use client';
 
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Skeleton } from '@mui/material';
 import Image from 'next/image';
-
-const strengths = [
-  'System Architecture & Scalability',
-  'Problem Solving & Performance Optimization',
-  'Team Leadership & Collaboration',
-];
+import { useStrengths } from '@/presentation/hooks';
 
 export function ResumeStrengths() {
+  const { data: strengths = [], isLoading } = useStrengths();
+
   return (
     <Box
       sx={{
@@ -50,37 +47,56 @@ export function ResumeStrengths() {
 
       {/* Strengths list */}
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        {strengths.map((item) => (
-          <Box key={item} sx={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
-            <Box
-              sx={{
-                position: 'relative',
-                width: '13.3px',
-                height: '17.3px',
-                flexShrink: 0,
-                mt: '3px',
-              }}
-            >
-              <Image
-                src="/assets/icons/resume/icon-check.svg"
-                alt=""
-                fill
-                style={{ objectFit: 'contain' }}
-              />
-            </Box>
-            <Typography
-              sx={{
-                fontFamily: 'Inter, sans-serif',
-                fontWeight: 400,
-                fontSize: '16px',
-                lineHeight: '24px',
-                color: '#dae2fd',
-              }}
-            >
-              {item}
-            </Typography>
-          </Box>
-        ))}
+        {isLoading
+          ? Array.from({ length: 3 }).map((_, i) => (
+              <Box key={i} sx={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
+                <Skeleton
+                  variant="rounded"
+                  width={13.3}
+                  height={17.3}
+                  sx={{ mt: '3px', bgcolor: 'rgba(255,255,255,0.08)', borderRadius: '2px' }}
+                />
+                <Skeleton
+                  variant="rounded"
+                  width={`${70 + i * 10}%`}
+                  height={20}
+                  sx={{ bgcolor: 'rgba(255,255,255,0.08)', borderRadius: '4px' }}
+                />
+              </Box>
+            ))
+          : strengths.length > 0
+            ? strengths.map((item) => (
+                <Box key={item.id} sx={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
+                  <Box
+                    sx={{
+                      position: 'relative',
+                      width: '13.3px',
+                      height: '17.3px',
+                      flexShrink: 0,
+                      mt: '3px',
+                    }}
+                  >
+                    <Image
+                      src="/assets/icons/resume/icon-check.svg"
+                      alt=""
+                      fill
+                      style={{ objectFit: 'contain' }}
+                    />
+                  </Box>
+                  <Typography
+                    sx={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontWeight: 400,
+                      fontSize: '16px',
+                      lineHeight: '24px',
+                      color: '#dae2fd',
+                    }}
+                  >
+                    {item.description}
+                  </Typography>
+                </Box>
+              ))
+            : null}
       </Box>
     </Box>
   );
