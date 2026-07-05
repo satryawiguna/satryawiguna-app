@@ -35,8 +35,8 @@ export function ResumeEducation() {
         </Typography>
       </Box>
 
-      {/* Education cards */}
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      {/* Education cards — horizontal wrapped */}
+      <Box sx={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: '24px' }}>
         {isLoading ? (
           <Box
             sx={{
@@ -48,7 +48,8 @@ export function ResumeEducation() {
               display: 'flex',
               flexDirection: 'column',
               gap: '12px',
-              maxWidth: { xs: '100%', md: '389px' },
+              flex: '1 1 280px',
+              minWidth: '240px',
             }}
           >
             <Skeleton
@@ -83,7 +84,8 @@ export function ResumeEducation() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '4px',
-                maxWidth: { xs: '100%', md: '389px' },
+                flex: '1 1 280px',
+                minWidth: '240px',
               }}
             >
               {/* Year */}

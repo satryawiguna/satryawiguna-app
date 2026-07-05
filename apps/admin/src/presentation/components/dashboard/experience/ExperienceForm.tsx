@@ -20,7 +20,7 @@ const MDXEditorField = dynamic(
     import('@/presentation/components/common/MDXEditorField').then((m) => ({
       default: m.MDXEditorField,
     })),
-  { ssr: false }
+  { ssr: false },
 );
 
 // ── Employment type options ───────────────────────────────────────
@@ -124,7 +124,7 @@ export function ExperienceForm({
     useSkillsSearch(deferredSkillKeyword);
 
   const [selectedSkills, setSelectedSkills] = useState<(typeof skillOptions)[number][]>(
-    () => initialData?.skills ?? []
+    () => initialData?.skills ?? [],
   );
 
   useEffect(() => {
@@ -198,7 +198,7 @@ export function ExperienceForm({
             )}
           </div>
 
-          {/* Start Date */}
+          {/* Start Date (month & year) */}
           <div>
             <label style={labelStyle}>Start Date *</label>
             <DatePicker
@@ -206,6 +206,7 @@ export function ExperienceForm({
               onChange={(newValue) => {
                 setFieldValue('start_date', newValue ? newValue.format('YYYY-MM-DD') : '');
               }}
+              views={['month', 'year']}
               slotProps={{
                 textField: {
                   placeholder: 'Select start date…',
@@ -243,25 +244,11 @@ export function ExperienceForm({
                       borderRadius: '4px',
                       color: '#dae2fd',
                     },
-                    '& .MuiPickersDay-root': {
-                      color: '#cbd5e1',
-                      fontFamily: "'Space Grotesk', sans-serif",
-                      fontSize: 13,
-                      '&:hover': { background: 'rgba(34,211,238,0.12)', color: '#22d3ee' },
-                      '&.Mui-selected': {
-                        background: '#00f0ff !important',
-                        color: '#006970 !important',
-                      },
-                    },
                     '& .MuiPickersCalendarHeader-label': {
                       color: '#94a3b8',
                       fontFamily: "'Space Grotesk', sans-serif",
                     },
                     '& .MuiPickersArrowSwitcher-button': { color: '#64748b' },
-                    '& .MuiDayCalendar-weekDayLabel': {
-                      color: '#475569',
-                      fontFamily: "'Space Grotesk', sans-serif",
-                    },
                     '& .MuiPickersLayout-actionBar .MuiButton-root': {
                       color: '#22d3ee',
                       fontFamily: "'Space Grotesk', sans-serif",
@@ -270,14 +257,14 @@ export function ExperienceForm({
                   },
                 },
               }}
-              format="YYYY-MM-DD"
+              format="YYYY-MM"
             />
             {touched.start_date && errors.start_date && (
               <p style={errorStyle}>{errors.start_date as string}</p>
             )}
           </div>
 
-          {/* End Date */}
+          {/* End Date (month & year) */}
           <div>
             <label style={labelStyle}>End Date</label>
             <DatePicker
@@ -285,6 +272,7 @@ export function ExperienceForm({
               onChange={(newValue) => {
                 setFieldValue('end_date', newValue ? newValue.format('YYYY-MM-DD') : null);
               }}
+              views={['month', 'year']}
               slotProps={{
                 textField: {
                   placeholder: 'Select end date (leave empty for present)…',
@@ -322,25 +310,11 @@ export function ExperienceForm({
                       borderRadius: '4px',
                       color: '#dae2fd',
                     },
-                    '& .MuiPickersDay-root': {
-                      color: '#cbd5e1',
-                      fontFamily: "'Space Grotesk', sans-serif",
-                      fontSize: 13,
-                      '&:hover': { background: 'rgba(34,211,238,0.12)', color: '#22d3ee' },
-                      '&.Mui-selected': {
-                        background: '#00f0ff !important',
-                        color: '#006970 !important',
-                      },
-                    },
                     '& .MuiPickersCalendarHeader-label': {
                       color: '#94a3b8',
                       fontFamily: "'Space Grotesk', sans-serif",
                     },
                     '& .MuiPickersArrowSwitcher-button': { color: '#64748b' },
-                    '& .MuiDayCalendar-weekDayLabel': {
-                      color: '#475569',
-                      fontFamily: "'Space Grotesk', sans-serif",
-                    },
                     '& .MuiPickersLayout-actionBar .MuiButton-root': {
                       color: '#22d3ee',
                       fontFamily: "'Space Grotesk', sans-serif",
@@ -349,7 +323,7 @@ export function ExperienceForm({
                   },
                 },
               }}
-              format="YYYY-MM-DD"
+              format="YYYY-MM"
             />
           </div>
 
@@ -382,7 +356,7 @@ export function ExperienceForm({
                 setSelectedSkills(selected);
                 setFieldValue(
                   'skill_ids',
-                  selected.map((s) => s.id)
+                  selected.map((s) => s.id),
                 );
                 setSkillKeyword('');
               }}
