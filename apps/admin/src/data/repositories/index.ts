@@ -11,3 +11,4 @@ export * from './experienceRepository';
 export * from './educationRepository';
 export * from './settingRepository';
 export * from './strengthRepository';
+export * from './careerImpactRepository';

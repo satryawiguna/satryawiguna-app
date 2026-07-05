@@ -173,6 +173,26 @@ const IconEducation = () => (
   </svg>
 );
 
+const IconCareerImpact = () => (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M9 1L16 5V13L9 17L2 13V5L9 1Z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      fill="none"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M6 8L8 10L12 6"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+    />
+  </svg>
+);
+
 const navItems: { label: string; href: string; icon: ReactNode }[] = [
   { label: 'Dashboard', href: '/dashboard', icon: <IconDashboard /> },
   { label: 'Projects', href: '/dashboard/projects', icon: <IconProjects /> },
@@ -182,6 +202,7 @@ const navItems: { label: string; href: string; icon: ReactNode }[] = [
   { label: 'Educations', href: '/dashboard/educations', icon: <IconEducation /> },
   { label: 'Skills', href: '/dashboard/skills', icon: <IconSkill /> },
   { label: 'Strengths', href: '/dashboard/strengths', icon: <IconSkill /> },
+  { label: 'Career Impacts', href: '/dashboard/career-impacts', icon: <IconCareerImpact /> },
   { label: 'Categories', href: '/dashboard/categories', icon: <IconCategory /> },
   { label: 'Tags', href: '/dashboard/tags', icon: <IconTag /> },
   { label: 'Users', href: '/dashboard/users', icon: <IconUsers /> },

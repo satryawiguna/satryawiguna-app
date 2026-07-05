@@ -1,9 +1,12 @@
 'use client';
 
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Skeleton } from '@mui/material';
 import Image from 'next/image';
+import { useEducations } from '@/presentation/hooks';
 
 export function ResumeEducation() {
+  const { data: educations = [], isLoading } = useEducations();
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '48px' }}>
       {/* Section heading */}
@@ -32,59 +35,99 @@ export function ResumeEducation() {
         </Typography>
       </Box>
 
-      {/* Education card */}
-      <Box
-        sx={{
-          backgroundColor: 'rgba(15, 23, 42, 0.4)',
-          backdropFilter: 'blur(4px)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          borderRadius: '8px',
-          p: '25px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '4px',
-          maxWidth: { xs: '100%', md: '389px' },
-        }}
-      >
-        {/* Year */}
-        <Typography
-          sx={{
-            fontFamily: 'Space Grotesk, sans-serif',
-            fontWeight: 400,
-            fontSize: '16px',
-            lineHeight: '24px',
-            color: '#4edea3',
-          }}
-        >
-          2001 — 2006
-        </Typography>
+      {/* Education cards */}
+      <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        {isLoading ? (
+          <Box
+            sx={{
+              backgroundColor: 'rgba(15, 23, 42, 0.4)',
+              backdropFilter: 'blur(4px)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              borderRadius: '8px',
+              p: '25px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '12px',
+              maxWidth: { xs: '100%', md: '389px' },
+            }}
+          >
+            <Skeleton
+              variant="rounded"
+              width="30%"
+              height={20}
+              sx={{ bgcolor: 'rgba(255,255,255,0.06)', borderRadius: '4px' }}
+            />
+            <Skeleton
+              variant="rounded"
+              width="85%"
+              height={32}
+              sx={{ bgcolor: 'rgba(255,255,255,0.06)', borderRadius: '4px' }}
+            />
+            <Skeleton
+              variant="rounded"
+              width="50%"
+              height={20}
+              sx={{ bgcolor: 'rgba(255,255,255,0.06)', borderRadius: '4px' }}
+            />
+          </Box>
+        ) : (
+          educations.map((edu) => (
+            <Box
+              key={edu.id}
+              sx={{
+                backgroundColor: 'rgba(15, 23, 42, 0.4)',
+                backdropFilter: 'blur(4px)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '8px',
+                p: '25px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '4px',
+                maxWidth: { xs: '100%', md: '389px' },
+              }}
+            >
+              {/* Year */}
+              <Typography
+                sx={{
+                  fontFamily: 'Space Grotesk, sans-serif',
+                  fontWeight: 400,
+                  fontSize: '16px',
+                  lineHeight: '24px',
+                  color: '#4edea3',
+                }}
+              >
+                {edu.start_year} — {edu.end_year ?? 'PRESENT'}
+              </Typography>
 
-        {/* Degree */}
-        <Typography
-          sx={{
-            fontFamily: 'Space Grotesk, sans-serif',
-            fontWeight: 500,
-            fontSize: '28px',
-            lineHeight: '36.4px',
-            color: '#dbfcff',
-            pt: '4px',
-          }}
-        >
-          Bachelor of Electrical Engineering
-        </Typography>
+              {/* Degree */}
+              <Typography
+                sx={{
+                  fontFamily: 'Space Grotesk, sans-serif',
+                  fontWeight: 500,
+                  fontSize: '28px',
+                  lineHeight: '36.4px',
+                  color: '#dbfcff',
+                  pt: '4px',
+                }}
+              >
+                {edu.degree}
+              </Typography>
 
-        {/* Institution */}
-        <Typography
-          sx={{
-            fontFamily: 'Inter, sans-serif',
-            fontWeight: 400,
-            fontSize: '16px',
-            lineHeight: '24px',
-            color: '#b9cacb',
-          }}
-        >
-          Udayana University
-        </Typography>
+              {/* Institution */}
+              <Typography
+                sx={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontWeight: 400,
+                  fontSize: '16px',
+                  lineHeight: '24px',
+                  color: '#b9cacb',
+                }}
+              >
+                {edu.institution}
+              </Typography>
+            </Box>
+          ))
+        )}
       </Box>
     </Box>
   );

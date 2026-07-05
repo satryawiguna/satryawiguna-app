@@ -16,7 +16,23 @@ export const metadata: Metadata = {
     'Full Stack Developer with over 20 years of professional experience. View my work history, education, technical skills, and expertise.',
 };
 
-export default function ResumePage() {
+async function getResumeFileUrl(): Promise<string | null> {
+  const { apiClient } = await import('shared-api');
+  try {
+    const response = await apiClient.get<{
+      success: boolean;
+      data: Record<string, string>;
+    }>('/settings', {
+      params: { slugs: 'RESUME_FILE_URL' },
+    });
+    return response.data.RESUME_FILE_URL ?? null;
+  } catch {
+    return null;
+  }
+}
+
+export default async function ResumePage() {
+  const resumeFileUrl = await getResumeFileUrl();
   return (
     <PageShell
       boxSx={{ background: 'linear-gradient(90deg, rgb(6, 14, 32) 0%, rgb(6, 14, 32) 100%)' }}
@@ -29,7 +45,7 @@ export default function ResumePage() {
         gap: '80px',
       }}
     >
-      <ResumeHero />
+      <ResumeHero resumeFileUrl={resumeFileUrl} />
 
       <ClientBox
         sx={{

@@ -16,7 +16,29 @@ export const metadata: Metadata = {
     'Senior Full Stack Architect with 20+ years of experience. Discover the journey, technical philosophy, and career impact of Satrya Wiguna — based in Bali, architecting scalable solutions for the global network.',
 };
 
-export default function AboutPage() {
+import { apiClient } from 'shared-api';
+
+interface SettingsResponse {
+  success: boolean;
+  status: number;
+  message: string;
+  data: Record<string, string>;
+  timestamp: string;
+}
+
+async function getSocialSettings(): Promise<Record<string, string>> {
+  try {
+    const response = await apiClient.get<SettingsResponse>('/settings', {
+      params: { slugs: 'GITHUB_URL,LINKED_IN_URL,PROFILE_VIDEO_URL' },
+    });
+    return response.data ?? {};
+  } catch {
+    return {};
+  }
+}
+
+export default async function AboutPage() {
+  const settings = await getSocialSettings();
   return (
     <PageShell
       boxSx={{ background: 'linear-gradient(90deg, rgb(6, 14, 32) 0%, rgb(6, 14, 32) 100%)' }}
@@ -48,7 +70,7 @@ export default function AboutPage() {
             gap: '24px',
           }}
         >
-          <AboutVideoPlayer />
+          <AboutVideoPlayer videoUrl={settings.PROFILE_VIDEO_URL} />
           <AboutTechPhilosophy />
         </ClientBox>
 
@@ -61,7 +83,10 @@ export default function AboutPage() {
           }}
         >
           <AboutBioCard />
-          <AboutStatsAndSocials />
+          <AboutStatsAndSocials
+            githubUrl={settings.GITHUB_URL}
+            linkedinUrl={settings.LINKED_IN_URL}
+          />
         </ClientBox>
       </ClientBox>
 

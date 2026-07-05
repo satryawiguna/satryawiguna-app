@@ -64,6 +64,16 @@ export interface ExperienceMutationResponse {
   timestamp: string;
 }
 
+// ── Public list response (no pagination) ─────────────────────────
+
+export interface PublicExperienceListResponse {
+  success: boolean;
+  status: number;
+  message: string;
+  data: ExperienceDetail[];
+  timestamp: string;
+}
+
 // ── Query / request params ────────────────────────────────────────
 
 export interface ExperienceQueryParams {

@@ -3,13 +3,13 @@
 import { Box, Container, Typography, Link as MuiLink } from '@mui/material';
 import Link from 'next/link';
 
-const footerLinks = [
-  { label: 'Projects', href: '/projects' },
-  { label: 'Contact', href: '/contact' },
-  { label: 'GitHub', href: 'https://github.com/satryawiguna', external: true },
-  { label: 'Bitbucket', href: 'https://bitbucket.org/satryawiguna', external: true },
-  { label: 'Linkedin', href: 'https://www.linkedin.com/in/satryawiguna', external: true },
-];
+// const footerLinks = [
+//   { label: 'Projects', href: '/projects' },
+//   { label: 'Contact', href: '/contact' },
+//   { label: 'GitHub', href: 'https://github.com/satryawiguna', external: true },
+//   { label: 'Bitbucket', href: 'https://bitbucket.org/satryawiguna', external: true },
+//   { label: 'Linkedin', href: 'https://www.linkedin.com/in/satryawiguna', external: true },
+// ];
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -50,7 +50,7 @@ export function Footer() {
           </Link>
 
           {/* Footer Links */}
-          <Box sx={{ display: 'flex', gap: 4, alignItems: 'center' }}>
+          {/* <Box sx={{ display: 'flex', gap: 4, alignItems: 'center' }}>
             {footerLinks.map((link) => (
               <MuiLink
                 key={link.href}
@@ -71,7 +71,7 @@ export function Footer() {
                 {link.label}
               </MuiLink>
             ))}
-          </Box>
+          </Box> */}
 
           {/* Copyright */}
           <Typography
