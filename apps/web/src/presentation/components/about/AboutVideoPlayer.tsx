@@ -5,9 +5,18 @@ import { Box, Typography, Dialog, IconButton } from '@mui/material';
 import Image from 'next/image';
 import CloseIcon from '@mui/icons-material/Close';
 
-export function AboutVideoPlayer() {
+const FALLBACK_VIDEO_URL =
+  'https://satryawiguna-bucket.sgp1.digitaloceanspaces.com/dev/a58df98d-c43f-42d0-98df-5f27f1435708.mp4';
+
+interface AboutVideoPlayerProps {
+  videoUrl?: string;
+}
+
+export function AboutVideoPlayer({ videoUrl }: AboutVideoPlayerProps) {
   const [open, setOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  const resolvedUrl = videoUrl || FALLBACK_VIDEO_URL;
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -162,7 +171,7 @@ export function AboutVideoPlayer() {
         <Box sx={{ position: 'relative', width: '100%', pt: '56.25%' }}>
           <video
             ref={videoRef}
-            src="https://satryawiguna-bucket.sgp1.digitaloceanspaces.com/dev/a58df98d-c43f-42d0-98df-5f27f1435708.mp4"
+            src={resolvedUrl}
             controls
             autoPlay
             playsInline

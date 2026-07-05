@@ -46,3 +46,8 @@ export * from './getStrengthById';
 export * from './createStrength';
 export * from './updateStrength';
 export * from './deleteStrength';
+export * from './getCareerImpacts';
+export * from './getCareerImpactById';
+export * from './createCareerImpact';
+export * from './updateCareerImpact';
+export * from './deleteCareerImpact';
