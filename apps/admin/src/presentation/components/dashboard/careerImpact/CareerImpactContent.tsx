@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AddIcon from '@mui/icons-material/Add';
@@ -86,7 +86,7 @@ export function CareerImpactContent() {
   const [editId, setEditId] = useState<number | null>(null);
   const [deleteId, setDeleteId] = useState<number | null>(null);
 
-  const { data: detailResponse, isLoading: detailLoading } = useCareerImpactDetail(editId);
+  const { data: detailResponse } = useCareerImpactDetail(editId);
   const editData = detailResponse?.data ?? null;
 
   const createMutation = useCreateCareerImpact(() => {
@@ -267,15 +267,51 @@ export function CareerImpactContent() {
         <Datatable
           columns={columns}
           data={careerImpacts}
-          isLoading={isLoading}
-          isFetching={isFetching}
-          pagination={pagination}
-          page={filters.page}
-          onPageChange={setPage}
+          loading={isLoading || isFetching}
+          pagination={
+            pagination
+              ? {
+                  currentPage: pagination.page,
+                  displayedItems: pagination.limit,
+                  totalItems: pagination.total,
+                  totalPages: pagination.totalPages,
+                  onPageChange: setPage,
+                }
+              : undefined
+          }
           searchValue={filters.keyword}
           onSearchChange={setKeyword}
           searchPlaceholder="Search career impacts..."
-          emptyMessage="No career impacts found. Create one to get started."
+          emptyState={
+            <div className="flex flex-col items-center gap-3 py-16">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none" opacity={0.3}>
+                <rect
+                  x="4"
+                  y="4"
+                  width="40"
+                  height="40"
+                  rx="4"
+                  stroke="#64748b"
+                  strokeWidth="2"
+                  fill="none"
+                />
+                <circle cx="18" cy="18" r="4" stroke="#64748b" strokeWidth="2" fill="none" />
+                <path
+                  d="M44 32L34 22L8 44"
+                  stroke="#64748b"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              <span
+                className="text-[14px] font-['Space_Grotesk',sans-serif]"
+                style={{ color: '#64748b' }}
+              >
+                No career impacts found. Create one to get started.
+              </span>
+            </div>
+          }
         />
       </div>
 
@@ -300,7 +336,6 @@ export function CareerImpactContent() {
           }
         }}
         onCancel={() => setDeleteId(null)}
-        isLoading={deleteMutation.isPending}
       />
     </div>
   );
