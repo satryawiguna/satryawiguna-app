@@ -4,9 +4,7 @@ const nextConfig: NextConfig = {
   output: 'standalone',
   reactStrictMode: true,
   transpilePackages: ['ui', 'shared-types', 'shared-api', 'shared-store'],
-  experimental: {
-    optimizePackageImports: ['@mui/material', '@mui/icons-material'],
-  },
+  optimizePackageImports: ['@mui/material', '@mui/icons-material'],
   images: {
     remotePatterns: [
       {

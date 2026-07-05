@@ -1,12 +1,9 @@
 import type { Metadata } from 'next';
 import { Space_Grotesk, Inter } from 'next/font/google';
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
+import { MuiThemeProvider } from '@/presentation/components/providers/MuiThemeProvider';
 import { Providers } from '@/presentation/components/providers/Providers';
 import { ContactDrawerProvider } from '@/presentation/components/home/ContactDrawerContext';
 import { ContactDrawer } from '@/presentation/components/home/ContactDrawer';
-import { theme } from '@/presentation/theme';
 import './globals.css';
 
 const spaceGrotesk = Space_Grotesk({
@@ -22,8 +19,24 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Satryawiguna',
-  description: 'Personal website and portfolio',
+  title: 'Satrya Wiguna - Full Stack Developer & Software Engineer',
+  description:
+    'Architecting high-performance web ecosystems with precision. I transform complex business logic into elegant, scalable software solutions.',
+  keywords: [
+    'Full Stack Developer',
+    'Software Engineer',
+    'Next.js',
+    'React',
+    'TypeScript',
+    'Node.js',
+    'Laravel',
+    'AWS',
+  ],
+  openGraph: {
+    title: 'Satrya Wiguna - Full Stack Developer',
+    description: 'Building Digital Excellence Through Full Stack Mastery',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({
@@ -37,16 +50,13 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
       </head>
-      <body>
-        <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <ContactDrawerProvider>
-              <Providers>{children}</Providers>
-              <ContactDrawer />
-            </ContactDrawerProvider>
-          </ThemeProvider>
-        </AppRouterCacheProvider>
+      <body suppressHydrationWarning>
+        <MuiThemeProvider>
+          <ContactDrawerProvider>
+            <Providers>{children}</Providers>
+            <ContactDrawer />
+          </ContactDrawerProvider>
+        </MuiThemeProvider>
       </body>
     </html>
   );

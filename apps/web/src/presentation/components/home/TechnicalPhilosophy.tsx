@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Container, Typography } from '@mui/material';
 import Image from 'next/image';
 
@@ -115,8 +117,8 @@ export function TechnicalPhilosophy() {
               >
                 With over 20 years of evolution in the IT landscape, I bridge the gap between
                 complex engineering challenges and high-performance software solutions. My journey
-                spans from foundational programming to leading regional and international development
-                teams.
+                spans from foundational programming to leading regional and international
+                development teams.
               </Typography>
               <Typography
                 sx={{
@@ -256,7 +258,7 @@ export function TechnicalPhilosophy() {
                     color: '#dbfcff',
                   }}
                 >
-                  AI Integration
+                  AI-Native Orchestration
                 </Typography>
               </Box>
               <Typography
@@ -268,8 +270,8 @@ export function TechnicalPhilosophy() {
                   color: '#b9cacb',
                 }}
               >
-                Specializing in embedding cutting-edge AI capabilities into modern web architectures
-                to drive business value.
+                Designing and orchestrating AI-native workflows that combine LLMs, agents, tools,
+                and human expertise to accelerate software delivery and business outcomes.
               </Typography>
             </Box>
 

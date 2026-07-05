@@ -7,3 +7,8 @@ export * from './skillRepository';
 export * from './categoryRepository';
 export * from './tagRepository';
 export * from './adminUserRepository';
+export * from './experienceRepository';
+export * from './educationRepository';
+export * from './settingRepository';
+export * from './strengthRepository';
+export * from './careerImpactRepository';

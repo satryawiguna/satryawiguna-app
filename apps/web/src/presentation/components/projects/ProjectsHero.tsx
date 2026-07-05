@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Typography } from '@mui/material';
 import TuneIcon from '@mui/icons-material/Tune';
 

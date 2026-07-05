@@ -6,3 +6,8 @@ export * from './skill';
 export * from './category';
 export * from './tag';
 export * from './user';
+export * from './experience';
+export * from './education';
+export * from './setting';
+export * from './strength';
+export * from './careerImpact';

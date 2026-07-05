@@ -12,6 +12,11 @@ export * from './services/categoryService';
 export * from './services/tagService';
 export * from './services/adminUserService';
 export * from './services/profileService';
+export * from './services/experienceService';
+export * from './services/educationService';
+export * from './services/settingService';
+export * from './services/strengthService';
+export * from './services/careerImpactService';
 
 // Interceptors
 export * from './interceptors';

@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
 import TerminalIcon from '@mui/icons-material/Terminal';
@@ -423,14 +425,26 @@ function CardCode({ post }: { post: BlogPost }) {
             whiteSpace: 'pre-wrap',
           }}
         >
-          <Box component="span" sx={{ color: '#4edea3' }}>pipeline</Box>
-          <Box component="span" sx={{ color: '#b9cacb' }}>{' {'}</Box>
+          <Box component="span" sx={{ color: '#4edea3' }}>
+            pipeline
+          </Box>
+          <Box component="span" sx={{ color: '#b9cacb' }}>
+            {' {'}
+          </Box>
           {'\n'}
-          <Box component="span" sx={{ color: '#b9cacb' }}>{'  stage(\''}</Box>
-          <Box component="span" sx={{ color: '#dbfcff' }}>AI-Audit</Box>
-          <Box component="span" sx={{ color: '#b9cacb' }}>{'\')'}</Box>
+          <Box component="span" sx={{ color: '#b9cacb' }}>
+            {"  stage('"}
+          </Box>
+          <Box component="span" sx={{ color: '#dbfcff' }}>
+            AI-Audit
+          </Box>
+          <Box component="span" sx={{ color: '#b9cacb' }}>
+            {"')"}
+          </Box>
           {'\n'}
-          <Box component="span" sx={{ color: '#b9cacb' }}>{'}'}</Box>
+          <Box component="span" sx={{ color: '#b9cacb' }}>
+            {'}'}
+          </Box>
         </Typography>
       </Box>
     </Box>
@@ -486,7 +500,10 @@ function CardIcon({ post }: { post: BlogPost }) {
       </Box>
 
       {/* Bottom: link */}
-      <Link href={`/blog/${post.id}/detail`} style={{ textDecoration: 'none', alignSelf: 'flex-end' }}>
+      <Link
+        href={`/blog/${post.id}/detail`}
+        style={{ textDecoration: 'none', alignSelf: 'flex-end' }}
+      >
         <Typography
           sx={{
             fontFamily: 'Space Grotesk, sans-serif',

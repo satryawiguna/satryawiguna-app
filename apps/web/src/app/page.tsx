@@ -1,8 +1,8 @@
-import { Box } from '@mui/material';
-import { Navigation, Footer } from '@/presentation/components/common';
+import type { Metadata } from 'next';
+import { PageShell, ClientBox } from '@/presentation/components/common';
 import { HeroBanner, TechnicalPhilosophy, KeyExpertise } from '@/presentation/components/home';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Satrya Wiguna - Full Stack Developer & Software Engineer',
   description:
     'Architecting high-performance web ecosystems with precision. I transform complex business logic into elegant, scalable software solutions.',
@@ -25,9 +25,9 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
+    <PageShell
+      noContainer
+      boxSx={{
         backgroundColor: '#0b1326',
         background: `
           radial-gradient(circle at top left, rgba(0, 219, 233, 0.05) 0%, transparent 50%),
@@ -36,14 +36,12 @@ export default function Home() {
         `,
       }}
     >
-      <Navigation />
-      <Box component="main">
+      <ClientBox component="main">
         <HeroBanner />
         <KeyExpertise />
         {/* <FeaturedProjects /> */}
         <TechnicalPhilosophy />
-      </Box>
-      <Footer />
-    </Box>
+      </ClientBox>
+    </PageShell>
   );
 }

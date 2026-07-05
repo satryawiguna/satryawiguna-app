@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Typography } from '@mui/material';
 
 export function AboutHero() {
@@ -64,8 +66,8 @@ export function AboutHero() {
             fontStyle: 'normal',
           }}
         >
-          &ldquo;8+ years of engineering digital ecosystems&rdquo; &mdash; based in Bali, architecting
-          scalable solutions for the global network.
+          &ldquo;8+ years of engineering digital ecosystems&rdquo; &mdash; based in Bali,
+          architecting scalable solutions for the global network.
         </Typography>
       </Box>
     </Box>

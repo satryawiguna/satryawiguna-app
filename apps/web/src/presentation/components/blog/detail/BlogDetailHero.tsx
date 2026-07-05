@@ -1,3 +1,5 @@
+'use client';
+
 import { Box, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
@@ -76,7 +78,9 @@ export function BlogDetailHero({ post }: BlogDetailHeroProps) {
         </Typography>
         {post.readingTime && (
           <>
-            <Box sx={{ width: '4px', height: '4px', borderRadius: '50%', backgroundColor: '#64748b' }} />
+            <Box
+              sx={{ width: '4px', height: '4px', borderRadius: '50%', backgroundColor: '#64748b' }}
+            />
             <Box sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <AccessTimeIcon sx={{ color: '#64748b', fontSize: '14px' }} />
               <Typography

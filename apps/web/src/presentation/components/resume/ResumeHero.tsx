@@ -1,7 +1,13 @@
+'use client';
+
 import { Box, Button, Typography } from '@mui/material';
 import Image from 'next/image';
 
-export function ResumeHero() {
+interface ResumeHeroProps {
+  resumeFileUrl?: string | null;
+}
+
+export function ResumeHero({ resumeFileUrl }: ResumeHeroProps) {
   return (
     <Box
       sx={{
@@ -75,7 +81,7 @@ export function ResumeHero() {
 
       {/* Right: Download button */}
       <Button
-        href="/assets/resume.pdf"
+        href={resumeFileUrl || '/assets/resume.pdf'}
         target="_blank"
         rel="noopener noreferrer"
         sx={{

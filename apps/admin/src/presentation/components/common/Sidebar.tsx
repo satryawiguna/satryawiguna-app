@@ -128,12 +128,81 @@ const IconTag = () => (
   </svg>
 );
 
+const IconExperience = () => (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect
+      x="1"
+      y="4"
+      width="16"
+      height="12"
+      rx="2"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      fill="none"
+    />
+    <path
+      d="M6 4V3C6 2.44772 6.44772 2 7 2H11C11.5523 2 12 2.44772 12 3V4"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      fill="none"
+    />
+    <path d="M1 8H17" stroke="currentColor" strokeWidth="1.5" />
+    <circle cx="5" cy="11" r="1" fill="currentColor" />
+    <circle cx="9" cy="11" r="1" fill="currentColor" />
+    <circle cx="13" cy="11" r="1" fill="currentColor" />
+  </svg>
+);
+
+const IconEducation = () => (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M9 1L17 5L9 9L1 5L9 1Z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      fill="none"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M4 7.5V13C4 13 6 15 9 15C12 15 14 13 14 13V7.5"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      fill="none"
+      strokeLinecap="round"
+    />
+    <path d="M17 5V10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+);
+
+const IconCareerImpact = () => (
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M9 1L16 5V13L9 17L2 13V5L9 1Z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      fill="none"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M6 8L8 10L12 6"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+    />
+  </svg>
+);
+
 const navItems: { label: string; href: string; icon: ReactNode }[] = [
   { label: 'Dashboard', href: '/dashboard', icon: <IconDashboard /> },
   { label: 'Projects', href: '/dashboard/projects', icon: <IconProjects /> },
   { label: 'Media Libraries', href: '/dashboard/medias', icon: <IconMedia /> },
   { label: 'Blogs', href: '/dashboard/blogs', icon: <IconBlog /> },
+  { label: 'Experiences', href: '/dashboard/experiences', icon: <IconExperience /> },
+  { label: 'Educations', href: '/dashboard/educations', icon: <IconEducation /> },
   { label: 'Skills', href: '/dashboard/skills', icon: <IconSkill /> },
+  { label: 'Strengths', href: '/dashboard/strengths', icon: <IconSkill /> },
+  { label: 'Career Impacts', href: '/dashboard/career-impacts', icon: <IconCareerImpact /> },
   { label: 'Categories', href: '/dashboard/categories', icon: <IconCategory /> },
   { label: 'Tags', href: '/dashboard/tags', icon: <IconTag /> },
   { label: 'Users', href: '/dashboard/users', icon: <IconUsers /> },

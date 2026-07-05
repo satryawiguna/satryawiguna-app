@@ -11,6 +11,11 @@ export * from './entities/skill';
 export * from './entities/category';
 export * from './entities/tag';
 export * from './entities/adminUser';
+export * from './entities/experience';
+export * from './entities/education';
+export * from './entities/setting';
+export * from './entities/strength';
+export * from './entities/careerImpact';
 
 // API types
 export * from './api';

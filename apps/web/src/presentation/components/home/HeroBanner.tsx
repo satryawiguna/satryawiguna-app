@@ -1,31 +1,9 @@
-import { Box, Button, Chip, Container, Typography, Grid } from '@mui/material';
+'use client';
+
+import { Box, Button, Chip, Container, Typography, Grid, Skeleton } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Image from 'next/image';
-
-const techStackRow1 = [
-  { name: 'TypeScript', icon: '/assets/icons/typescript.svg', width: 20, height: 16 },
-  { name: 'JavaScript', icon: '/assets/icons/javascript.svg', width: 11, height: 6 },
-  { name: 'React / NextJs', icon: '/assets/icons/react.svg', width: 18, height: 19 },
-  { name: 'PostgreSQL', icon: '/assets/icons/postgresql.svg', width: 18, height: 18 },
-  { name: 'MySQL', icon: '/assets/icons/postgresql.svg', width: 18, height: 18 },
-  {
-    name: 'AWS / Digital Ocean / Google Cloud',
-    icon: '/assets/icons/aws.svg',
-    width: 22,
-    height: 16,
-  },
-  { name: 'CI / CD', icon: '/assets/icons/cicd.svg', width: 20, height: 20 },
-];
-
-const techStackRow2 = [
-  { name: 'Laravel', icon: '/assets/icons/laravel.svg', width: 18, height: 18 },
-  { name: 'PHP', icon: '/assets/icons/php.svg', width: 18, height: 6 },
-  { name: 'NestJs / NodeJs', icon: '/assets/icons/nestjs.svg', width: 18, height: 20 },
-  { name: 'Docker', icon: '/assets/icons/docker.svg', width: 18, height: 18 },
-  { name: '.NET Core', icon: '/assets/icons/dotnet.svg', width: 22, height: 22 },
-  { name: 'Python', icon: '/assets/icons/python.svg', width: 20, height: 12 },
-  { name: 'MongoDB', icon: '/assets/icons/postgresql.svg', width: 18, height: 18 },
-];
+import { useSkills } from '@/presentation/hooks';
 
 export function HeroBanner() {
   return (
@@ -287,136 +265,141 @@ export function HeroBanner() {
         </Grid>
 
         {/* Tech Stack Section */}
+        <TechStackSection />
+      </Container>
+    </Box>
+  );
+}
+
+function TechStackSection() {
+  const { data: skills = [], isLoading } = useSkills({ sortBy: 'sort_order', orderBy: 'asc' });
+
+  if (isLoading) {
+    const skeletonItems = Array.from({ length: 14 });
+    return (
+      <Box
+        sx={{
+          backgroundColor: 'rgba(15, 23, 42, 0.6)',
+          backdropFilter: 'blur(6px)',
+          border: '1px solid rgba(255, 255, 255, 0.05)',
+          borderRadius: '8px',
+          p: { xs: 2, md: 4 },
+          mt: { xs: 4, md: 0 },
+          position: 'relative',
+          overflow: 'hidden',
+          mx: 'auto',
+        }}
+      >
         <Box
           sx={{
-            backgroundColor: 'rgba(15, 23, 42, 0.6)',
-            backdropFilter: 'blur(6px)',
-            border: '1px solid rgba(255, 255, 255, 0.05)',
-            borderRadius: '8px',
-            p: { xs: 2, md: 4 },
-            mt: { xs: 4, md: 0 },
-            position: 'relative',
-            overflow: 'hidden',
-            mx: 'auto',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: { xs: 2, md: 4 },
+            flexWrap: 'wrap',
           }}
         >
-          {/* Gradient Overlay */}
-          <Box
-            sx={{
-              position: 'absolute',
-              inset: 0,
-              background: 'linear-gradient(90deg, rgba(0, 219, 233, 0.05) 0%, transparent 100%)',
-              pointerEvents: 'none',
-            }}
-          />
-
-          {/* Tech Stack Content */}
-          <Box sx={{ position: 'relative', opacity: 0.8 }}>
-            {/* First Row */}
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                gap: { xs: 2, md: 4 },
-                mb: { xs: 2, md: 3 },
-                flexWrap: 'wrap',
-              }}
-            >
-              {techStackRow1.map((tech, index) => (
-                <Box
-                  key={index}
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 1,
-                  }}
-                >
-                  <Box
-                    sx={{
-                      width: `${tech.width}px`,
-                      height: `${tech.height}px`,
-                      position: 'relative',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <Image
-                      src={tech.icon}
-                      alt={tech.name}
-                      width={tech.width}
-                      height={tech.height}
-                      style={{ objectFit: 'contain' }}
-                    />
-                  </Box>
-                  <Typography
-                    sx={{
-                      fontFamily: 'Nimbus Mono PS, monospace',
-                      fontSize: '14px',
-                      color: '#dae2fd',
-                      lineHeight: '20px',
-                    }}
-                  >
-                    {tech.name}
-                  </Typography>
-                </Box>
-              ))}
+          {skeletonItems.map((_, i) => (
+            <Box key={i} sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Skeleton
+                variant="circular"
+                width={22}
+                height={22}
+                sx={{ bgcolor: 'rgba(255,255,255,0.08)' }}
+              />
+              <Skeleton
+                variant="rounded"
+                width={90}
+                height={16}
+                sx={{ bgcolor: 'rgba(255,255,255,0.08)', borderRadius: '4px' }}
+              />
             </Box>
-
-            {/* Second Row */}
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                gap: { xs: 2, md: 4 },
-                flexWrap: 'wrap',
-              }}
-            >
-              {techStackRow2.map((tech, index) => (
-                <Box
-                  key={index}
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 1,
-                  }}
-                >
-                  <Box
-                    sx={{
-                      width: `${tech.width}px`,
-                      height: `${tech.height}px`,
-                      position: 'relative',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <Image
-                      src={tech.icon}
-                      alt={tech.name}
-                      width={tech.width}
-                      height={tech.height}
-                      style={{ objectFit: 'contain' }}
-                    />
-                  </Box>
-                  <Typography
-                    sx={{
-                      fontFamily: 'Nimbus Mono PS, monospace',
-                      fontSize: { xs: '12px', md: '14px' },
-                      color: '#dae2fd',
-                      lineHeight: '20px',
-                    }}
-                  >
-                    {tech.name}
-                  </Typography>
-                </Box>
-              ))}
-            </Box>
-          </Box>
+          ))}
         </Box>
-      </Container>
+      </Box>
+    );
+  }
+
+  if (skills.length === 0) return null;
+
+  return (
+    <Box
+      sx={{
+        backgroundColor: 'rgba(15, 23, 42, 0.6)',
+        backdropFilter: 'blur(6px)',
+        border: '1px solid rgba(255, 255, 255, 0.05)',
+        borderRadius: '8px',
+        p: { xs: 2, md: 4 },
+        mt: { xs: 4, md: 0 },
+        position: 'relative',
+        overflow: 'hidden',
+        mx: 'auto',
+      }}
+    >
+      {/* Gradient Overlay */}
+      <Box
+        sx={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(90deg, rgba(0, 219, 233, 0.05) 0%, transparent 100%)',
+          pointerEvents: 'none',
+        }}
+      />
+
+      {/* Tech Stack Content */}
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: { xs: 2, md: 4 },
+          flexWrap: 'wrap',
+          position: 'relative',
+          opacity: 0.8,
+        }}
+      >
+        {skills.map((skill) => (
+          <Box
+            key={skill.id}
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 1,
+            }}
+          >
+            {skill.icon_url && (
+              <Box
+                sx={{
+                  width: 22,
+                  height: 22,
+                  position: 'relative',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <img
+                  src={skill.icon_url}
+                  alt={skill.name}
+                  width={22}
+                  height={22}
+                  style={{ objectFit: 'contain' }}
+                />
+              </Box>
+            )}
+            <Typography
+              sx={{
+                fontFamily: 'Nimbus Mono PS, monospace',
+                fontSize: '14px',
+                color: '#dae2fd',
+                lineHeight: '20px',
+              }}
+            >
+              {skill.name}
+            </Typography>
+          </Box>
+        ))}
+      </Box>
     </Box>
   );
 }
