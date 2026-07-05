@@ -6,6 +6,7 @@ import type {
   EducationQueryParams,
   CreateEducationRequest,
   UpdateEducationRequest,
+  PublicEducationListResponse,
 } from 'shared-types';
 
 export class EducationService {
@@ -25,13 +26,22 @@ export class EducationService {
 
   async updateEducation(
     id: number,
-    data: UpdateEducationRequest
+    data: UpdateEducationRequest,
   ): Promise<EducationMutationResponse> {
     return apiClient.put<EducationMutationResponse>(`${this.basePath}/${id}`, data);
   }
 
   async deleteEducation(id: number): Promise<void> {
     await apiClient.delete<void>(`${this.basePath}/${id}`);
+  }
+
+  // ── Public endpoints ─────────────────────────────────────────
+
+  async getPublicEducations(params?: {
+    orderBy?: string;
+    sortOrder?: 'asc' | 'desc';
+  }): Promise<PublicEducationListResponse> {
+    return apiClient.get<PublicEducationListResponse>('/educations', { params });
   }
 }
 

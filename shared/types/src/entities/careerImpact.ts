@@ -1,11 +1,11 @@
-// ── Core education types ──────────────────────────────────────────
+// ── Core career impact types ───────────────────────────────────────
 
-export interface Education {
+export interface CareerImpact {
   id: number;
-  degree: string;
-  institution: string;
-  start_year: number;
-  end_year: number | null;
+  title: string;
+  description: string;
+  quote: string;
+  icon_url: string;
   sort_order: number;
   created_at: string;
   updated_at: string;
@@ -13,7 +13,7 @@ export interface Education {
 
 // ── API response shapes ───────────────────────────────────────────
 
-export interface EducationPagination {
+export interface CareerImpactPagination {
   total: number;
   page: number;
   limit: number;
@@ -22,44 +22,44 @@ export interface EducationPagination {
   hasPreviousPage: boolean;
 }
 
-export interface EducationListResponse {
+export interface CareerImpactListResponse {
   success: boolean;
   status: number;
   message: string;
-  data: Education[];
-  pagination: EducationPagination;
+  data: CareerImpact[];
+  pagination: CareerImpactPagination;
   timestamp: string;
 }
 
-export interface EducationDetailResponse {
+export interface CareerImpactDetailResponse {
   success: boolean;
   status: number;
   message: string;
-  data: Education;
+  data: CareerImpact;
   timestamp: string;
 }
 
-export interface EducationMutationResponse {
+export interface CareerImpactMutationResponse {
   success: boolean;
   status: number;
   message: string;
-  data: Education;
+  data: CareerImpact;
   timestamp: string;
 }
 
 // ── Public list response (no pagination) ──────────────────────────
 
-export interface PublicEducationListResponse {
+export interface CareerImpactPublicListResponse {
   success: boolean;
   status: number;
   message: string;
-  data: Education[];
+  data: CareerImpact[];
   timestamp: string;
 }
 
 // ── Query / request params ────────────────────────────────────────
 
-export interface EducationQueryParams {
+export interface CareerImpactQueryParams {
   page?: number;
   limit?: number;
   sortBy?: string;
@@ -67,12 +67,12 @@ export interface EducationQueryParams {
   keyword?: string;
 }
 
-export interface CreateEducationRequest {
-  degree: string;
-  institution: string;
-  start_year: number;
-  end_year: number | null;
+export interface CreateCareerImpactRequest {
+  title: string;
+  description: string;
+  quote: string;
+  icon_url: string;
   sort_order: number;
 }
 
-export type UpdateEducationRequest = Partial<CreateEducationRequest>;
+export type UpdateCareerImpactRequest = Partial<CreateCareerImpactRequest>;

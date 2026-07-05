@@ -3,7 +3,15 @@
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 
-export function AboutStatsAndSocials() {
+interface AboutStatsAndSocialsProps {
+  githubUrl?: string;
+  linkedinUrl?: string;
+}
+
+export function AboutStatsAndSocials({ githubUrl, linkedinUrl }: AboutStatsAndSocialsProps) {
+  const resolvedGithubUrl = githubUrl || 'https://github.com/satryawiguna';
+  const resolvedLinkedinUrl = linkedinUrl || 'https://linkedin.com/in/satryawiguna';
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px', width: '100%' }}>
       {/* Stats grid */}
@@ -134,7 +142,7 @@ export function AboutStatsAndSocials() {
           {/* GitHub */}
           <Box
             component="a"
-            href="https://github.com/satryawiguna"
+            href={resolvedGithubUrl}
             target="_blank"
             rel="noopener noreferrer"
             sx={{
@@ -175,7 +183,7 @@ export function AboutStatsAndSocials() {
           {/* LinkedIn */}
           <Box
             component="a"
-            href="https://linkedin.com/in/satryawiguna"
+            href={resolvedLinkedinUrl}
             target="_blank"
             rel="noopener noreferrer"
             sx={{

@@ -12,3 +12,4 @@ export * from './useExperiences';
 export * from './useEducations';
 export * from './useSettings';
 export * from './useStrengths';
+export * from './useCareerImpacts';
