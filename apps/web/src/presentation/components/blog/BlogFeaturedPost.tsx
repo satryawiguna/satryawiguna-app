@@ -2,7 +2,7 @@
 
 import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
-import type { BlogPost } from '@/data/blog';
+import type { BlogPost } from '@/domain/entities';
 
 interface BlogFeaturedPostProps {
   post: BlogPost;
@@ -35,7 +35,7 @@ export function BlogFeaturedPost({ post }: BlogFeaturedPostProps) {
         {/* Image */}
         <Box
           component="img"
-          src={post.image}
+          src={post.thumbnail_url ?? ''}
           alt={post.title}
           sx={{
             position: 'absolute',
@@ -71,10 +71,10 @@ export function BlogFeaturedPost({ post }: BlogFeaturedPostProps) {
       >
         {/* Category + Date row */}
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '0', mb: '16px' }}>
-          {post.category && (
+          {post.categories.length > 0 && (
             <Box
               sx={{
-                backgroundColor: post.category.bgColor,
+                backgroundColor: post.categories[0].bgColor,
                 borderRadius: '2px',
                 px: '8px',
                 py: '4px',
@@ -86,11 +86,11 @@ export function BlogFeaturedPost({ post }: BlogFeaturedPostProps) {
                   fontFamily: 'Nimbus Mono PS, monospace',
                   fontSize: '12px',
                   lineHeight: '16px',
-                  color: post.category.textColor,
+                  color: post.categories[0].textColor,
                   whiteSpace: 'nowrap',
                 }}
               >
-                {post.category.label}
+                {post.categories[0].label}
               </Typography>
             </Box>
           )}

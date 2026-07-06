@@ -5,13 +5,32 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import CodeIcon from '@mui/icons-material/Code';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Link from 'next/link';
-import type { Project } from '@/data/projects';
+import type { Project } from '@/domain/entities';
+
+// ── Deterministic category color generator ──────────────────────
+
+const CATEGORY_PALETTE = [
+  { bgColor: 'rgba(0, 105, 112, 0.1)', textColor: '#006970' },
+  { bgColor: 'rgba(0, 165, 114, 0.1)', textColor: '#4edea3' },
+  { bgColor: 'rgba(227, 210, 255, 0.2)', textColor: '#742fe5' },
+  { bgColor: 'rgba(255, 183, 77, 0.15)', textColor: '#ffb74d' },
+  { bgColor: 'rgba(100, 181, 246, 0.15)', textColor: '#64b5f6' },
+  { bgColor: 'rgba(239, 83, 80, 0.15)', textColor: '#ef5350' },
+];
+
+function getCategoryColors(slug: string) {
+  const hash = slug.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  return CATEGORY_PALETTE[hash % CATEGORY_PALETTE.length];
+}
 
 interface ProjectDetailHeroProps {
   project: Project;
 }
 
 export function ProjectDetailHero({ project }: ProjectDetailHeroProps) {
+  const category = project.categories?.[0];
+  const colors = category ? getCategoryColors(category.slug) : CATEGORY_PALETTE[0];
+
   return (
     <Box
       sx={{
@@ -59,66 +78,64 @@ export function ProjectDetailHero({ project }: ProjectDetailHeroProps) {
           width: '100%',
         }}
       >
-        {/* Left: title + badges */}
+        {/* Left: title + category badge */}
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-          <Typography
-            component="h1"
-            sx={{
-              fontFamily: 'Space Grotesk, sans-serif',
-              fontWeight: 700,
-              fontSize: { xs: '40px', md: '64px' },
-              lineHeight: { xs: '1.1', md: '70.4px' },
-              letterSpacing: '-1.28px',
-              color: '#dae2fd',
-            }}
-          >
-            {project.title.toUpperCase()}
-          </Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <Typography
+              component="h1"
+              sx={{
+                fontFamily: 'Space Grotesk, sans-serif',
+                fontWeight: 700,
+                fontSize: { xs: '40px', md: '64px' },
+                lineHeight: { xs: '1.1', md: '70.4px' },
+                letterSpacing: '-1.28px',
+                color: '#dae2fd',
+              }}
+            >
+              {project.title.toUpperCase()}
+            </Typography>
 
-          <Box sx={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-            <Box
-              sx={{
-                backgroundColor: '#222a3d',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                px: '17px',
-                py: '5px',
-              }}
-            >
+            {project.sub_title && (
               <Typography
                 sx={{
-                  fontFamily: 'Space Grotesk, sans-serif',
+                  fontFamily: 'Inter, sans-serif',
                   fontWeight: 400,
-                  fontSize: '16px',
-                  lineHeight: '24px',
-                  color: '#dae2fd',
-                  whiteSpace: 'nowrap',
+                  fontSize: '18px',
+                  lineHeight: '28px',
+                  color: '#8899aa',
                 }}
               >
-                {project.role}
+                {project.sub_title}
               </Typography>
-            </Box>
-            <Box
-              sx={{
-                backgroundColor: '#222a3d',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                px: '17px',
-                py: '5px',
-              }}
-            >
-              <Typography
-                sx={{
-                  fontFamily: 'Space Grotesk, sans-serif',
-                  fontWeight: 400,
-                  fontSize: '16px',
-                  lineHeight: '24px',
-                  color: '#dae2fd',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                {project.period}
-              </Typography>
-            </Box>
+            )}
           </Box>
+
+          {category && (
+            <Box sx={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+              <Box
+                sx={{
+                  display: 'inline-flex',
+                  backgroundColor: colors.bgColor,
+                  px: '12px',
+                  py: '5px',
+                  borderRadius: '2px',
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontFamily: 'Space Grotesk, sans-serif',
+                    fontWeight: 400,
+                    fontSize: '14px',
+                    lineHeight: '20px',
+                    color: colors.textColor,
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {category.name.toUpperCase()}
+                </Typography>
+              </Box>
+            </Box>
+          )}
         </Box>
 
         {/* Right: action buttons */}
@@ -131,9 +148,9 @@ export function ProjectDetailHero({ project }: ProjectDetailHeroProps) {
             height: '58px',
           }}
         >
-          {project.liveSiteUrl && (
+          {project.demo_url && (
             <Link
-              href={project.liveSiteUrl}
+              href={project.demo_url}
               target="_blank"
               rel="noopener noreferrer"
               style={{ textDecoration: 'none' }}
@@ -168,9 +185,9 @@ export function ProjectDetailHero({ project }: ProjectDetailHeroProps) {
               </Box>
             </Link>
           )}
-          {project.githubUrl && (
+          {project.repository_url && (
             <Link
-              href={project.githubUrl}
+              href={project.repository_url}
               target="_blank"
               rel="noopener noreferrer"
               style={{ textDecoration: 'none' }}
@@ -223,7 +240,7 @@ export function ProjectDetailHero({ project }: ProjectDetailHeroProps) {
         }}
       >
         <img
-          src={project.detailImage}
+          src={project.thumbnail_url}
           alt={project.title}
           style={{
             position: 'absolute',

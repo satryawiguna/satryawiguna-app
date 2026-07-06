@@ -2,10 +2,31 @@
 
 import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
-import { projects } from '@/data/projects';
-import type { Project } from '@/data/projects';
+import type { Project } from '@/domain/entities';
+
+// ── Deterministic category color generator ──────────────────────
+
+const CATEGORY_PALETTE = [
+  { bgColor: 'rgba(0, 105, 112, 0.1)', textColor: '#006970' },
+  { bgColor: 'rgba(0, 165, 114, 0.1)', textColor: '#4edea3' },
+  { bgColor: 'rgba(227, 210, 255, 0.2)', textColor: '#742fe5' },
+  { bgColor: 'rgba(255, 183, 77, 0.15)', textColor: '#ffb74d' },
+  { bgColor: 'rgba(100, 181, 246, 0.15)', textColor: '#64b5f6' },
+  { bgColor: 'rgba(239, 83, 80, 0.15)', textColor: '#ef5350' },
+];
+
+function getCategoryColors(slug: string) {
+  const hash = slug.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  return CATEGORY_PALETTE[hash % CATEGORY_PALETTE.length];
+}
+
+// ── Card component ──────────────────────────────────────────────
 
 function ProjectCard({ project }: { project: Project }) {
+  const category = project.categories?.[0];
+  const colors = category ? getCategoryColors(category.slug) : CATEGORY_PALETTE[0];
+  const skills = project.skills?.map((s) => s.name) ?? [];
+
   return (
     <Link
       href={`/projects/${project.id}/detail`}
@@ -35,7 +56,7 @@ function ProjectCard({ project }: { project: Project }) {
           }}
         >
           <img
-            src={project.image}
+            src={project.thumbnail_url}
             alt={project.title}
             style={{
               position: 'absolute',
@@ -60,29 +81,31 @@ function ProjectCard({ project }: { project: Project }) {
         {/* Content */}
         <Box sx={{ p: '24px', display: 'flex', flexDirection: 'column' }}>
           {/* Category tag */}
-          <Box
-            sx={{
-              display: 'inline-flex',
-              backgroundColor: project.category.bgColor,
-              px: '8px',
-              py: '4px',
-              borderRadius: '2px',
-              alignSelf: 'flex-start',
-            }}
-          >
-            <Typography
+          {category && (
+            <Box
               sx={{
-                fontFamily: 'Space Grotesk, sans-serif',
-                fontWeight: 400,
-                fontSize: '10px',
-                lineHeight: '15px',
-                color: project.category.textColor,
-                whiteSpace: 'nowrap',
+                display: 'inline-flex',
+                backgroundColor: colors.bgColor,
+                px: '8px',
+                py: '4px',
+                borderRadius: '2px',
+                alignSelf: 'flex-start',
               }}
             >
-              {project.category.label}
-            </Typography>
-          </Box>
+              <Typography
+                sx={{
+                  fontFamily: 'Space Grotesk, sans-serif',
+                  fontWeight: 400,
+                  fontSize: '10px',
+                  lineHeight: '15px',
+                  color: colors.textColor,
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {category.name.toUpperCase()}
+              </Typography>
+            </Box>
+          )}
 
           {/* Title */}
           <Typography
@@ -99,6 +122,22 @@ function ProjectCard({ project }: { project: Project }) {
             {project.title}
           </Typography>
 
+          {/* Subtitle */}
+          {project.sub_title && (
+            <Typography
+              sx={{
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 400,
+                fontSize: '14px',
+                lineHeight: '20px',
+                color: '#8899aa',
+                mt: '4px',
+              }}
+            >
+              {project.sub_title}
+            </Typography>
+          )}
+
           {/* Description */}
           <Typography
             sx={{
@@ -107,46 +146,58 @@ function ProjectCard({ project }: { project: Project }) {
               fontSize: '16px',
               lineHeight: '24px',
               color: '#b9cacb',
-              mt: '16px',
+              mt: '12px',
             }}
           >
             {project.description}
           </Typography>
 
-          {/* Tech stack */}
-          <Box sx={{ display: 'flex', gap: '8px', mt: '32px', flexWrap: 'wrap' }}>
-            {project.techStack.map((tech) => (
-              <Box
-                key={tech}
-                sx={{
-                  backgroundColor: '#222a3d',
-                  px: '8px',
-                  py: '4px',
-                  borderRadius: '2px',
-                }}
-              >
-                <Typography
+          {/* Skills as tech tags */}
+          {skills.length > 0 && (
+            <Box sx={{ display: 'flex', gap: '8px', mt: '32px', flexWrap: 'wrap' }}>
+              {skills.map((skill) => (
+                <Box
+                  key={skill}
                   sx={{
-                    fontFamily: 'Nimbus Mono PS, monospace',
-                    fontWeight: 400,
-                    fontSize: '12px',
-                    lineHeight: '16px',
-                    color: '#4edea3',
-                    whiteSpace: 'nowrap',
+                    backgroundColor: '#222a3d',
+                    px: '8px',
+                    py: '4px',
+                    borderRadius: '2px',
                   }}
                 >
-                  {tech}
-                </Typography>
-              </Box>
-            ))}
-          </Box>
+                  <Typography
+                    sx={{
+                      fontFamily: 'Nimbus Mono PS, monospace',
+                      fontWeight: 400,
+                      fontSize: '12px',
+                      lineHeight: '16px',
+                      color: '#4edea3',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {skill}
+                  </Typography>
+                </Box>
+              ))}
+            </Box>
+          )}
         </Box>
       </Box>
     </Link>
   );
 }
 
-export function ProjectsGrid() {
+// ── Grid component ──────────────────────────────────────────────
+
+interface ProjectsGridProps {
+  projects: Project[];
+}
+
+export function ProjectsGrid({ projects }: ProjectsGridProps) {
+  if (!projects || projects.length === 0) {
+    return null;
+  }
+
   return (
     <Box
       sx={{

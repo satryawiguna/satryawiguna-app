@@ -1,12 +1,14 @@
 'use client';
 
-import { useState } from 'react';
 import { Box, InputBase, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
-export function BlogSearch() {
-  const [value, setValue] = useState('');
+interface BlogSearchProps {
+  value?: string;
+  onSearch?: (value: string) => void;
+}
 
+export function BlogSearch({ value = '', onSearch }: BlogSearchProps) {
   return (
     <Box
       sx={{
@@ -41,13 +43,12 @@ export function BlogSearch() {
           borderRadius: '12px',
           px: '49px',
           py: '19px',
-          boxShadow:
-            '0 10px 15px -3px rgba(22,78,99,0.05), 0 4px 6px -4px rgba(22,78,99,0.05)',
+          boxShadow: '0 10px 15px -3px rgba(22,78,99,0.05), 0 4px 6px -4px rgba(22,78,99,0.05)',
         }}
       >
         <InputBase
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => onSearch?.(e.target.value)}
           placeholder="Search technical logs..."
           fullWidth
           sx={{
