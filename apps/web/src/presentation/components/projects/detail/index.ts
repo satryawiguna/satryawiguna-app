@@ -1,6 +1,5 @@
 export { ProjectDetailHero } from './ProjectDetailHero';
-export { ProjectDetailMetrics } from './ProjectDetailMetrics';
-export { ProjectDetailChallenge } from './ProjectDetailChallenge';
-export { ProjectDetailCapabilities } from './ProjectDetailCapabilities';
-export { ProjectDetailTechStack } from './ProjectDetailTechStack';
-export { ProjectDetailCTA } from './ProjectDetailCTA';
+export { ProjectDetailContent } from './ProjectDetailContent';
+export { ProjectDetailSkills } from './ProjectDetailSkills';
+export { ProjectDetailGallery } from './ProjectDetailGallery';
+export { ProjectDetailClient } from './ProjectDetailClient';

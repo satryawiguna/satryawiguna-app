@@ -103,7 +103,8 @@ export function LoginForm() {
         </div>
 
         {/* Auth card */}
-        <div className="w-full backdrop-blur-[4px] bg-[rgba(15,23,42,0.6)] border border-[rgba(255,255,255,0.1)] rounded-lg shadow-[0px_25px_50px_-12px_rgba(0,0,0,0.25)] overflow-hidden">
+        {/* <div className="w-full backdrop-blur-[4px] bg-[rgba(15,23,42,0.6)] border border-[rgba(255,255,255,0.1)] rounded-lg shadow-[0px_25px_50px_-12px_rgba(0,0,0,0.25)] overflow-hidden"> */}
+        <div className="w-full rounded-lg shadow-[0px_25px_50px_-12px_rgba(0,0,0,0.25)] overflow-hidden">
           {/* Slide container */}
           <div
             className="flex transition-transform duration-500 ease-in-out"

@@ -3,7 +3,7 @@
 import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
 import NorthEastIcon from '@mui/icons-material/NorthEast';
-import type { BlogPost } from '@/data/blog';
+import type { BlogPost } from '@/domain/entities';
 
 interface BlogDetailRelatedProps {
   posts: BlogPost[];
@@ -64,10 +64,10 @@ export function BlogDetailRelated({ posts }: BlogDetailRelatedProps) {
             >
               {/* Category + date */}
               <Box sx={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
-                {post.category ? (
+                {post.categories.length > 0 ? (
                   <Box
                     sx={{
-                      backgroundColor: post.category.bgColor,
+                      backgroundColor: post.categories[0].bgColor,
                       borderRadius: '2px',
                       px: '8px',
                       py: '2px',
@@ -78,10 +78,10 @@ export function BlogDetailRelated({ posts }: BlogDetailRelatedProps) {
                         fontFamily: 'Nimbus Mono PS, monospace',
                         fontSize: '10px',
                         lineHeight: '14px',
-                        color: post.category.textColor,
+                        color: post.categories[0].textColor,
                       }}
                     >
-                      {post.category.label}
+                      {post.categories[0].label}
                     </Typography>
                   </Box>
                 ) : null}

@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo } from 'react';
 import { Box, Typography } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import type { BlogPagination as BlogPaginationType } from '@/domain/entities';
 
 const PAGE_BUTTON_BASE = {
   backgroundColor: '#131b2e',
@@ -19,25 +20,33 @@ const PAGE_BUTTON_BASE = {
 } as const;
 
 interface BlogPaginationProps {
-  currentPage?: number;
-  totalPages?: number;
-  totalResults?: number;
-  perPage?: number;
+  pagination: BlogPaginationType;
+  currentPage: number;
+  onPageChange: (page: number) => void;
 }
 
-export function BlogPagination({
-  currentPage: initialPage = 1,
-  totalPages = 4,
-  totalResults = 24,
-  perPage = 6,
-}: BlogPaginationProps) {
-  const [page, setPage] = useState(initialPage);
+export function BlogPagination({ pagination, currentPage, onPageChange }: BlogPaginationProps) {
+  const { total, page, limit, totalPages } = pagination;
 
-  const from = (page - 1) * perPage + 1;
-  const to = Math.min(page * perPage, totalResults);
+  const from = (page - 1) * limit + 1;
+  const to = Math.min(page * limit, total);
 
-  const pages = [1, 2, 3];
-  const showEllipsis = totalPages > 4;
+  const pageNumbers = useMemo(() => {
+    const pages: number[] = [];
+    const maxVisible = 5;
+    let start = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+    let end = Math.min(totalPages, start + maxVisible - 1);
+    if (end - start < maxVisible - 1) {
+      start = Math.max(1, end - maxVisible + 1);
+    }
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+    return pages;
+  }, [currentPage, totalPages]);
+
+  const showEllipsisLeft = pageNumbers[0] > 1;
+  const showEllipsisRight = pageNumbers[pageNumbers.length - 1] < totalPages;
 
   return (
     <Box
@@ -72,7 +81,7 @@ export function BlogPagination({
         </Box>{' '}
         of{' '}
         <Box component="span" sx={{ color: '#dbfcff', fontWeight: 700 }}>
-          {totalResults}
+          {total}
         </Box>{' '}
         results
       </Typography>
@@ -81,13 +90,13 @@ export function BlogPagination({
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
         {/* Previous */}
         <Box
-          onClick={() => setPage((p) => Math.max(1, p - 1))}
+          onClick={() => onPageChange(Math.max(1, currentPage - 1))}
           sx={{
             ...PAGE_BUTTON_BASE,
             borderRadius: '6px 0 0 6px',
             borderRight: 'none',
-            opacity: page === 1 ? 0.4 : 1,
-            pointerEvents: page === 1 ? 'none' : 'auto',
+            opacity: currentPage === 1 ? 0.4 : 1,
+            pointerEvents: currentPage === 1 ? 'none' : 'auto',
             gap: '4px',
           }}
         >
@@ -106,13 +115,37 @@ export function BlogPagination({
           </Typography>
         </Box>
 
+        {/* Left ellipsis */}
+        {showEllipsisLeft && (
+          <Box
+            sx={{
+              ...PAGE_BUTTON_BASE,
+              borderRadius: 0,
+              borderRight: 'none',
+              cursor: 'default',
+            }}
+          >
+            <Typography
+              sx={{
+                fontFamily: 'Space Grotesk, sans-serif',
+                fontWeight: 400,
+                fontSize: '12px',
+                lineHeight: '18px',
+                color: '#b9cacb',
+              }}
+            >
+              ...
+            </Typography>
+          </Box>
+        )}
+
         {/* Page numbers */}
-        {pages.map((p) => {
-          const isActive = p === page;
+        {pageNumbers.map((p) => {
+          const isActive = p === currentPage;
           return (
             <Box
               key={p}
-              onClick={() => setPage(p)}
+              onClick={() => onPageChange(p)}
               sx={{
                 ...PAGE_BUTTON_BASE,
                 borderRadius: 0,
@@ -136,8 +169,8 @@ export function BlogPagination({
           );
         })}
 
-        {/* Ellipsis */}
-        {showEllipsis && (
+        {/* Right ellipsis */}
+        {showEllipsisRight && (
           <Box
             sx={{
               ...PAGE_BUTTON_BASE,
@@ -162,12 +195,12 @@ export function BlogPagination({
 
         {/* Next */}
         <Box
-          onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+          onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
           sx={{
             ...PAGE_BUTTON_BASE,
             borderRadius: '0 6px 6px 0',
-            opacity: page === totalPages ? 0.4 : 1,
-            pointerEvents: page === totalPages ? 'none' : 'auto',
+            opacity: currentPage === totalPages ? 0.4 : 1,
+            pointerEvents: currentPage === totalPages ? 'none' : 'auto',
             gap: '4px',
           }}
         >
