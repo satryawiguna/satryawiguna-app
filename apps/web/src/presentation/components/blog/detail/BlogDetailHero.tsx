@@ -4,7 +4,7 @@ import { Box, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import Link from 'next/link';
-import type { BlogPost } from '@/data/blog';
+import type { BlogPost } from '@/domain/entities';
 
 interface BlogDetailHeroProps {
   post: BlogPost;
@@ -43,10 +43,10 @@ export function BlogDetailHero({ post }: BlogDetailHeroProps) {
 
       {/* Meta row: category + date + reading time */}
       <Box sx={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
-        {post.category && (
+        {post.categories.length > 0 && (
           <Box
             sx={{
-              backgroundColor: post.category.bgColor,
+              backgroundColor: post.categories[0].bgColor,
               borderRadius: '2px',
               px: '10px',
               py: '4px',
@@ -57,11 +57,11 @@ export function BlogDetailHero({ post }: BlogDetailHeroProps) {
                 fontFamily: 'Nimbus Mono PS, monospace',
                 fontSize: '12px',
                 lineHeight: '16px',
-                color: post.category.textColor,
+                color: post.categories[0].textColor,
                 whiteSpace: 'nowrap',
               }}
             >
-              {post.category.label}
+              {post.categories[0].label}
             </Typography>
           </Box>
         )}
@@ -105,14 +105,13 @@ export function BlogDetailHero({ post }: BlogDetailHeroProps) {
         sx={{
           fontFamily: 'Space Grotesk, sans-serif',
           fontWeight: 700,
-          fontSize: { xs: '36px', md: '56px' },
-          lineHeight: { xs: '44px', md: '64px' },
-          letterSpacing: '-1px',
+          fontSize: { xs: '40px', md: '64px' },
+          lineHeight: { xs: '1.1', md: '70.4px' },
+          letterSpacing: '-1.28px',
           color: '#dae2fd',
-          maxWidth: '900px',
         }}
       >
-        {post.title}
+        {post.title.toUpperCase()}
       </Typography>
 
       {/* Excerpt */}
@@ -134,7 +133,7 @@ export function BlogDetailHero({ post }: BlogDetailHeroProps) {
         <Box sx={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
           {post.tags.map((tag) => (
             <Box
-              key={tag}
+              key={tag.id}
               sx={{
                 backgroundColor: '#222a3d',
                 border: '1px solid rgba(255, 255, 255, 0.08)',
@@ -151,7 +150,7 @@ export function BlogDetailHero({ post }: BlogDetailHeroProps) {
                   color: '#94a3b8',
                 }}
               >
-                {tag}
+                {tag.name}
               </Typography>
             </Box>
           ))}
@@ -159,40 +158,43 @@ export function BlogDetailHero({ post }: BlogDetailHeroProps) {
       )}
 
       {/* Hero image */}
-      {post.image && (
+      {post.thumbnail_url && (
         <Box
           sx={{
-            width: '100%',
-            height: { xs: '240px', md: '460px' },
+            backgroundColor: 'rgba(15, 23, 42, 0.6)',
+            backdropFilter: 'blur(4px)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
             borderRadius: '8px',
             overflow: 'hidden',
             position: 'relative',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
+            width: '100%',
+            height: { xs: '280px', md: '480px', lg: '682px' },
+            padding: '1px',
           }}
         >
-          <Box
-            component="img"
-            src={post.image}
+          <img
+            src={post.thumbnail_url}
             alt={post.title}
-            sx={{
+            style={{
               position: 'absolute',
-              inset: 0,
               width: '100%',
-              height: '100%',
+              height: '178%',
+              top: '-39%',
+              left: 0,
               objectFit: 'cover',
-              display: 'block',
+              maxWidth: 'none',
+              opacity: 0.8,
             }}
           />
-          {/* Subtle grayscale overlay */}
+          {/* Bottom fade gradient */}
           <Box
-            aria-hidden
             sx={{
               position: 'absolute',
-              inset: 0,
-              backgroundColor: 'white',
-              mixBlendMode: 'saturation',
-              opacity: 0.4,
-              pointerEvents: 'none',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: '50%',
+              background: 'linear-gradient(to top, #020617 0%, rgba(2,6,23,0) 100%)',
             }}
           />
         </Box>

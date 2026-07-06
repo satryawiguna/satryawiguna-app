@@ -1,22 +1,22 @@
-import { apiClient } from 'shared-api';
-import { Project } from '../../domain/entities';
+import { publicProjectService } from 'shared-api';
+import type { ProjectQueryParams } from 'shared-types';
+import type { Project, ProjectsListData } from '../../domain/entities';
 
 /**
- * Project Repository - handles project data operations
+ * Project Repository - handles project data operations via public API
  */
 export class ProjectRepository {
-  private readonly basePath = '/projects';
-
-  async getProjects(): Promise<Project[]> {
-    return apiClient.get<Project[]>(this.basePath);
+  async getProjects(params?: ProjectQueryParams): Promise<ProjectsListData> {
+    const response = await publicProjectService.getProjects(params);
+    return {
+      data: response.data as Project[],
+      pagination: response.pagination,
+    };
   }
 
-  async getFeaturedProjects(): Promise<Project[]> {
-    return apiClient.get<Project[]>(`${this.basePath}/featured`);
-  }
-
-  async getProjectById(id: string): Promise<Project> {
-    return apiClient.get<Project>(`${this.basePath}/${id}`);
+  async getProjectById(id: number): Promise<Project> {
+    const response = await publicProjectService.getProjectById(id);
+    return response.data as Project;
   }
 }
 

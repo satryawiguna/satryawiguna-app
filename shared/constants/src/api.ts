@@ -31,9 +31,9 @@ export const API_ENDPOINTS = {
     BY_TAG: (tag: string) => `/blog/tags/${tag}`,
   },
   PROJECTS: {
-    BASE: '/projects',
-    FEATURED: '/projects/featured',
-    BY_ID: (id: string) => `/projects/${id}`,
+    BASE: '/v1/projects',
+    FEATURED: '/v1/projects/featured',
+    BY_ID: (id: string) => `/v1/projects/${id}`,
   },
   DASHBOARD: {
     STATS: '/dashboard/stats',

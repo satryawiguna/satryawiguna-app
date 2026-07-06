@@ -4,7 +4,7 @@ import { Box, Typography } from '@mui/material';
 import Link from 'next/link';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import DataObjectIcon from '@mui/icons-material/DataObject';
-import type { BlogPost } from '@/data/blog';
+import type { BlogPost } from '@/domain/entities';
 
 const cardBase = {
   backgroundColor: 'rgba(15, 23, 42, 0.4)',
@@ -27,11 +27,11 @@ function CardText({ post }: { post: BlogPost }) {
       }}
     >
       {/* Category + date */}
-      {post.category && (
+      {post.categories.length > 0 && (
         <Box sx={{ display: 'flex', alignItems: 'center', mb: '16px' }}>
           <Box
             sx={{
-              backgroundColor: post.category.bgColor,
+              backgroundColor: post.categories[0].bgColor,
               borderRadius: '2px',
               px: '8px',
               py: '4px',
@@ -42,11 +42,11 @@ function CardText({ post }: { post: BlogPost }) {
                 fontFamily: 'Nimbus Mono PS, monospace',
                 fontSize: '12px',
                 lineHeight: '16px',
-                color: post.category.textColor,
+                color: post.categories[0].textColor,
                 whiteSpace: 'nowrap',
               }}
             >
-              {post.category.label}
+              {post.categories[0].label}
             </Typography>
           </Box>
           <Typography
@@ -102,7 +102,7 @@ function CardText({ post }: { post: BlogPost }) {
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             {post.tags.map((tag, i) => (
               <Box
-                key={tag}
+                key={tag.name}
                 sx={{
                   backgroundColor: '#222a3d',
                   border: '2px solid #0b1326',
@@ -126,7 +126,7 @@ function CardText({ post }: { post: BlogPost }) {
                     color: '#dae2fd',
                   }}
                 >
-                  {tag}
+                  {tag.name}
                 </Typography>
               </Box>
             ))}
@@ -257,7 +257,7 @@ function CardImage({ post }: { post: BlogPost }) {
         >
           <Box
             component="img"
-            src={post.image}
+            src={post.thumbnail_url ?? ''}
             alt={post.title}
             sx={{
               position: 'absolute',
@@ -542,11 +542,11 @@ export function BlogBentoGrid({ posts }: BlogBentoGridProps) {
         width: '100%',
       }}
     >
-      <CardText post={card1} />
-      <CardHighlight post={card2} />
-      <CardImage post={card3} />
-      <CardCode post={card4} />
-      <CardIcon post={card5} />
+      {card1 && <CardText post={card1} />}
+      {card2 && <CardHighlight post={card2} />}
+      {card3 && <CardImage post={card3} />}
+      {card4 && <CardCode post={card4} />}
+      {card5 && <CardIcon post={card5} />}
     </Box>
   );
 }

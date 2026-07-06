@@ -1,34 +1,31 @@
 import { useQuery } from '@tanstack/react-query';
-import { blogRepository } from '../../data/repositories';
+import { getPublishedPostsUseCase } from '../../domain/usecases';
+import { getBlogPostDetailUseCase } from '../../domain/usecases';
+import type { BlogQueryParams } from 'shared-types';
+
+export const BLOG_QUERY_KEYS = {
+  all: ['blog'] as const,
+  list: (params?: BlogQueryParams) => ['blog', 'list', params] as const,
+  detail: (id: number) => ['blog', 'detail', id] as const,
+};
 
 /**
- * Hook to fetch blog posts
+ * Hook to fetch paginated blog posts list
  */
-export const useBlogPosts = (limit?: number) => {
+export const useBlogPosts = (params?: BlogQueryParams) => {
   return useQuery({
-    queryKey: ['blog', 'posts', limit],
-    queryFn: () => blogRepository.getPosts(limit),
+    queryKey: BLOG_QUERY_KEYS.list(params),
+    queryFn: () => getPublishedPostsUseCase.execute(params),
   });
 };
 
 /**
- * Hook to fetch a single blog post by slug
+ * Hook to fetch a single blog post by id
  */
-export const useBlogPost = (slug: string) => {
+export const useBlogPost = (id: number) => {
   return useQuery({
-    queryKey: ['blog', 'post', slug],
-    queryFn: () => blogRepository.getPostBySlug(slug),
-    enabled: !!slug,
-  });
-};
-
-/**
- * Hook to fetch posts by tag
- */
-export const useBlogPostsByTag = (tag: string) => {
-  return useQuery({
-    queryKey: ['blog', 'posts', 'tag', tag],
-    queryFn: () => blogRepository.getPostsByTag(tag),
-    enabled: !!tag,
+    queryKey: BLOG_QUERY_KEYS.detail(id),
+    queryFn: () => getBlogPostDetailUseCase.execute(id),
+    enabled: !!id,
   });
 };

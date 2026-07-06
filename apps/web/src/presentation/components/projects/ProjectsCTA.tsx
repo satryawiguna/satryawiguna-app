@@ -3,11 +3,14 @@
 import { Box, Typography } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 import DownloadIcon from '@mui/icons-material/Download';
-import Link from 'next/link';
 import { useContactDrawer } from '@/presentation/components/home/ContactDrawerContext';
+import { useResumeUrl } from '@/presentation/hooks/useResumeUrl';
 
 export function ProjectsCTA() {
   const { openDrawer } = useContactDrawer();
+  const { data: settingData } = useResumeUrl();
+  const resumeUrl = settingData?.data?.RESUME_FILE_URL ?? '/assets/resume.pdf';
+
   return (
     <Box
       sx={{
@@ -101,44 +104,42 @@ export function ProjectsCTA() {
         </Box>
 
         {/* Download CV */}
-        <Link
-          href="/assets/resume.pdf"
+        <Box
+          component="a"
+          href={resumeUrl}
           target="_blank"
           rel="noopener noreferrer"
-          style={{ textDecoration: 'none' }}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            border: '1px solid rgba(0, 219, 233, 0.5)',
+            borderRadius: '4px',
+            px: '33px',
+            py: '17px',
+            cursor: 'pointer',
+            textDecoration: 'none',
+            '&:hover': {
+              borderColor: 'rgba(0, 219, 233, 0.8)',
+              backgroundColor: 'rgba(0, 219, 233, 0.05)',
+            },
+            transition: 'all 0.2s ease',
+          }}
         >
-          <Box
+          <DownloadIcon sx={{ color: '#00dbe9', fontSize: '16px' }} />
+          <Typography
             sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              border: '1px solid rgba(0, 219, 233, 0.5)',
-              borderRadius: '4px',
-              px: '33px',
-              py: '17px',
-              cursor: 'pointer',
-              '&:hover': {
-                borderColor: 'rgba(0, 219, 233, 0.8)',
-                backgroundColor: 'rgba(0, 219, 233, 0.05)',
-              },
-              transition: 'all 0.2s ease',
+              fontFamily: 'Space Grotesk, sans-serif',
+              fontWeight: 400,
+              fontSize: '16px',
+              lineHeight: '24px',
+              color: '#00dbe9',
+              whiteSpace: 'nowrap',
             }}
           >
-            <DownloadIcon sx={{ color: '#00dbe9', fontSize: '16px' }} />
-            <Typography
-              sx={{
-                fontFamily: 'Space Grotesk, sans-serif',
-                fontWeight: 400,
-                fontSize: '16px',
-                lineHeight: '24px',
-                color: '#00dbe9',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              Download CV
-            </Typography>
-          </Box>
-        </Link>
+            Download CV
+          </Typography>
+        </Box>
       </Box>
     </Box>
   );

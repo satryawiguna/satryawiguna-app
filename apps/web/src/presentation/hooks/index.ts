@@ -5,3 +5,4 @@ export * from './useStrengths';
 export * from './useCareerImpacts';
 export * from './useExperiences';
 export * from './useEducations';
+export * from './useResumeUrl';
