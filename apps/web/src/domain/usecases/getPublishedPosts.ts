@@ -1,12 +1,15 @@
-import { BlogPost } from '../entities';
+import { blogRepository } from '../../data/repositories';
+import type { BlogQueryParams } from 'shared-types';
+import type { BlogPost, BlogPagination } from '../entities';
 
 /**
- * Use case: Get Published Blog Posts
+ * Use case: Get paginated blog posts list
  */
 export class GetPublishedPostsUseCase {
-  async execute(_limit?: number): Promise<BlogPost[]> {
-    // Business logic here
-    return [];
+  async execute(
+    params?: BlogQueryParams,
+  ): Promise<{ data: BlogPost[]; pagination: BlogPagination }> {
+    return blogRepository.getPosts(params);
   }
 }
 

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { PageShell } from '@/presentation/components/common';
-import { ProjectsHero, ProjectsGrid, ProjectsCTA } from '@/presentation/components/projects';
+import { ProjectsPageClient } from '@/presentation/components/projects/ProjectsPageClient';
 
 export const metadata: Metadata = {
   title: 'Projects | Satrya Wiguna',
@@ -21,9 +21,7 @@ export default function ProjectsPage() {
         gap: '48px',
       }}
     >
-      <ProjectsHero />
-      <ProjectsGrid />
-      <ProjectsCTA />
+      <ProjectsPageClient />
     </PageShell>
   );
 }

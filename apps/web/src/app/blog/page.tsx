@@ -1,14 +1,6 @@
 import type { Metadata } from 'next';
-import { PageShell, ClientBox } from '@/presentation/components/common';
-import {
-  BlogHero,
-  BlogSearch,
-  BlogFeaturedPost,
-  BlogBentoGrid,
-  BlogPagination,
-  BlogNewsletter,
-} from '@/presentation/components/blog';
-import { featuredPost, benchmarkPosts } from '@/data/blog';
+import { PageShell } from '@/presentation/components/common';
+import { BlogPageClient } from '@/presentation/components/blog';
 
 export const metadata: Metadata = {
   title: 'Technical Logs | Satrya Wiguna',
@@ -29,23 +21,7 @@ export default function BlogPage() {
         gap: '0',
       }}
     >
-      <BlogHero />
-      <BlogSearch />
-
-      <ClientBox
-        sx={{ pt: '48px', pb: '0', display: 'flex', flexDirection: 'column', gap: '24px' }}
-      >
-        <BlogFeaturedPost post={featuredPost} />
-        <BlogBentoGrid posts={benchmarkPosts} />
-      </ClientBox>
-
-      <ClientBox sx={{ mt: '48px' }}>
-        <BlogPagination totalResults={24} totalPages={4} perPage={6} />
-      </ClientBox>
-
-      <ClientBox sx={{ mt: '48px', mb: '48px' }}>
-        <BlogNewsletter />
-      </ClientBox>
+      <BlogPageClient />
     </PageShell>
   );
 }

@@ -30,11 +30,12 @@ export interface BlogPost {
   published_at: string | null;
   created_at: string;
   updated_at: string;
+  categories: BlogCategory[];
+  tags: BlogTag[];
 }
 
 export interface BlogPostDetail extends BlogPost {
-  categories: BlogCategory[];
-  tags: BlogTag[];
+  // Inherits all fields including categories and tags from BlogPost
 }
 
 // ── API response shapes ───────────────────────────────────────────
