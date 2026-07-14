@@ -2,6 +2,8 @@
 export * from './components/Button';
 export * from './components/Card';
 export * from './components/Loading';
+export * from './components/LoadingBar';
+export * from './components/BlurOverlay';
 
 // Formik Components
 export * from './components/FormikTextField';
