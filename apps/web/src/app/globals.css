@@ -37,3 +37,70 @@ h5,
 h6 {
   font-family: var(--font-space-grotesk), sans-serif;
 }
+
+/* ===== Loading Bar ===== */
+.loading-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  height: 3px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.loading-bar[data-visible='true'] {
+  opacity: 1;
+}
+
+.loading-bar__track {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--loading-bar-color, #00dbe9) 50%,
+    transparent 100%
+  );
+  animation: loading-bar-slide 1.2s ease-in-out infinite;
+}
+
+@keyframes loading-bar-slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* ===== Blur Overlay ===== */
+.blur-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  background-color: rgba(11, 19, 38, 0.3);
+  backdrop-filter: blur(var(--blur-amount, 16px));
+  -webkit-backdrop-filter: blur(var(--blur-amount, 16px));
+  opacity: 1;
+}
+
+.blur-overlay[data-animating='true'] {
+  animation: blur-fade-out var(--blur-duration, 1500ms) ease-out forwards;
+}
+
+@keyframes blur-fade-out {
+  0% {
+    backdrop-filter: blur(var(--blur-amount, 16px));
+    -webkit-backdrop-filter: blur(var(--blur-amount, 16px));
+    opacity: 1;
+  }
+  100% {
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    opacity: 0;
+  }
+}

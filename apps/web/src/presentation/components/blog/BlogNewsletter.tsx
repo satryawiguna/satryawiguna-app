@@ -1,14 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { Box, InputBase, Typography } from '@mui/material';
+import { Box, InputBase, Typography, CircularProgress } from '@mui/material';
+import { useSubscription } from '@/presentation/hooks';
 
 export function BlogNewsletter() {
   const [email, setEmail] = useState('');
+  const { subscribe, isLoading, isSuccess, error } = useSubscription();
 
-  const handleSubscribe = () => {
-    // TODO: connect to newsletter API
-    setEmail('');
+  const handleSubscribe = async () => {
+    if (!email.trim() || isLoading) return;
+    const result = await subscribe(email.trim());
+    if (result.success) {
+      setEmail('');
+    }
   };
 
   return (
@@ -38,7 +43,8 @@ export function BlogNewsletter() {
           right: 0,
           width: '256px',
           height: '256px',
-          background: 'radial-gradient(circle at top right, rgba(219,252,255,0.1) 0%, transparent 70%)',
+          background:
+            'radial-gradient(circle at top right, rgba(219,252,255,0.1) 0%, transparent 70%)',
           filter: 'blur(32px)',
           pointerEvents: 'none',
         }}
@@ -78,81 +84,128 @@ export function BlogNewsletter() {
         Get notified when new technical logs are published. No spam, only signal.
       </Typography>
 
-      {/* Email form */}
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: { xs: 'column', sm: 'row' },
-          gap: { xs: '12px', sm: '0' },
-          width: '100%',
-          maxWidth: '560px',
-          position: 'relative',
-          zIndex: 1,
-        }}
-      >
-        {/* Email input */}
-        <Box
+      {/* Feedback messages */}
+      {isSuccess && (
+        <Typography
           sx={{
-            flex: 1,
-            backgroundColor: '#0f172a',
-            border: '1px solid #3b494b',
-            borderRadius: { xs: '4px', sm: '4px 0 0 4px' },
-            px: '16px',
-            py: '12px',
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 400,
+            fontSize: '14px',
+            lineHeight: '20px',
+            color: '#4edea3',
+            textAlign: 'center',
+            position: 'relative',
+            zIndex: 1,
           }}
         >
-          <InputBase
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="dev@example.com"
-            fullWidth
-            type="email"
-            sx={{
-              '& .MuiInputBase-input': {
-                p: 0,
-                fontFamily: 'Nimbus Mono PS, monospace',
-                fontSize: '14px',
-                color: '#dae2fd',
-                caretColor: '#00f0ff',
-                '&::placeholder': {
-                  color: '#6b7280',
-                  opacity: 1,
-                },
-              },
-            }}
-          />
-        </Box>
+          Verification email sent! Please check your inbox.
+        </Typography>
+      )}
 
-        {/* Subscribe button */}
-        <Box
-          component="button"
-          onClick={handleSubscribe}
+      {error && (
+        <Typography
           sx={{
-            backgroundColor: '#4edea3',
-            border: 'none',
-            borderRadius: { xs: '4px', sm: '0 4px 4px 0' },
-            px: '48px',
-            py: '12px',
-            cursor: 'pointer',
-            flexShrink: 0,
-            '&:hover': { backgroundColor: '#6fffc4' },
-            transition: 'background-color 0.2s ease',
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 400,
+            fontSize: '14px',
+            lineHeight: '20px',
+            color: '#f87171',
+            textAlign: 'center',
+            position: 'relative',
+            zIndex: 1,
           }}
         >
-          <Typography
+          {error}
+        </Typography>
+      )}
+
+      {/* Email form */}
+      {!isSuccess && (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', sm: 'row' },
+            gap: { xs: '12px', sm: '0' },
+            width: '100%',
+            maxWidth: '560px',
+            position: 'relative',
+            zIndex: 1,
+          }}
+        >
+          {/* Email input */}
+          <Box
             sx={{
-              fontFamily: 'Space Grotesk, sans-serif',
-              fontWeight: 400,
-              fontSize: '16px',
-              lineHeight: '24px',
-              color: '#002113',
-              whiteSpace: 'nowrap',
+              flex: 1,
+              backgroundColor: '#0f172a',
+              border: '1px solid #3b494b',
+              borderRadius: { xs: '4px', sm: '4px 0 0 4px' },
+              px: '16px',
+              py: '12px',
             }}
           >
-            Subscribe
-          </Typography>
+            <InputBase
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="dev@example.com"
+              fullWidth
+              type="email"
+              disabled={isLoading}
+              sx={{
+                '& .MuiInputBase-input': {
+                  p: 0,
+                  fontFamily: 'Nimbus Mono PS, monospace',
+                  fontSize: '14px',
+                  color: '#dae2fd',
+                  caretColor: '#00f0ff',
+                  '&::placeholder': {
+                    color: '#6b7280',
+                    opacity: 1,
+                  },
+                },
+              }}
+            />
+          </Box>
+
+          {/* Subscribe button */}
+          <Box
+            component="button"
+            onClick={handleSubscribe}
+            disabled={isLoading}
+            sx={{
+              backgroundColor: isLoading ? '#2d7a55' : '#4edea3',
+              border: 'none',
+              borderRadius: { xs: '4px', sm: '0 4px 4px 0' },
+              px: '48px',
+              py: '12px',
+              cursor: isLoading ? 'not-allowed' : 'pointer',
+              flexShrink: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              '&:hover': isLoading ? {} : { backgroundColor: '#6fffc4' },
+              transition: 'background-color 0.2s ease',
+            }}
+          >
+            {isLoading ? (
+              <CircularProgress size={20} sx={{ color: '#dae2fd' }} />
+            ) : (
+              <Typography
+                sx={{
+                  fontFamily: 'Space Grotesk, sans-serif',
+                  fontWeight: 400,
+                  fontSize: '16px',
+                  lineHeight: '24px',
+                  color: '#002113',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                Subscribe
+              </Typography>
+            )}
+          </Box>
         </Box>
-      </Box>
+      )}
     </Box>
   );
 }

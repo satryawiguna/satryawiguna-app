@@ -4,17 +4,21 @@ import { Box, Button, Chip, Container, Typography, Grid, Skeleton } from '@mui/m
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Image from 'next/image';
 import { useSkills } from '@/presentation/hooks';
+import { GalaxyBackground } from './GalaxyBackground';
 
 export function HeroBanner() {
   return (
     <Box
       component="section"
       sx={{
+        position: 'relative',
+        overflow: 'hidden',
         px: { xs: 2, md: 4 },
         py: { xs: 6, md: 10 },
       }}
     >
-      <Container maxWidth="xl">
+      <GalaxyBackground />
+      <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
         {/* Two-column grid layout */}
         <Grid container spacing={{ xs: 4, md: 8 }}>
           {/* Left Column - Content */}
@@ -174,33 +178,6 @@ export function HeroBanner() {
                 borderRadius: '8px',
               }}
             >
-              {/* Animated Glowing Grid Background */}
-              <Box
-                sx={{
-                  position: 'absolute',
-                  inset: 0,
-                  background:
-                    'linear-gradient(90deg, rgba(0, 219, 233, 0.067) 2.5%, transparent 2.5%), linear-gradient(180deg, rgba(0, 219, 233, 0.067) 2.5%, transparent 2.5%)',
-                  backgroundSize: '40px 40px',
-                  opacity: 0.2,
-                }}
-              />
-
-              {/* Thematic Gradient Glow */}
-              <Box
-                sx={{
-                  position: 'absolute',
-                  top: '50%',
-                  right: '-80px',
-                  width: '500px',
-                  height: '500px',
-                  backgroundColor: 'rgba(0, 219, 233, 0.1)',
-                  borderRadius: '12px',
-                  filter: 'blur(60px)',
-                  transform: 'translateY(-50%)',
-                }}
-              />
-
               {/* Abstract Geometric Shapes */}
               <Box
                 sx={{
