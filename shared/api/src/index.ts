@@ -19,6 +19,7 @@ export * from './services/educationService';
 export * from './services/settingService';
 export * from './services/strengthService';
 export * from './services/careerImpactService';
+export * from './services/subscriptionService';
 
 // Interceptors
 export * from './interceptors';

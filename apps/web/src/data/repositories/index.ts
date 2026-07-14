@@ -5,3 +5,5 @@ export * from './strengthRepository';
 export * from './careerImpactRepository';
 export * from './experienceRepository';
 export * from './educationRepository';
+export * from './categoryRepository';
+export * from './subscriptionRepository';

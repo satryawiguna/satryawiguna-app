@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Box } from '@mui/material';
 import { useProjects } from '@/presentation/hooks/useProjects';
 import { ProjectsHero } from './ProjectsHero';
@@ -11,9 +11,19 @@ import { ProjectsCTA } from './ProjectsCTA';
 
 export function ProjectsPageClient() {
   const [page, setPage] = useState(1);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
   const limit = 9;
 
-  const { data, isLoading, error } = useProjects({ page, limit });
+  const { data, isLoading, error } = useProjects({
+    page,
+    limit,
+    ...(selectedCategoryId ? { category_id: selectedCategoryId } : {}),
+  });
+
+  const handleCategoryChange = useCallback((categoryId: number | null) => {
+    setSelectedCategoryId(categoryId);
+    setPage(1);
+  }, []);
 
   const hasProjects = data?.data && data.data.length > 0;
 
@@ -26,7 +36,10 @@ export function ProjectsPageClient() {
         width: '100%',
       }}
     >
-      <ProjectsHero />
+      <ProjectsHero
+        selectedCategoryId={selectedCategoryId}
+        onCategoryChange={handleCategoryChange}
+      />
 
       {isLoading ? (
         <ProjectsGridSkeleton />

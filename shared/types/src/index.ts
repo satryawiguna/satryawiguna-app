@@ -16,6 +16,7 @@ export * from './entities/education';
 export * from './entities/setting';
 export * from './entities/strength';
 export * from './entities/careerImpact';
+export * from './entities/subscription';
 
 // API types
 export * from './api';
