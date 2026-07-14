@@ -19,9 +19,6 @@ export function usePageTransition(): UsePageTransitionReturn {
 
   // Detect route changes
   useEffect(() => {
-    const currentPath = pathname + (searchParams?.toString() ?? '');
-    const prevPath = prevPathname.current + (searchParams?.toString() ?? '');
-
     if (prevPathname.current !== pathname) {
       // Navigation occurred — show loading bar
       setIsNavigating(true);

@@ -3,7 +3,7 @@ import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { DateProvider } from '@/presentation/components/providers/DateProvider';
-import { PageTransitionProvider } from '@/presentation/components/providers/PageTransitionProvider';
+import { PageTransitionProviderWrapper } from '@/presentation/components/providers/PageTransitionProviderWrapper';
 import { Providers } from '@/presentation/components/providers/Providers';
 import { theme } from '@/presentation/theme';
 import './globals.css';
@@ -25,9 +25,9 @@ export default function RootLayout({
           <ThemeProvider theme={theme}>
             <DateProvider>
               <CssBaseline />
-              <PageTransitionProvider>
+              <PageTransitionProviderWrapper>
                 <Providers>{children}</Providers>
-              </PageTransitionProvider>
+              </PageTransitionProviderWrapper>
             </DateProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
