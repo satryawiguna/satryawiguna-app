@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Space_Grotesk, Inter } from 'next/font/google';
 import { MuiThemeProvider } from '@/presentation/components/providers/MuiThemeProvider';
+import { PageTransitionProviderWrapper } from '@/presentation/components/providers/PageTransitionProviderWrapper';
 import { Providers } from '@/presentation/components/providers/Providers';
 import { ContactDrawerProvider } from '@/presentation/components/home/ContactDrawerContext';
 import { ContactDrawer } from '@/presentation/components/home/ContactDrawer';
@@ -53,8 +54,10 @@ export default function RootLayout({
       <body suppressHydrationWarning>
         <MuiThemeProvider>
           <ContactDrawerProvider>
-            <Providers>{children}</Providers>
-            <ContactDrawer />
+            <PageTransitionProviderWrapper>
+              <Providers>{children}</Providers>
+              <ContactDrawer />
+            </PageTransitionProviderWrapper>
           </ContactDrawerProvider>
         </MuiThemeProvider>
       </body>

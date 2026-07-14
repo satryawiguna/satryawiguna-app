@@ -1,3 +1,4 @@
+export { GalaxyBackground } from './GalaxyBackground';
 export { HeroBanner } from './HeroBanner';
 export { FeaturedProjects } from './FeaturedProjects';
 export { TechnicalPhilosophy } from './TechnicalPhilosophy';

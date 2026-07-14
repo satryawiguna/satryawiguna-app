@@ -1,9 +1,43 @@
 'use client';
 
+import { useState, useRef, useEffect } from 'react';
 import { Box, Typography } from '@mui/material';
 import TuneIcon from '@mui/icons-material/Tune';
+import { useCategories } from '@/presentation/hooks/useCategories';
 
-export function ProjectsHero() {
+interface ProjectsHeroProps {
+  selectedCategoryId?: number | null;
+  onCategoryChange?: (categoryId: number | null) => void;
+}
+
+export function ProjectsHero({ selectedCategoryId, onCategoryChange }: ProjectsHeroProps) {
+  const [open, setOpen] = useState(false);
+  const popoverRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLDivElement>(null);
+
+  const { data: categories = [] } = useCategories({ type: 'PROJECT' });
+
+  // Close on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        popoverRef.current &&
+        !popoverRef.current.contains(e.target as Node) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(e.target as Node)
+      ) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleSelect = (categoryId: number | null) => {
+    onCategoryChange?.(categoryId);
+    setOpen(false);
+  };
+
   return (
     <Box
       sx={{
@@ -85,37 +119,178 @@ export function ProjectsHero() {
         </Typography>
       </Box>
 
-      {/* Right: Filter button */}
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          backdropFilter: 'blur(4px)',
-          backgroundColor: 'rgba(15, 23, 42, 0.6)',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          borderRadius: '4px',
-          px: '17px',
-          py: '9px',
-          cursor: 'pointer',
-          flexShrink: 0,
-          '&:hover': {
-            borderColor: 'rgba(255, 255, 255, 0.2)',
-          },
-        }}
-      >
-        <TuneIcon sx={{ color: '#dae2fd', fontSize: '14px' }} />
-        <Typography
+      {/* Right: Filter button + Popover */}
+      <Box sx={{ position: 'relative', flexShrink: 0 }}>
+        <Box
+          ref={buttonRef}
+          onClick={() => setOpen((prev) => !prev)}
           sx={{
-            fontFamily: 'Space Grotesk, sans-serif',
-            fontWeight: 400,
-            fontSize: '16px',
-            lineHeight: '24px',
-            color: '#dae2fd',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            backdropFilter: 'blur(4px)',
+            backgroundColor: 'rgba(15, 23, 42, 0.6)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '4px',
+            px: '17px',
+            py: '9px',
+            cursor: 'pointer',
+            '&:hover': {
+              borderColor: 'rgba(255, 255, 255, 0.2)',
+            },
           }}
         >
-          Filter by Category
-        </Typography>
+          <TuneIcon sx={{ color: '#dae2fd', fontSize: '14px' }} />
+          <Typography
+            sx={{
+              fontFamily: 'Space Grotesk, sans-serif',
+              fontWeight: 400,
+              fontSize: '16px',
+              lineHeight: '24px',
+              color: '#dae2fd',
+            }}
+          >
+            {selectedCategoryId
+              ? (categories.find((c) => c.id === selectedCategoryId)?.name ?? 'Filter by Category')
+              : 'Filter by Category'}
+          </Typography>
+        </Box>
+
+        {/* Dropdown Popover */}
+        {open && (
+          <Box
+            ref={popoverRef}
+            sx={{
+              position: 'absolute',
+              top: 'calc(100% + 8px)',
+              right: 0,
+              minWidth: '220px',
+              backgroundColor: '#0f172a',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              borderRadius: '8px',
+              backdropFilter: 'blur(12px)',
+              zIndex: 1000,
+              overflow: 'hidden',
+            }}
+          >
+            {/* Header */}
+            <Box
+              sx={{
+                px: '16px',
+                py: '10px',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
+              }}
+            >
+              <Typography
+                sx={{
+                  fontFamily: 'Space Grotesk, sans-serif',
+                  fontWeight: 500,
+                  fontSize: '12px',
+                  lineHeight: '16px',
+                  color: '#8899aa',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                }}
+              >
+                Categories
+              </Typography>
+            </Box>
+
+            {/* "All" option */}
+            <Box
+              onClick={() => handleSelect(null)}
+              sx={{
+                px: '16px',
+                py: '10px',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                backgroundColor: !selectedCategoryId ? 'rgba(0, 219, 233, 0.08)' : 'transparent',
+                '&:hover': {
+                  backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                },
+              }}
+            >
+              <Box
+                sx={{
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '50%',
+                  backgroundColor: '#00dbe9',
+                  flexShrink: 0,
+                }}
+              />
+              <Typography
+                sx={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontWeight: 400,
+                  fontSize: '14px',
+                  lineHeight: '20px',
+                  color: !selectedCategoryId ? '#00dbe9' : '#dae2fd',
+                }}
+              >
+                All Projects
+              </Typography>
+            </Box>
+
+            {/* Category list */}
+            {categories.map((category) => (
+              <Box
+                key={category.id}
+                onClick={() => handleSelect(category.id)}
+                sx={{
+                  px: '16px',
+                  py: '10px',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  backgroundColor:
+                    selectedCategoryId === category.id ? 'rgba(0, 219, 233, 0.08)' : 'transparent',
+                  '&:hover': {
+                    backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                  },
+                }}
+              >
+                <Box
+                  sx={{
+                    width: '8px',
+                    height: '8px',
+                    borderRadius: '50%',
+                    backgroundColor: '#4edea3',
+                    flexShrink: 0,
+                  }}
+                />
+                <Typography
+                  sx={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 400,
+                    fontSize: '14px',
+                    lineHeight: '20px',
+                    color: selectedCategoryId === category.id ? '#00dbe9' : '#dae2fd',
+                  }}
+                >
+                  {category.name}
+                </Typography>
+              </Box>
+            ))}
+
+            {categories.length === 0 && (
+              <Box sx={{ px: '16px', py: '20px', textAlign: 'center' }}>
+                <Typography
+                  sx={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '13px',
+                    color: '#667788',
+                  }}
+                >
+                  No categories found
+                </Typography>
+              </Box>
+            )}
+          </Box>
+        )}
       </Box>
     </Box>
   );
