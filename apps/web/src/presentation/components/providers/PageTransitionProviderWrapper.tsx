@@ -5,9 +5,9 @@ import type { ReactNode } from 'react';
 
 const PageTransitionProvider = dynamic(
   () =>
-    import(
-      '@/presentation/components/providers/PageTransitionProvider'
-    ).then((mod) => mod.PageTransitionProvider),
+    import('@/presentation/components/providers/PageTransitionProvider').then(
+      (mod) => mod.PageTransitionProvider,
+    ),
   { ssr: false },
 );
 
