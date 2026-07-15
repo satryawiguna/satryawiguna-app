@@ -1,14 +1,15 @@
 'use client';
 
 import { Box } from '@mui/material';
+import ReactMarkdown from 'react-markdown';
 
 interface BlogDetailContentProps {
   content: string;
 }
 
 /**
- * Renders blog post content as styled HTML.
- * The API returns content as an HTML string; we render it safely
+ * Renders blog post content as styled markdown.
+ * The API returns content as a Markdown string; we render it safely
  * with the same visual styles as the previous block-based renderer.
  */
 export function BlogDetailContent({ content }: BlogDetailContentProps) {
@@ -21,6 +22,15 @@ export function BlogDetailContent({ content }: BlogDetailContentProps) {
         maxWidth: '768px',
         mx: 'auto',
         width: '100%',
+        '& h1': {
+          fontFamily: 'Space Grotesk, sans-serif',
+          fontWeight: 700,
+          fontSize: '40px',
+          lineHeight: '48px',
+          color: '#dae2fd',
+          mt: '48px',
+          mb: '16px',
+        },
         '& h2': {
           fontFamily: 'Space Grotesk, sans-serif',
           fontWeight: 600,
@@ -47,6 +57,16 @@ export function BlogDetailContent({ content }: BlogDetailContentProps) {
           color: '#b9cacb',
           mb: '24px',
         },
+        '& strong': {
+          color: '#dae2fd',
+        },
+        '& a': {
+          color: '#22d3ee',
+          textDecoration: 'none',
+          '&:hover': {
+            textDecoration: 'underline',
+          },
+        },
         '& pre': {
           position: 'relative',
           backgroundColor: '#060e20',
@@ -66,6 +86,15 @@ export function BlogDetailContent({ content }: BlogDetailContentProps) {
           fontSize: '14px',
           lineHeight: '22px',
           color: '#dae2fd',
+          backgroundColor: 'rgba(255, 255, 255, 0.05)',
+          px: '6px',
+          py: '2px',
+          borderRadius: '4px',
+        },
+        '& pre code': {
+          backgroundColor: 'transparent',
+          px: 0,
+          py: 0,
         },
         '& blockquote': {
           borderLeft: '4px solid #4edea3',
@@ -99,7 +128,8 @@ export function BlogDetailContent({ content }: BlogDetailContentProps) {
           },
         },
       }}
-      dangerouslySetInnerHTML={{ __html: content }}
-    />
+    >
+      <ReactMarkdown>{content}</ReactMarkdown>
+    </Box>
   );
 }
