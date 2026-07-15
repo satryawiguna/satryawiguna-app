@@ -2,6 +2,7 @@
 
 import { Box, Typography, Skeleton } from '@mui/material';
 import Image from 'next/image';
+import ReactMarkdown from 'react-markdown';
 import { useExperiences } from '@/presentation/hooks';
 
 // ── Helpers ───────────────────────────────────────────────────
@@ -214,17 +215,46 @@ export function ResumeExperience() {
                     </Box>
 
                     {/* Description */}
-                    <Typography
+                    <Box
                       sx={{
-                        fontFamily: 'Inter, sans-serif',
-                        fontWeight: 400,
                         fontSize: '16px',
                         lineHeight: '24px',
                         color: '#b9cacb',
+                        '& p': {
+                          fontFamily: 'Inter, sans-serif',
+                          fontWeight: 400,
+                          fontSize: '16px',
+                          lineHeight: '24px',
+                          color: '#b9cacb',
+                          mb: '12px',
+                        },
+                        '& strong': {
+                          color: '#dae2fd',
+                        },
+                        '& ul, & ol': {
+                          margin: 0,
+                          paddingLeft: '20px',
+                          mb: '12px',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: '6px',
+                          '& li': {
+                            fontFamily: 'Inter, sans-serif',
+                            fontSize: '16px',
+                            lineHeight: '24px',
+                            color: '#b9cacb',
+                          },
+                          '& li::marker': { color: '#00dbe9' },
+                        },
+                        '& a': {
+                          color: '#22d3ee',
+                          textDecoration: 'none',
+                          '&:hover': { textDecoration: 'underline' },
+                        },
                       }}
                     >
-                      {exp.description}
-                    </Typography>
+                      <ReactMarkdown>{exp.description}</ReactMarkdown>
+                    </Box>
 
                     {/* Tags (skills) */}
                     {exp.skills && exp.skills.length > 0 && (
