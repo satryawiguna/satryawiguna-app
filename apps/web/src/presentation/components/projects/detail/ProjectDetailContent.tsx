@@ -1,6 +1,7 @@
 'use client';
 
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
+import ReactMarkdown from 'react-markdown';
 
 interface ProjectDetailContentProps {
   content: string;
@@ -11,31 +12,97 @@ export function ProjectDetailContent({ content }: ProjectDetailContentProps) {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Typography
-        component="h2"
+      <Box
+        component="article"
         sx={{
-          fontFamily: 'Space Grotesk, sans-serif',
-          fontWeight: 600,
-          fontSize: '24px',
-          lineHeight: '32px',
-          color: '#dbfcff',
-          mb: '16px',
+          maxWidth: '768px',
+          width: '100%',
+          '& h1': {
+            fontFamily: 'Space Grotesk, sans-serif',
+            fontWeight: 700,
+            fontSize: '36px',
+            lineHeight: '44px',
+            color: '#dbfcff',
+            mb: '8px',
+          },
+          '& h2': {
+            fontFamily: 'Space Grotesk, sans-serif',
+            fontWeight: 600,
+            fontSize: '24px',
+            lineHeight: '32px',
+            color: '#dbfcff',
+            mt: '32px',
+            mb: '16px',
+          },
+          '& h3': {
+            fontFamily: 'Space Grotesk, sans-serif',
+            fontWeight: 600,
+            fontSize: '20px',
+            lineHeight: '28px',
+            color: '#dbfcff',
+            mt: '24px',
+            mb: '12px',
+          },
+          '& p': {
+            fontFamily: 'Inter, sans-serif',
+            fontWeight: 400,
+            fontSize: '16px',
+            lineHeight: '28px',
+            color: '#b9cacb',
+            mb: '16px',
+          },
+          '& strong': {
+            color: '#dae2fd',
+          },
+          '& a': {
+            color: '#22d3ee',
+            textDecoration: 'none',
+            '&:hover': {
+              textDecoration: 'underline',
+            },
+          },
+          '& ul, & ol': {
+            margin: 0,
+            paddingLeft: '24px',
+            mb: '16px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '8px',
+            '& li': {
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '16px',
+              lineHeight: '26px',
+              color: '#b9cacb',
+            },
+            '& li::marker': { color: '#22d3ee' },
+          },
+          '& code': {
+            fontFamily: 'Nimbus Mono PS, monospace',
+            fontSize: '14px',
+            lineHeight: '22px',
+            backgroundColor: 'rgba(255, 255, 255, 0.05)',
+            px: '6px',
+            py: '2px',
+            borderRadius: '4px',
+            color: '#dae2fd',
+          },
+          '& pre': {
+            backgroundColor: '#060e20',
+            border: '1px solid rgba(255, 255, 255, 0.05)',
+            borderRadius: '8px',
+            p: '24px',
+            overflow: 'auto',
+            mb: '16px',
+            '& code': {
+              backgroundColor: 'transparent',
+              px: 0,
+              py: 0,
+            },
+          },
         }}
       >
-        Overview
-      </Typography>
-      <Typography
-        sx={{
-          fontFamily: 'Inter, sans-serif',
-          fontWeight: 400,
-          fontSize: '16px',
-          lineHeight: '28px',
-          color: '#b9cacb',
-          whiteSpace: 'pre-wrap',
-        }}
-      >
-        {content}
-      </Typography>
+        <ReactMarkdown>{content}</ReactMarkdown>
+      </Box>
     </Box>
   );
 }
