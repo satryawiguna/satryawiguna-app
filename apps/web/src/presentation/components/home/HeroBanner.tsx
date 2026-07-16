@@ -249,7 +249,12 @@ export function HeroBanner() {
 }
 
 function TechStackSection() {
-  const { data: skills = [], isLoading } = useSkills({ sortBy: 'sort_order', orderBy: 'asc' });
+  const { data: skills = [], isLoading } = useSkills({
+    sortBy: 'sort_order',
+    orderBy: 'asc',
+    level: 50,
+    level_operator: 'gte',
+  });
 
   if (isLoading) {
     const skeletonItems = Array.from({ length: 14 });
@@ -326,11 +331,12 @@ function TechStackSection() {
       {/* Tech Stack Content */}
       <Box
         sx={{
-          display: 'flex',
+          display: { xs: 'grid', md: 'flex' },
+          gridTemplateColumns: { xs: '1fr 1fr', md: 'none' },
           justifyContent: 'center',
           alignItems: 'center',
           gap: { xs: 2, md: 4 },
-          flexWrap: 'wrap',
+          flexWrap: { md: 'wrap' },
           position: 'relative',
           opacity: 0.8,
         }}
@@ -342,6 +348,7 @@ function TechStackSection() {
               display: 'flex',
               alignItems: 'center',
               gap: 1,
+              minWidth: 0,
             }}
           >
             {skill.icon_url && (
@@ -353,6 +360,7 @@ function TechStackSection() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
+                  flexShrink: 0,
                 }}
               >
                 <img
@@ -370,6 +378,8 @@ function TechStackSection() {
                 fontSize: '14px',
                 color: '#dae2fd',
                 lineHeight: '20px',
+                overflowWrap: 'break-word',
+                wordBreak: 'break-word',
               }}
             >
               {skill.name}
