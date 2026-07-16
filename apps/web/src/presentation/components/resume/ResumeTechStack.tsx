@@ -6,7 +6,12 @@ import Image from 'next/image';
 import { useSkills } from '@/presentation/hooks';
 
 export function ResumeTechStack() {
-  const { data: skills = [], isLoading } = useSkills({ sortBy: 'level', orderBy: 'desc' });
+  const { data: skills = [], isLoading } = useSkills({
+    sortBy: 'level',
+    orderBy: 'desc',
+    level: 50,
+    level_operator: 'gte',
+  });
 
   // Group skills by category_id, compute average level, sort by avgLevel desc
   const groupedSkills = useMemo(() => {
