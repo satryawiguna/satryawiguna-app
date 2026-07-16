@@ -5,6 +5,8 @@ export interface PublicSkillQueryParams {
   sortBy?: string;
   orderBy?: 'asc' | 'desc';
   keyword?: string;
+  level?: number;
+  level_operator?: string;
 }
 
 export interface PublicSkillListResponse {

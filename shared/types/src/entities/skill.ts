@@ -66,6 +66,8 @@ export interface SkillQueryParams {
   sortOrder?: 'asc' | 'desc';
   keyword?: string;
   category_id?: number;
+  level?: number;
+  level_operator?: 'gte' | 'lte' | 'gt' | 'lt' | 'eq';
 }
 
 export interface CreateSkillRequest {
