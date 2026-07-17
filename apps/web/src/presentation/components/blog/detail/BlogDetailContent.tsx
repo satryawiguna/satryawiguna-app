@@ -2,6 +2,7 @@
 
 import { Box } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface BlogDetailContentProps {
   content: string;
@@ -157,6 +158,7 @@ export function BlogDetailContent({ content }: BlogDetailContentProps) {
       }}
     >
       <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
         components={{
           img: ({ src, alt }) => (
             <Box
