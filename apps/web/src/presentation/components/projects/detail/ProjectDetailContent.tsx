@@ -2,6 +2,7 @@
 
 import { Box } from '@mui/material';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface ProjectDetailContentProps {
   content: string;
@@ -130,6 +131,7 @@ export function ProjectDetailContent({ content }: ProjectDetailContentProps) {
         }}
       >
         <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
           components={{
             img: ({ src, alt }) => (
               <Box
