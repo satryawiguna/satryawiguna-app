@@ -239,17 +239,17 @@ export function ProjectDetailHero({ project }: ProjectDetailHeroProps) {
           padding: '1px',
         }}
       >
-        <img
+        <Box
+          component="img"
           src={project.thumbnail_url}
           alt={project.title}
-          style={{
+          sx={{
             position: 'absolute',
-            width: '100%',
-            height: '178%',
-            top: '-39%',
+            top: 0,
             left: 0,
+            width: '100%',
+            height: '100%',
             objectFit: 'cover',
-            maxWidth: 'none',
             opacity: 0.8,
           }}
         />

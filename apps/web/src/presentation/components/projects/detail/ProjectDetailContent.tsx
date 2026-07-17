@@ -129,7 +129,28 @@ export function ProjectDetailContent({ content }: ProjectDetailContentProps) {
           },
         }}
       >
-        <ReactMarkdown>{content}</ReactMarkdown>
+        <ReactMarkdown
+          components={{
+            img: ({ src, alt }) => (
+              <Box
+                component="img"
+                src={src}
+                alt={alt}
+                sx={{
+                  width: '100%',
+                  height: 'auto',
+                  maxWidth: '100%',
+                  borderRadius: '8px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  display: 'block',
+                  my: '24px',
+                }}
+              />
+            ),
+          }}
+        >
+          {content}
+        </ReactMarkdown>
       </Box>
     </Box>
   );
