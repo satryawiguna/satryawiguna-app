@@ -16,6 +16,7 @@ export function ProjectDetailContent({ content }: ProjectDetailContentProps) {
         component="article"
         sx={{
           maxWidth: '768px',
+          mx: 'auto',
           width: '100%',
           '& h1': {
             fontFamily: 'Space Grotesk, sans-serif',
@@ -98,6 +99,33 @@ export function ProjectDetailContent({ content }: ProjectDetailContentProps) {
               px: 0,
               py: 0,
             },
+          },
+          '& table': {
+            width: '100%',
+            borderCollapse: 'collapse',
+            mb: '16px',
+            fontFamily: 'Inter, sans-serif',
+            fontSize: '14px',
+            lineHeight: '22px',
+          },
+          '& th': {
+            fontFamily: 'Space Grotesk, sans-serif',
+            fontWeight: 600,
+            color: '#dbfcff',
+            backgroundColor: 'rgba(255, 255, 255, 0.03)',
+            textAlign: 'left',
+            px: '12px',
+            py: '10px',
+            borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+          },
+          '& td': {
+            color: '#b9cacb',
+            px: '12px',
+            py: '10px',
+            borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
+          },
+          '& tr:last-child td': {
+            borderBottom: 'none',
           },
         }}
       >
