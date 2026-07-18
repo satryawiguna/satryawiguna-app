@@ -59,7 +59,7 @@ export function AboutStatsAndSocials({ githubUrl, linkedinUrl }: AboutStatsAndSo
               textTransform: 'uppercase',
             }}
           >
-            YEARS IN TECH
+            Software Engineering
           </Typography>
         </Box>
 
@@ -87,7 +87,7 @@ export function AboutStatsAndSocials({ githubUrl, linkedinUrl }: AboutStatsAndSo
               mb: '-0.11px',
             }}
           >
-            500k+
+            50+
           </Typography>
           <Typography
             sx={{
@@ -100,7 +100,7 @@ export function AboutStatsAndSocials({ githubUrl, linkedinUrl }: AboutStatsAndSo
               textTransform: 'uppercase',
             }}
           >
-            DAILY ACTIVE USERS
+            Projects Delivered
           </Typography>
         </Box>
       </Box>

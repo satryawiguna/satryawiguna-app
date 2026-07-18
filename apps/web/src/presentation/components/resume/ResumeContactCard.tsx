@@ -76,7 +76,7 @@ export function ResumeContactCard() {
             textTransform: 'uppercase',
           }}
         >
-          CONTACT
+          PROFESSIONAL CONTACT
         </Typography>
       </Box>
 

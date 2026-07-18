@@ -27,7 +27,7 @@ export function AboutTechPhilosophy() {
           color: '#dae2fd',
         }}
       >
-        Technical Philosophy
+        Engineering Philosophy
       </Typography>
 
       {/* Body text */}
@@ -41,20 +41,12 @@ export function AboutTechPhilosophy() {
           fontStyle: 'normal',
         }}
       >
-        My engineering approach is rooted in{' '}
+        I believe great software is more than working code, it should be{' '}
         <Box component="span" sx={{ fontWeight: 600 }}>
-          Modularity
-        </Box>{' '}
-        and{' '}
-        <Box component="span" sx={{ fontWeight: 600 }}>
-          Evidence-Based Development
+          maintainable, scalable, and aligned with business objectives.
         </Box>
-        . I champion an{' '}
-        <Box component="span" sx={{ fontWeight: 600 }}>
-          API-First Strategy
-        </Box>
-        , ensuring that software isn&apos;t just a solution, but a resilient asset designed for
-        long-term scalability and seamless integration.
+        My engineering philosophy combines pragmatic architecture, performance-first thinking, and
+        continuous improvement to build systems that stand the test of time.
       </Typography>
 
       {/* Tags */}
@@ -78,7 +70,7 @@ export function AboutTechPhilosophy() {
               whiteSpace: 'nowrap',
             }}
           >
-            Modularity
+            Scalable Architecture
           </Typography>
         </Box>
         <Box
@@ -100,7 +92,7 @@ export function AboutTechPhilosophy() {
               whiteSpace: 'nowrap',
             }}
           >
-            API-First
+            Performance Engineering
           </Typography>
         </Box>
         <Box
@@ -122,7 +114,29 @@ export function AboutTechPhilosophy() {
               whiteSpace: 'nowrap',
             }}
           >
-            Evidence-Based
+            Business Driven
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            backgroundColor: 'rgba(210,187,255,0.1)',
+            border: '1px solid rgba(210,187,255,0.2)',
+            borderRadius: '12px',
+            px: '17px',
+            py: '9px',
+          }}
+        >
+          <Typography
+            sx={{
+              fontFamily: 'Space Grotesk, sans-serif',
+              fontWeight: 400,
+              fontSize: '12px',
+              lineHeight: '16px',
+              color: '#d2bbff',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Maintainability
           </Typography>
         </Box>
       </Box>

@@ -50,7 +50,7 @@ export function ResumeExperience() {
             textTransform: 'uppercase',
           }}
         >
-          EXPERIENCE
+          PROFESSIONAL EXPERIENCE
         </Typography>
       </Box>
 
