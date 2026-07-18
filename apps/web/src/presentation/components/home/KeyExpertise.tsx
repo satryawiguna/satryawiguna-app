@@ -10,7 +10,7 @@ const cards = [
     iconHeight: 28.75,
     title: 'System Architecture & Scalability',
     description:
-      'Designing resilient backend services and full-stack solutions built to handle high-volume transactions and heavy traffic.',
+      'Designing resilient, scalable software architectures capable of supporting enterprise workloads, distributed systems, and long-term product growth.',
   },
   {
     icon: '/assets/icons/icon-performance-opt.svg',
@@ -18,7 +18,7 @@ const cards = [
     iconHeight: 20,
     title: 'Performance Optimization',
     description:
-      'Tuning complex database queries and refining code logic to slash API response times and eliminate processing bottlenecks.',
+      'Optimizing applications across every layer—from database design and API performance to frontend rendering—to deliver fast, reliable user experiences at scale.',
   },
   {
     icon: '/assets/icons/icon-team-leadership.svg',
@@ -26,15 +26,15 @@ const cards = [
     iconHeight: 15,
     title: 'Technical Team Leadership',
     description:
-      'Guiding cross-functional, agile development teams and accelerating project delivery timelines through mentorship and collaboration.',
+      'Leading cross-functional engineering teams through technical mentoring, architecture reviews, agile collaboration, and engineering best practices.',
   },
   {
     icon: '/assets/icons/icon-ai-integration.svg',
     iconWidth: 27.5,
     iconHeight: 23.75,
-    title: 'AI & Modern Integration',
+    title: 'AI-Native Engineering',
     description:
-      'Implementing AI-driven features and modern cloud strategies to automate processes and elevate user experiences.',
+      'Integrating AI-native workflows, LLM-powered capabilities, and intelligent automation into modern software platforms to accelerate engineering productivity and business innovation.',
   },
 ];
 

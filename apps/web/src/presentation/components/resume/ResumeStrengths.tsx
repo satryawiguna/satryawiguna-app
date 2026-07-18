@@ -41,7 +41,7 @@ export function ResumeStrengths() {
             textTransform: 'uppercase',
           }}
         >
-          STRENGTHS
+          Core Competencies
         </Typography>
       </Box>
 

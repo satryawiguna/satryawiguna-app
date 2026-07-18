@@ -33,7 +33,7 @@ export function AboutHero() {
             letterSpacing: '1.2px',
           }}
         >
-          SYSTEM ONLINE / SENIOR FULL STACK ARCHITECT
+          SOFTWARE ENGINEER & SOFTWARE ARCHITECT
         </Typography>
       </Box>
 
@@ -66,8 +66,9 @@ export function AboutHero() {
             fontStyle: 'normal',
           }}
         >
-          &ldquo;8+ years of engineering digital ecosystems&rdquo; &mdash; based in Bali,
-          architecting scalable solutions for the global network.
+          20+ years of engineering scalable software platforms, leading distributed development
+          teams, and delivering high-performance solutions for businesses across Asia and Europe.
+          Based in Bali, collaborating globally.
         </Typography>
       </Box>
     </Box>
