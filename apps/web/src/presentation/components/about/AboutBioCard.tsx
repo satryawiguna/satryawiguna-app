@@ -45,7 +45,7 @@ export function AboutBioCard() {
           color: '#dae2fd',
         }}
       >
-        The Journey
+        Professional Journey
       </Typography>
 
       {/* Bio paragraphs */}
@@ -61,36 +61,19 @@ export function AboutBioCard() {
             fontStyle: 'normal',
           }}
         >
-          My career in IT began in 2002 as a{' '}
+          My software engineering journey began in 2002, starting with{' '}
           <Box component="span" sx={{ color: '#00dbe9' }}>
-            computer technician
-          </Box>
-          , evolving into a Junior Programmer during my university years (B.E. Electrical
-          Engineering, 2006). A brief detour into banking as an Account Officer at{' '}
+            computer hardware , networking, and web development
+          </Box>{' '}
+          before evolving into enterprise software engineering and technical leadership. Over the
+          past two decades,{' '}
           <Box component="span" sx={{ color: '#dae2fd', fontWeight: 500 }}>
-            Bank BRI
-          </Box>{' '}
-          only solidified my passion for technology, leading me back to software development where I
-          truly belong.
-        </Typography>
-
-        {/* Para 2 */}
-        <Typography
-          sx={{
-            fontFamily: 'Inter, sans-serif',
-            fontWeight: 400,
-            fontSize: '16px',
-            lineHeight: '24px',
-            color: '#b9cacb',
-            fontStyle: 'normal',
-          }}
-        >
-          From independent{' '}
-          <Box component="span" sx={{ color: '#4edea3' }}>
-            Freelance Leadership
-          </Box>{' '}
-          for top-tier Bali media groups to architecting regional systems across HK, MY, SG, PH, and
-          ID, I&apos;ve dedicated my life to the craft of code.
+            I&apos;ve partnered with startups, multinational companies, and global engineering teams
+          </Box>
+          to build scalable platforms across healthcare, education, CRM, event management, AI, and
+          analytics. Today I focus on software architecture, engineering leadership, performance
+          optimization, and AI-native development, helping businesses build software that remains
+          reliable, scalable, and maintainable as they grow.
         </Typography>
 
         {/* Para 3 — italic */}
@@ -104,8 +87,8 @@ export function AboutBioCard() {
             fontStyle: 'italic',
           }}
         >
-          Based in Bali with my wife and two daughters, I prioritize high-impact work that respects
-          the balance of a healthy life.
+          Based in Bali, Indonesia, I work remotely with international engineering teams while
+          maintaining a healthy balance between technology, family, and continuous learning.
         </Typography>
       </Box>
     </Box>

@@ -61,7 +61,7 @@ export function ResumeCodeBlock() {
             {'class '}
           </Box>
           <Box component="span" sx={{ color: '#fef08a' }}>
-            Developer
+            SoftwareEngineer
           </Box>
           <Box component="span" sx={{ color: '#60a5fa' }}>
             {' {'}

@@ -54,7 +54,7 @@ export function HeroBanner() {
                       }}
                     />
                   }
-                  label="AVAILABLE FOR NEW PROJECTS"
+                  label="Available for Engineering & Architecture Roles"
                   sx={{
                     backgroundColor: 'rgba(0, 165, 114, 0.1)',
                     border: '1px solid rgba(0, 165, 114, 0.2)',
@@ -75,7 +75,7 @@ export function HeroBanner() {
                 sx={{
                   fontFamily: 'Space Grotesk, sans-serif',
                   fontWeight: 700,
-                  fontSize: { xs: '32px', sm: '40px', md: '64px' },
+                  fontSize: { xs: '26px', sm: '34px', md: '58px' },
                   letterSpacing: '-1.28px',
                   lineHeight: 1.1,
                   maxWidth: '576px',
@@ -85,14 +85,14 @@ export function HeroBanner() {
               >
                 Engineering{' '}
                 <Box component="span" sx={{ color: '#00dbe9' }}>
-                  High
+                  Scalable
                 </Box>
                 <br />
                 <Box component="span" sx={{ color: '#00dbe9' }}>
-                  Performance
+                  Software
                 </Box>
                 <br />
-                Web Ecosystems
+                That Drives Business Growth
               </Typography>
 
               {/* Description */}
@@ -106,9 +106,10 @@ export function HeroBanner() {
                   mb: 4,
                 }}
               >
-                Full-Stack Developer and Team Lead specializing in scalable architectures, database
-                optimization, and modern JavaScript/PHP frameworks. I turn complex enterprise
-                requirements into seamless digital products.
+                Lead Software Engineer with 20+ years of experience designing scalable
+                architectures, optimizing performance, and leading engineering teams. I transform
+                complex business requirements into reliable, maintainable, and high-performing
+                software products.
               </Typography>
 
               {/* CTA Buttons */}
@@ -140,7 +141,7 @@ export function HeroBanner() {
                     },
                   }}
                 >
-                  View Projects
+                  Explore Projects
                 </Button>
 
                 <Button
@@ -161,7 +162,7 @@ export function HeroBanner() {
                     },
                   }}
                 >
-                  Download CV
+                  View Resume
                 </Button>
               </Box>
             </Box>
