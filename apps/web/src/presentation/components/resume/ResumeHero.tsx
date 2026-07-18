@@ -41,7 +41,7 @@ export function ResumeHero({ resumeFileUrl }: ResumeHeroProps) {
               letterSpacing: '1.2px',
             }}
           >
-            AVAILABLE FOR WORK
+            Available for Engineering Opportunities
           </Typography>
         </Box>
 
@@ -57,7 +57,7 @@ export function ResumeHero({ resumeFileUrl }: ResumeHeroProps) {
             color: '#dbfcff',
           }}
         >
-          Resume.exe
+          Professional Experience
         </Typography>
 
         {/* Description */}
@@ -72,10 +72,11 @@ export function ResumeHero({ resumeFileUrl }: ResumeHeroProps) {
             mt: '4px',
           }}
         >
-          Full Stack Developer with over 20 years of professional experience in developing
-          high-performance web and mobile applications. My expertise spans the JavaScript ecosystem
-          including Next.js, React.js &amp; React Native, and I am proficient in Laravel, Node.js,
-          Nest.js, and .NET Core.
+          Lead Software Engineer with 20+ years of experience designing scalable software
+          architectures, leading engineering teams, and delivering high-performance web platforms.
+          Experienced across the JavaScript ecosystem—including Next.js, React, Node.js, NestJS, and
+          Laravel—with a strong focus on performance engineering, system architecture, and AI-native
+          development practices.
         </Typography>
       </Box>
 
@@ -110,7 +111,7 @@ export function ResumeHero({ resumeFileUrl }: ResumeHeroProps) {
           height={16}
           style={{ objectFit: 'contain' }}
         />
-        DOWNLOAD PDF RESUME
+        Download Resume (PDF)
       </Button>
     </Box>
   );

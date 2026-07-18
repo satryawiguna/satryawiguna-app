@@ -100,7 +100,7 @@ export function TechnicalPhilosophy() {
                   color: '#00dbe9',
                 }}
               >
-                Excellence
+                Philosophy
               </Typography>
             </Box>
 
@@ -115,10 +115,10 @@ export function TechnicalPhilosophy() {
                   color: '#dae2fd',
                 }}
               >
-                With over 20 years of evolution in the IT landscape, I bridge the gap between
-                complex engineering challenges and high-performance software solutions. My journey
-                spans from foundational programming to leading regional and international
-                development teams.
+                Over the past two decades, I've partnered with startups, enterprises, and
+                international engineering teams to design scalable software solutions that solve
+                complex business challenges. My expertise spans software architecture,
+                high-performance backend systems, full-stack development, and technical leadership.
               </Typography>
               <Typography
                 sx={{
@@ -129,10 +129,9 @@ export function TechnicalPhilosophy() {
                   color: '#b9cacb',
                 }}
               >
-                As a Full-Stack Developer and Team Lead, I specialize in designing scalable
-                architectures, optimizing high-volume database queries, and integrating AI
-                capabilities into modern web applications. I thrive in dynamic environments where
-                technical precision meets strategic leadership.
+                I specialize in transforming business ideas into reliable digital products by
+                combining sound engineering principles, scalable architecture, performance
+                optimization, and modern AI-native development practices.
               </Typography>
 
               {/* Location card */}
@@ -192,7 +191,7 @@ export function TechnicalPhilosophy() {
                       textTransform: 'uppercase',
                     }}
                   >
-                    Working with Global Businesses
+                    Collaborating with distributed engineering teams across the world.
                   </Typography>
                 </Box>
               </Box>
@@ -258,7 +257,7 @@ export function TechnicalPhilosophy() {
                     color: '#dbfcff',
                   }}
                 >
-                  AI-Native Orchestration
+                  AI-Native Engineering
                 </Typography>
               </Box>
               <Typography
@@ -270,8 +269,9 @@ export function TechnicalPhilosophy() {
                   color: '#b9cacb',
                 }}
               >
-                Designing and orchestrating AI-native workflows that combine LLMs, agents, tools,
-                and human expertise to accelerate software delivery and business outcomes.
+                Designing AI-powered development workflows that combine LLMs, intelligent agents,
+                automation, and human expertise to accelerate software delivery while maintaining
+                engineering quality.
               </Typography>
             </Box>
 
@@ -325,8 +325,8 @@ export function TechnicalPhilosophy() {
                     color: '#b9cacb',
                   }}
                 >
-                  Leading international teams with a focus on technical precision and future-proof
-                  platform development.
+                  Providing technical direction, mentoring engineering teams, and aligning software
+                  architecture with business objectives to deliver scalable, future-ready platforms.
                 </Typography>
               </Box>
             </Box>
@@ -419,15 +419,18 @@ export function TechnicalPhilosophy() {
                 color: '#dae2fd',
               }}
             >
-              &ldquo;I help global businesses build reliable, future-proof platforms while
-              maintaining a dedicated commitment to engineering excellence.&rdquo;
+              &ldquo;Helping organizations build scalable software platforms through pragmatic
+              architecture, engineering excellence, and modern AI-native development
+              practices.&rdquo;
             </Typography>
             <Box sx={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
               {[
-                'Scalable Architectures',
-                'Database Optimization',
-                'Regional Team Lead',
-                'Software Evolution',
+                'Software Architecture',
+                'Engineering Leadership',
+                'Performance Engineering',
+                'AI-Native Development',
+                'Cloud & DevOps',
+                'Enterprise Systems',
               ].map((tag) => (
                 <Box
                   key={tag}

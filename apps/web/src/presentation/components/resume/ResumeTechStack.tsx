@@ -77,7 +77,7 @@ export function ResumeTechStack() {
             textTransform: 'uppercase',
           }}
         >
-          TECH STACK
+          Core Technologies
         </Typography>
       </Box>
 
