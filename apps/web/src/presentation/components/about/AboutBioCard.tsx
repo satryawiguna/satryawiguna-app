@@ -68,7 +68,7 @@ export function AboutBioCard() {
           before evolving into enterprise software engineering and technical leadership. Over the
           past two decades,{' '}
           <Box component="span" sx={{ color: '#dae2fd', fontWeight: 500 }}>
-            I've partnered with startups, multinational companies, and global engineering teams
+            I&apos;ve partnered with startups, multinational companies, and global engineering teams
           </Box>
           to build scalable platforms across healthcare, education, CRM, event management, AI, and
           analytics. Today I focus on software architecture, engineering leadership, performance

@@ -115,7 +115,7 @@ export function TechnicalPhilosophy() {
                   color: '#dae2fd',
                 }}
               >
-                Over the past two decades, I've partnered with startups, enterprises, and
+                Over the past two decades, I&apos;ve partnered with startups, enterprises, and
                 international engineering teams to design scalable software solutions that solve
                 complex business challenges. My expertise spans software architecture,
                 high-performance backend systems, full-stack development, and technical leadership.
