@@ -25,7 +25,7 @@ export function ResumeStrengths() {
         <Box sx={{ position: 'relative', width: '19px', height: '20px', flexShrink: 0 }}>
           <Image
             src="/assets/icons/resume/icon-strengths.svg"
-            alt=""
+            alt="Strengths"
             fill
             style={{ objectFit: 'contain' }}
           />
@@ -78,7 +78,7 @@ export function ResumeStrengths() {
                   >
                     <Image
                       src="/assets/icons/resume/icon-check.svg"
-                      alt=""
+                      alt="Checkmark"
                       fill
                       style={{ objectFit: 'contain' }}
                     />

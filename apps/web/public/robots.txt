@@ -1,0 +1,6 @@
+# ── satryawiguna.me robots.txt ──────────────────────────────────────────────
+
+User-agent: *
+Allow: /
+
+Sitemap: https://satryawiguna.me/sitemap.xml

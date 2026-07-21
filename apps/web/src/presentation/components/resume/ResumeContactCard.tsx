@@ -60,7 +60,7 @@ export function ResumeContactCard() {
         <Box sx={{ position: 'relative', width: '16px', height: '20px', flexShrink: 0 }}>
           <Image
             src="/assets/icons/resume/icon-contact.svg"
-            alt=""
+            alt="Contact"
             fill
             style={{ objectFit: 'contain' }}
           />
@@ -92,7 +92,7 @@ export function ResumeContactCard() {
                 flexShrink: 0,
               }}
             >
-              <Image src={item.icon} alt="" fill style={{ objectFit: 'contain' }} />
+              <Image src={item.icon} alt={item.label} fill style={{ objectFit: 'contain' }} />
             </Box>
             <Typography
               component={item.href ? 'a' : 'span'}

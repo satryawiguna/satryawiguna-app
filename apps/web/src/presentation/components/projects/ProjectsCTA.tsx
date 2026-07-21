@@ -40,7 +40,7 @@ export function ProjectsCTA() {
           textAlign: 'center',
         }}
       >
-        Ready to initiate a project?
+        Let's Build Something Exceptional
       </Typography>
 
       {/* Description */}
@@ -56,8 +56,8 @@ export function ProjectsCTA() {
           mt: '24px',
         }}
       >
-        I am currently open to high-impact roles and freelance partnerships. Let&apos;s build
-        something exceptional together.
+        Available for senior engineering roles, technical consulting, and freelance partnerships.
+        Let's build scalable products that make a lasting impact.
       </Typography>
 
       {/* Buttons */}
