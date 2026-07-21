@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Typography } from '@mui/material';
+import { Box, Chip, Typography } from '@mui/material';
 
 export function BlogHero() {
   return (
@@ -15,41 +15,42 @@ export function BlogHero() {
         width: '100%',
       }}
     >
-      {/* SYSTEM ONLINE badge */}
-      <Box
-        sx={{
-          backgroundColor: '#131b2e',
-          border: '1px solid #3b494b',
-          borderRadius: '12px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          px: '17px',
-          py: '9px',
-        }}
-      >
-        <Box
+      {/* Status Badge */}
+      <Box sx={{ mb: 1 }}>
+        <Chip
+          icon={
+            <Box
+              sx={{
+                width: 8,
+                height: 8,
+                borderRadius: '50%',
+                backgroundColor: '#4edea3',
+                position: 'relative',
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  inset: 0,
+                  borderRadius: '50%',
+                  backgroundColor: '#4edea3',
+                  opacity: 0.75,
+                  filter: 'blur(4px)',
+                },
+              }}
+            />
+          }
+          label="Continuous Learning & Knowledge Sharing"
           sx={{
-            width: 8,
-            height: 8,
-            borderRadius: '50%',
-            backgroundColor: '#4edea3',
-            flexShrink: 0,
+            backgroundColor: 'rgba(0, 165, 114, 0.1)',
+            border: '1px solid rgba(0, 165, 114, 0.2)',
+            color: '#4edea3',
+            fontFamily: 'Inter, sans-serif',
+            fontSize: '12px',
+            fontWeight: 600,
+            letterSpacing: '1.2px',
+            px: 1.5,
+            py: 0.5,
           }}
         />
-        <Typography
-          sx={{
-            fontFamily: 'Space Grotesk, sans-serif',
-            fontWeight: 400,
-            fontSize: '16px',
-            lineHeight: '24px',
-            color: '#4edea3',
-            textTransform: 'uppercase',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          SYSTEM ONLINE
-        </Typography>
       </Box>
 
       {/* Title */}
@@ -67,9 +68,9 @@ export function BlogHero() {
             whiteSpace: { xs: 'normal', md: 'nowrap' },
           }}
         >
-          Technical{' '}
+          Engineering{' '}
           <Box component="span" sx={{ color: '#006970' }}>
-            Logs
+            Insights
           </Box>
         </Typography>
       </Box>
@@ -86,8 +87,8 @@ export function BlogHero() {
           maxWidth: '672px',
         }}
       >
-        Exploring the frontiers of full-stack engineering, distributed systems, and modern UI
-        architectures.
+        Thoughts, case studies, and practical lessons from building scalable software, cloud-native
+        systems, and modern web applications.
       </Typography>
     </Box>
   );

@@ -14,7 +14,7 @@ export function ResumeEducation() {
         <Box sx={{ position: 'relative', width: '22px', height: '18px', flexShrink: 0 }}>
           <Image
             src="/assets/icons/resume/icon-graduation.svg"
-            alt=""
+            alt="Education"
             fill
             style={{ objectFit: 'contain' }}
           />
