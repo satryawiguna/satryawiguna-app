@@ -40,7 +40,7 @@ Every audit must check these categories relevant to a Next.js SPA:
 ### XSS Prevention
 
 - [ ] No `dangerouslySetInnerHTML` without proper sanitization (use DOMPurify)
-- [ ] Markdown editor (`@uiw/react-md-editor`) output is sanitized before rendering
+- [ ] Markdown editor (`@mdxeditor/editor`) output is sanitized before rendering
 - [ ] User-generated content (blog posts, project descriptions) is sanitized on display
 - [ ] Form inputs are validated both client-side (Formik/Yup) and server-side
 

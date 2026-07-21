@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Chip, Typography } from '@mui/material';
 import TuneIcon from '@mui/icons-material/Tune';
 import { useCategories } from '@/presentation/hooks/useCategories';
 
@@ -51,39 +51,42 @@ export function ProjectsHero({ selectedCategoryId, onCategoryChange }: ProjectsH
     >
       {/* Left: Badge + Title + Description */}
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '2.8px' }}>
-        {/* Status badge */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', mb: '4px' }}>
-          <Box sx={{ position: 'relative', width: 8, height: 8, flexShrink: 0 }}>
-            <Box
-              sx={{
-                position: 'absolute',
-                inset: 0,
-                borderRadius: '50%',
-                backgroundColor: '#4edea3',
-                opacity: 0.75,
-              }}
-            />
-            <Box
-              sx={{
-                width: 8,
-                height: 8,
-                borderRadius: '50%',
-                backgroundColor: '#4edea3',
-                position: 'relative',
-              }}
-            />
-          </Box>
-          <Typography
+        {/* Status Badge */}
+        <Box sx={{ mb: 1 }}>
+          <Chip
+            icon={
+              <Box
+                sx={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: '50%',
+                  backgroundColor: '#4edea3',
+                  position: 'relative',
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    inset: 0,
+                    borderRadius: '50%',
+                    backgroundColor: '#4edea3',
+                    opacity: 0.75,
+                    filter: 'blur(4px)',
+                  },
+                }}
+              />
+            }
+            label="System ready to build"
             sx={{
-              fontFamily: 'Space Grotesk, sans-serif',
-              fontWeight: 400,
-              fontSize: '12px',
-              lineHeight: '16px',
+              backgroundColor: 'rgba(0, 165, 114, 0.1)',
+              border: '1px solid rgba(0, 165, 114, 0.2)',
               color: '#4edea3',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '12px',
+              fontWeight: 600,
+              letterSpacing: '1.2px',
+              px: 1.5,
+              py: 0.5,
             }}
-          >
-            SYSTEMS ONLINE • READY TO BUILD
-          </Typography>
+          />
         </Box>
 
         {/* Heading */}
@@ -99,7 +102,7 @@ export function ProjectsHero({ selectedCategoryId, onCategoryChange }: ProjectsH
             mt: '5.2px',
           }}
         >
-          Selected Artifacts
+          Engineering Case Studies
         </Typography>
 
         {/* Description */}
@@ -114,8 +117,8 @@ export function ProjectsHero({ selectedCategoryId, onCategoryChange }: ProjectsH
             mt: '4px',
           }}
         >
-          A curated collection of full-stack engineering projects focusing on high-performance
-          architecture, cloud scalability, and refined user experience.
+          A selection of production-ready systems showcasing scalable architecture, modern
+          engineering practices, and thoughtful product design.
         </Typography>
       </Box>
 

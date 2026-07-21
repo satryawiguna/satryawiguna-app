@@ -33,7 +33,7 @@ export function ResumeExperience() {
         <Box sx={{ position: 'relative', width: '20px', height: '19px', flexShrink: 0 }}>
           <Image
             src="/assets/icons/resume/icon-briefcase.svg"
-            alt=""
+            alt="Experience"
             fill
             style={{ objectFit: 'contain' }}
           />

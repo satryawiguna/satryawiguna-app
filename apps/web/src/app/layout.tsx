@@ -19,7 +19,11 @@ const inter = Inter({
   display: 'swap',
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://satryawiguna.me';
+const ogImage = `${siteUrl}/assets/images/social/profile.jpeg`;
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: 'Satrya Wiguna - Full Stack Developer & Software Engineer',
   description:
     'Architecting high-performance web ecosystems with precision. I transform complex business logic into elegant, scalable software solutions.',
@@ -33,10 +37,34 @@ export const metadata: Metadata = {
     'Laravel',
     'AWS',
   ],
+  alternates: {
+    canonical: siteUrl,
+  },
   openGraph: {
     title: 'Satrya Wiguna - Full Stack Developer',
     description: 'Building Digital Excellence Through Full Stack Mastery',
     type: 'website',
+    url: siteUrl,
+    siteName: 'Satrya Wiguna',
+    images: [
+      {
+        url: ogImage,
+        width: 800,
+        height: 800,
+        alt: 'Satrya Wiguna - Full Stack Developer',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@satryawiguna',
+    title: 'Satrya Wiguna - Full Stack Developer',
+    description: 'Building Digital Excellence Through Full Stack Mastery',
+    images: [ogImage],
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 

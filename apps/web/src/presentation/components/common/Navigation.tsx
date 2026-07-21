@@ -58,7 +58,7 @@ export function Navigation() {
             {/* Logo */}
             <Link href="/" style={{ textDecoration: 'none' }}>
               <Typography
-                variant="h6"
+                component="span"
                 sx={{
                   fontFamily: 'Space Grotesk, sans-serif',
                   fontWeight: 700,

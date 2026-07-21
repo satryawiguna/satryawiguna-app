@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Chip, Typography } from '@mui/material';
 import Image from 'next/image';
 
 interface ResumeHeroProps {
@@ -20,29 +20,42 @@ export function ResumeHero({ resumeFileUrl }: ResumeHeroProps) {
     >
       {/* Left: Badge + Title + Description */}
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-        {/* AVAILABLE FOR WORK badge */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: '8px', mb: '4px' }}>
-          <Box
+        {/* Status Badge */}
+        <Box sx={{ mb: 1 }}>
+          <Chip
+            icon={
+              <Box
+                sx={{
+                  width: 8,
+                  height: 8,
+                  borderRadius: '50%',
+                  backgroundColor: '#4edea3',
+                  position: 'relative',
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    inset: 0,
+                    borderRadius: '50%',
+                    backgroundColor: '#4edea3',
+                    opacity: 0.75,
+                    filter: 'blur(4px)',
+                  },
+                }}
+              />
+            }
+            label="Available for Hire"
             sx={{
-              width: 12,
-              height: 12,
-              borderRadius: '50%',
-              backgroundColor: '#4edea3',
-              flexShrink: 0,
+              backgroundColor: 'rgba(0, 165, 114, 0.1)',
+              border: '1px solid rgba(0, 165, 114, 0.2)',
+              color: '#4edea3',
+              fontFamily: 'Inter, sans-serif',
+              fontSize: '12px',
+              fontWeight: 600,
+              letterSpacing: '1.2px',
+              px: 1.5,
+              py: 0.5,
             }}
           />
-          <Typography
-            sx={{
-              fontFamily: 'Space Grotesk, sans-serif',
-              fontWeight: 700,
-              fontSize: '12px',
-              lineHeight: '12px',
-              color: '#4edea3',
-              letterSpacing: '1.2px',
-            }}
-          >
-            Available for Engineering Opportunities
-          </Typography>
         </Box>
 
         {/* Resume.exe heading */}
@@ -74,9 +87,9 @@ export function ResumeHero({ resumeFileUrl }: ResumeHeroProps) {
         >
           Lead Software Engineer with 20+ years of experience designing scalable software
           architectures, leading engineering teams, and delivering high-performance web platforms.
-          Experienced across the JavaScript ecosystem—including Next.js, React, Node.js, NestJS, and
-          Laravel—with a strong focus on performance engineering, system architecture, and AI-native
-          development practices.
+          Experienced across the JavaScript ecosystem, including Next.js, React, Node.js, NestJS,
+          and Laravel, with a strong focus on performance engineering, system architecture, and
+          AI-native development practices.
         </Typography>
       </Box>
 
@@ -106,7 +119,7 @@ export function ResumeHero({ resumeFileUrl }: ResumeHeroProps) {
       >
         <Image
           src="/assets/icons/resume/icon-download.svg"
-          alt=""
+          alt="Download resume"
           width={16}
           height={16}
           style={{ objectFit: 'contain' }}

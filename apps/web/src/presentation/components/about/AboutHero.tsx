@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Typography } from '@mui/material';
+import { Box, Chip, Typography } from '@mui/material';
 
 export function AboutHero() {
   return (
@@ -12,29 +12,42 @@ export function AboutHero() {
         width: '100%',
       }}
     >
-      {/* Status badge */}
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-        <Box
+      {/* Status Badge */}
+      <Box sx={{ mb: 1 }}>
+        <Chip
+          icon={
+            <Box
+              sx={{
+                width: 8,
+                height: 8,
+                borderRadius: '50%',
+                backgroundColor: '#4edea3',
+                position: 'relative',
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  inset: 0,
+                  borderRadius: '50%',
+                  backgroundColor: '#4edea3',
+                  opacity: 0.75,
+                  filter: 'blur(4px)',
+                },
+              }}
+            />
+          }
+          label="Software Architect & Engineer"
           sx={{
-            width: 8,
-            height: 8,
-            borderRadius: '12px',
-            backgroundColor: '#4edea3',
-            flexShrink: 0,
+            backgroundColor: 'rgba(0, 165, 114, 0.1)',
+            border: '1px solid rgba(0, 165, 114, 0.2)',
+            color: '#4edea3',
+            fontFamily: 'Inter, sans-serif',
+            fontSize: '12px',
+            fontWeight: 600,
+            letterSpacing: '1.2px',
+            px: 1.5,
+            py: 0.5,
           }}
         />
-        <Typography
-          sx={{
-            fontFamily: 'Space Grotesk, sans-serif',
-            fontWeight: 700,
-            fontSize: '12px',
-            lineHeight: '12px',
-            color: '#4edea3',
-            letterSpacing: '1.2px',
-          }}
-        >
-          SOFTWARE ENGINEER & SOFTWARE ARCHITECT
-        </Typography>
       </Box>
 
       {/* H1 */}

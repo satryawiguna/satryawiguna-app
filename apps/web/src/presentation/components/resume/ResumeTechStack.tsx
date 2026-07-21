@@ -61,7 +61,7 @@ export function ResumeTechStack() {
         <Box sx={{ position: 'relative', width: '20px', height: '16px', flexShrink: 0 }}>
           <Image
             src="/assets/icons/resume/icon-tech.svg"
-            alt=""
+            alt="Tech stack"
             fill
             style={{ objectFit: 'contain' }}
           />
