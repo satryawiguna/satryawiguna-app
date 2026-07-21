@@ -18,7 +18,7 @@ export function AboutTechPhilosophy() {
     >
       {/* Heading */}
       <Typography
-        component="h3"
+        component="h2"
         sx={{
           fontFamily: 'Space Grotesk, sans-serif',
           fontWeight: 500,

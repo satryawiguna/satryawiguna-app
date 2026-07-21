@@ -2,6 +2,7 @@
 
 import { Box, Container, Typography } from '@mui/material';
 import Image from 'next/image';
+import ElectricBorder from './ElectricBorder';
 
 const cards = [
   {
@@ -18,7 +19,7 @@ const cards = [
     iconHeight: 20,
     title: 'Performance Optimization',
     description:
-      'Optimizing applications across every layer—from database design and API performance to frontend rendering—to deliver fast, reliable user experiences at scale.',
+      'Optimizing applications across every layer — from database design and API performance to frontend rendering — to deliver fast, reliable user experiences at scale.',
   },
   {
     icon: '/assets/icons/icon-team-leadership.svg',
@@ -127,69 +128,79 @@ export function KeyExpertise() {
             }}
           >
             {cards.map((card) => (
-              <Box
+              <ElectricBorder
                 key={card.title}
-                sx={{
-                  backgroundColor: 'rgba(15, 23, 42, 0.6)',
-                  backdropFilter: 'blur(6px)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  borderRadius: '8px',
-                  p: '33px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '12px',
-                }}
+                color="#00dbe9"
+                speed={0.8}
+                chaos={0.15}
+                borderRadius={8}
+                style={{ borderRadius: 8 }}
+                hoverOnly
               >
-                {/* Icon box */}
                 <Box
                   sx={{
-                    width: '48px',
-                    height: '48px',
-                    backgroundColor: 'rgba(0, 219, 233, 0.1)',
-                    borderRadius: '4px',
+                    backgroundColor: 'rgba(15, 23, 42, 0.6)',
+                    backdropFilter: 'blur(6px)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    borderRadius: '8px',
+                    p: '33px',
                     display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    flexShrink: 0,
+                    flexDirection: 'column',
+                    gap: '12px',
+                    height: '100%',
                   }}
                 >
-                  <Image
-                    src={card.icon}
-                    alt={card.title}
-                    width={card.iconWidth}
-                    height={card.iconHeight}
-                    style={{ objectFit: 'contain' }}
-                  />
-                </Box>
-
-                {/* Title */}
-                <Box sx={{ pt: '12px' }}>
-                  <Typography
+                  {/* Icon box */}
+                  <Box
                     sx={{
-                      fontFamily: 'Space Grotesk, sans-serif',
-                      fontWeight: 400,
-                      fontSize: '20px',
-                      lineHeight: '28px',
-                      color: '#dbfcff',
+                      width: '48px',
+                      height: '48px',
+                      backgroundColor: 'rgba(0, 219, 233, 0.1)',
+                      borderRadius: '4px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0,
                     }}
                   >
-                    {card.title}
+                    <Image
+                      src={card.icon}
+                      alt={card.title}
+                      width={card.iconWidth}
+                      height={card.iconHeight}
+                      style={{ objectFit: 'contain' }}
+                    />
+                  </Box>
+
+                  {/* Title */}
+                  <Box sx={{ pt: '12px' }}>
+                    <Typography
+                      sx={{
+                        fontFamily: 'Space Grotesk, sans-serif',
+                        fontWeight: 400,
+                        fontSize: '20px',
+                        lineHeight: '28px',
+                        color: '#dbfcff',
+                      }}
+                    >
+                      {card.title}
+                    </Typography>
+                  </Box>
+
+                  {/* Description */}
+                  <Typography
+                    sx={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontWeight: 400,
+                      fontSize: '16px',
+                      lineHeight: '26px',
+                      color: '#b9cacb',
+                    }}
+                  >
+                    {card.description}
                   </Typography>
                 </Box>
-
-                {/* Description */}
-                <Typography
-                  sx={{
-                    fontFamily: 'Inter, sans-serif',
-                    fontWeight: 400,
-                    fontSize: '16px',
-                    lineHeight: '26px',
-                    color: '#b9cacb',
-                  }}
-                >
-                  {card.description}
-                </Typography>
-              </Box>
+              </ElectricBorder>
             ))}
           </Box>
         </Box>

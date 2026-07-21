@@ -1,8 +1,10 @@
 'use client';
 
+import { useRef, useEffect } from 'react';
 import { Box, Button, Chip, Container, Typography, Grid, Skeleton } from '@mui/material';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Image from 'next/image';
+import gsap from 'gsap';
 import { useSkills } from '@/presentation/hooks';
 import { GalaxyBackground } from './GalaxyBackground';
 
@@ -54,7 +56,7 @@ export function HeroBanner() {
                       }}
                     />
                   }
-                  label="Available for Engineering & Architecture Roles"
+                  label="Software Architect & Engineer"
                   sx={{
                     backgroundColor: 'rgba(0, 165, 114, 0.1)',
                     border: '1px solid rgba(0, 165, 114, 0.2)',
@@ -87,11 +89,9 @@ export function HeroBanner() {
                 <Box component="span" sx={{ color: '#00dbe9' }}>
                   Scalable
                 </Box>
-                <br />
-                <Box component="span" sx={{ color: '#00dbe9' }}>
+                <Box component="span" sx={{ color: '#00dbe9', display: 'block' }}>
                   Software
                 </Box>
-                <br />
                 That Drives Business Growth
               </Typography>
 
@@ -250,12 +250,30 @@ export function HeroBanner() {
 }
 
 function TechStackSection() {
+  const containerRef = useRef<HTMLDivElement>(null);
   const { data: skills = [], isLoading } = useSkills({
     sortBy: 'sort_order',
     orderBy: 'asc',
     level: 50,
     level_operator: 'gte',
   });
+
+  // Border glow animation
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    gsap.to(container, {
+      '--rotation': '360deg',
+      duration: 8,
+      repeat: -1,
+      ease: 'none',
+    });
+
+    return () => {
+      gsap.killTweensOf(container);
+    };
+  }, []);
 
   if (isLoading) {
     const skeletonItems = Array.from({ length: 14 });
@@ -307,6 +325,7 @@ function TechStackSection() {
 
   return (
     <Box
+      ref={containerRef}
       sx={{
         backgroundColor: 'rgba(15, 23, 42, 0.6)',
         backdropFilter: 'blur(6px)',
@@ -317,6 +336,21 @@ function TechStackSection() {
         position: 'relative',
         overflow: 'hidden',
         mx: 'auto',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          inset: -1,
+          borderRadius: 'inherit',
+          padding: '2px',
+          background:
+            'conic-gradient(from var(--rotation, 0deg), #00dbe9, #742fe5, #4edea3, #00dbe9)',
+          WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+          WebkitMaskComposite: 'xor',
+          maskComposite: 'exclude',
+          pointerEvents: 'none',
+          opacity: 0.6,
+          zIndex: 1,
+        },
       }}
     >
       {/* Gradient Overlay */}

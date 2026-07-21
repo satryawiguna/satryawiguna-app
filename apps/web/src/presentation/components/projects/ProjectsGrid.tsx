@@ -109,7 +109,7 @@ function ProjectCard({ project }: { project: Project }) {
 
           {/* Title */}
           <Typography
-            component="h3"
+            component="h2"
             sx={{
               fontFamily: 'Space Grotesk, sans-serif',
               fontWeight: 500,

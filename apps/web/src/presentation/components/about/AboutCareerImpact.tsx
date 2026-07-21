@@ -182,7 +182,7 @@ export function AboutCareerImpact() {
             {/* Title */}
             <Box sx={{ pt: '8px' }}>
               <Typography
-                component="h4"
+                component="h3"
                 sx={{
                   fontFamily: 'Space Grotesk, sans-serif',
                   fontWeight: 400,
