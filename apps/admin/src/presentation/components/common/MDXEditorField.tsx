@@ -69,7 +69,7 @@ function CustomBlockTypeSelect() {
         break;
       default:
         if (blockType.startsWith('h')) {
-          convertSelectionToNode(() => $createHeadingNode(blockType));
+          convertSelectionToNode(() => $createHeadingNode(blockType as 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'));
         }
         break;
     }

@@ -40,7 +40,7 @@ export function ProjectsCTA() {
           textAlign: 'center',
         }}
       >
-        Let's Build Something Exceptional
+        Let&apos;s Build Something Exceptional
       </Typography>
 
       {/* Description */}
@@ -57,7 +57,7 @@ export function ProjectsCTA() {
         }}
       >
         Available for senior engineering roles, technical consulting, and freelance partnerships.
-        Let's build scalable products that make a lasting impact.
+        Let&apos;s build scalable products that make a lasting impact.
       </Typography>
 
       {/* Buttons */}
