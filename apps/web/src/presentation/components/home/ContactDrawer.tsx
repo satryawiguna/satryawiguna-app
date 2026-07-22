@@ -1,16 +1,21 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import { Box, Drawer, IconButton, InputBase, Typography } from '@mui/material';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import CloseIcon from '@mui/icons-material/Close';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { useContactDrawer } from './ContactDrawerContext';
+import { SuccessModal } from '@/presentation/components/common';
+import { useContactForm } from '@/presentation/hooks';
 
-type Step = 'name' | 'email' | 'message' | 'confirm' | 'submitting';
+const ReCAPTCHA = dynamic(() => import('react-google-recaptcha'), { ssr: false });
 
-const STEP_ORDER: Step[] = ['name', 'email', 'message', 'confirm', 'submitting'];
+type Step = 'name' | 'email' | 'message' | 'captcha' | 'confirm' | 'submitting';
+
+const STEP_ORDER: Step[] = ['name', 'email', 'message', 'captcha', 'confirm', 'submitting'];
 const monoFont = 'Nimbus Mono PS, monospace';
 
 function generateReceiptId() {
@@ -27,7 +32,10 @@ export function ContactDrawer() {
   const [receiptId, setReceiptId] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
   const [showClosing, setShowClosing] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const { send: sendContact } = useContactForm();
 
   const stepIndex = STEP_ORDER.indexOf(step);
 
@@ -36,7 +44,7 @@ export function ContactDrawer() {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [step, showSuccess, showClosing]);
+  }, [step, showSuccess, showClosing, showSuccessModal]);
 
   function reset() {
     setStep('name');
@@ -47,6 +55,8 @@ export function ContactDrawer() {
     setReceiptId('');
     setShowSuccess(false);
     setShowClosing(false);
+    setShowSuccessModal(false);
+    setRecaptchaToken(null);
   }
 
   function handleClose() {
@@ -54,14 +64,32 @@ export function ContactDrawer() {
     setTimeout(reset, 300);
   }
 
-  function submitForm() {
+  function handleCloseSuccessModal() {
+    setShowSuccessModal(false);
+  }
+
+  async function submitForm() {
     setStep('submitting');
-    const id = generateReceiptId();
-    setReceiptId(id);
-    setTimeout(() => {
+    try {
+      await sendContact({
+        identity: name,
+        email_address: email,
+        transmission: message,
+      });
+      const id = generateReceiptId();
+      setReceiptId(id);
       setShowSuccess(true);
-      setTimeout(() => setShowClosing(true), 600);
-    }, 1500);
+      setTimeout(() => {
+        setShowClosing(true);
+        setTimeout(() => {
+          reset();
+          closeDrawer();
+          setShowSuccessModal(true);
+        }, 800);
+      }, 600);
+    } catch {
+      setStep('confirm');
+    }
   }
 
   function handleNameKeyDown(e: React.KeyboardEvent) {
@@ -81,18 +109,29 @@ export function ContactDrawer() {
   function handleMessageKeyDown(e: React.KeyboardEvent) {
     if (e.key === 'Enter' && !e.shiftKey && message.trim()) {
       e.preventDefault();
-      setStep('confirm');
+      setStep('captcha');
     }
   }
 
-  function handleConfirmKeyDown(e: React.KeyboardEvent) {
+  function handleCaptchaVerify(token: string | null) {
+    // Guard against non-string values (e.g. Event objects when Google API
+    // fails to load or is blocked by an ad blocker)
+    if (typeof token !== 'string') return;
+    setRecaptchaToken(token);
+    setStep('confirm');
+  }
+
+  const handleConfirmKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       const val = confirmInput.trim().toLowerCase();
-      if (val === 'y' || val === 'yes') submitForm();
-      else if (val === 'n' || val === 'no') reset();
+      if ((val === 'y' || val === 'yes') && recaptchaToken) submitForm();
+      else if (val === 'n' || val === 'no') {
+        setRecaptchaToken(null);
+        setStep('captcha');
+      }
     }
-  }
+  };
 
   const labelSx = {
     fontFamily: monoFont,
@@ -186,7 +225,7 @@ export function ContactDrawer() {
               textTransform: 'uppercase',
             }}
           >
-            SECURE_TRANSMISSION_V2.0
+            SECURE_CONTACT_PROTOCOL
           </Typography>
         </Box>
         <IconButton
@@ -217,9 +256,9 @@ export function ContactDrawer() {
       >
         {/* System init messages */}
         {[
-          '[SYSTEM] Initializing handshake protocol...',
-          '[SYSTEM] Connection established via encrypted node.',
-          '[SYSTEM] Type your inquiry below to initiate payload transfer.',
+          '[SYSTEM] Initializing secure communication...',
+          '[SYSTEM] Encrypted channel established.',
+          '[SYSTEM] Ready to receive your message.',
         ].map((line) => (
           <Typography key={line} sx={mutedSx}>
             {line}
@@ -230,12 +269,12 @@ export function ContactDrawer() {
           {/* ── Name_Identity ── */}
           {stepIndex > 0 ? (
             <Box sx={{ display: 'flex', gap: '8px' }}>
-              <Typography sx={labelSx}>Name_Identity:</Typography>
+              <Typography sx={labelSx}>Identity:</Typography>
               <Typography sx={valueSx}>{name}</Typography>
             </Box>
           ) : (
             <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-              <Typography sx={labelSx}>Name_Identity:</Typography>
+              <Typography sx={labelSx}>Identity:</Typography>
               <InputBase
                 autoFocus
                 value={name}
@@ -250,12 +289,12 @@ export function ContactDrawer() {
           {stepIndex >= 1 &&
             (stepIndex > 1 ? (
               <Box sx={{ display: 'flex', gap: '8px' }}>
-                <Typography sx={labelSx}>Return_Endpoint:</Typography>
+                <Typography sx={labelSx}>Reply_Address:</Typography>
                 <Typography sx={valueSx}>{email}</Typography>
               </Box>
             ) : (
               <Box sx={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                <Typography sx={labelSx}>Return_Endpoint:</Typography>
+                <Typography sx={labelSx}>Reply_Address:</Typography>
                 <InputBase
                   autoFocus
                   value={email}
@@ -271,14 +310,14 @@ export function ContactDrawer() {
           {stepIndex >= 2 &&
             (stepIndex > 2 ? (
               <Box>
-                <Typography sx={labelSx}>Payload_Content:</Typography>
+                <Typography sx={labelSx}>Transmission:</Typography>
                 <Box sx={{ borderLeft: '1px solid rgba(219,252,255,0.2)', pl: '16px', mt: '4px' }}>
                   <Typography sx={{ ...valueSx, whiteSpace: 'pre-wrap' }}>{message}</Typography>
                 </Box>
               </Box>
             ) : (
               <Box>
-                <Typography sx={labelSx}>Payload_Content:</Typography>
+                <Typography sx={labelSx}>Transmission:</Typography>
                 <Box sx={{ borderLeft: '1px solid rgba(219,252,255,0.2)', pl: '16px', mt: '4px' }}>
                   <InputBase
                     autoFocus
@@ -302,9 +341,44 @@ export function ContactDrawer() {
               </Box>
             ))}
 
-          {/* ── Submit (Y/N) ── */}
+          {/* ── reCAPTCHA ── */}
           {stepIndex >= 3 &&
             (stepIndex > 3 ? (
+              <Box sx={{ display: 'flex', gap: '8px' }}>
+                <Typography sx={labelSx}>Verification:</Typography>
+                <Typography sx={valueSx}>Passed</Typography>
+              </Box>
+            ) : (
+              <Box
+                sx={{
+                  mt: '12px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '8px',
+                }}
+              >
+                <Typography sx={labelSx}>Verification:</Typography>
+                <Typography
+                  sx={{
+                    fontFamily: monoFont,
+                    fontSize: '13px',
+                    lineHeight: '18px',
+                    color: 'rgba(185,202,203,0.6)',
+                    mb: '4px',
+                  }}
+                >
+                  Complete the challenge below to proceed:
+                </Typography>
+                <ReCAPTCHA
+                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
+                  onChange={handleCaptchaVerify}
+                />
+              </Box>
+            ))}
+
+          {/* ── Submit (Y/N) ── */}
+          {stepIndex >= 4 &&
+            (stepIndex > 4 ? (
               <Box sx={{ display: 'flex', gap: '8px' }}>
                 <Typography sx={labelSx}>Submit (Y/N):</Typography>
                 <Typography sx={valueSx}>{confirmInput}</Typography>
@@ -324,7 +398,7 @@ export function ContactDrawer() {
             ))}
 
           {/* ── Status Log ── */}
-          {stepIndex >= 4 && (
+          {stepIndex >= 5 && (
             <Box
               sx={{
                 borderTop: '1px solid rgba(255,255,255,0.05)',
@@ -389,6 +463,13 @@ export function ContactDrawer() {
           RESET
         </Box>
       </Box>
+
+      {/* ── Success Modal ── */}
+      <SuccessModal
+        open={showSuccessModal}
+        onClose={handleCloseSuccessModal}
+        receiptId={receiptId}
+      />
     </Drawer>
   );
 }
