@@ -8,4 +8,5 @@ export * from './useEducations';
 export * from './useResumeUrl';
 export * from './useCategories';
 export * from './useSubscription';
+export * from './useContactForm';
 export * from './usePageTransition';

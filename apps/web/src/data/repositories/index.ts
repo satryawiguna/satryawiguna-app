@@ -7,3 +7,4 @@ export * from './experienceRepository';
 export * from './educationRepository';
 export * from './categoryRepository';
 export * from './subscriptionRepository';
+export * from './contactRepository';
