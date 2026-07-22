@@ -369,10 +369,23 @@ export function ContactDrawer() {
                 >
                   Complete the challenge below to proceed:
                 </Typography>
-                <ReCAPTCHA
-                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || ''}
-                  onChange={handleCaptchaVerify}
-                />
+                {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ? (
+                  <ReCAPTCHA
+                    sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                    onChange={handleCaptchaVerify}
+                  />
+                ) : (
+                  <Typography
+                    sx={{
+                      fontFamily: monoFont,
+                      fontSize: '13px',
+                      lineHeight: '18px',
+                      color: 'error.main',
+                    }}
+                  >
+                    Error: reCAPTCHA site key not configured.
+                  </Typography>
+                )}
               </Box>
             ))}
 

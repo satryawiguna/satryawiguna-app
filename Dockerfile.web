@@ -65,6 +65,8 @@ ENV NODE_ENV=production
 # Injected at build time by CI — baked into the JS bundle by Next.js
 ARG NEXT_PUBLIC_API_URL
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ARG NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+ENV NEXT_PUBLIC_RECAPTCHA_SITE_KEY=$NEXT_PUBLIC_RECAPTCHA_SITE_KEY
 # turbo is in root devDependencies, so pnpm exec turbo is available
 RUN pnpm exec turbo run build --filter=web
 
