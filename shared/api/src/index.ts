@@ -20,6 +20,7 @@ export * from './services/settingService';
 export * from './services/strengthService';
 export * from './services/careerImpactService';
 export * from './services/subscriptionService';
+export * from './services/contactService';
 
 // Interceptors
 export * from './interceptors';
