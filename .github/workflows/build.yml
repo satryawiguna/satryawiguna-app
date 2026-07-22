@@ -10,7 +10,7 @@ name: Build & Push Docker Images
 on:
   push:
     branches:
-      - 'rc/**'
+      - "rc/**"
 
 concurrency:
   group: build-${{ github.ref }}
