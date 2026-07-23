@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
-import dynamic from 'next/dynamic';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { Box, Drawer, IconButton, InputBase, Typography } from '@mui/material';
 import TerminalIcon from '@mui/icons-material/Terminal';
 import CloseIcon from '@mui/icons-material/Close';
@@ -11,11 +10,9 @@ import { useContactDrawer } from './ContactDrawerContext';
 import { SuccessModal } from '@/presentation/components/common';
 import { useContactForm } from '@/presentation/hooks';
 
-const ReCAPTCHA = dynamic(() => import('react-google-recaptcha'), { ssr: false });
+type Step = 'name' | 'email' | 'message' | 'confirm' | 'submitting';
 
-type Step = 'name' | 'email' | 'message' | 'captcha' | 'confirm' | 'submitting';
-
-const STEP_ORDER: Step[] = ['name', 'email', 'message', 'captcha', 'confirm', 'submitting'];
+const STEP_ORDER: Step[] = ['name', 'email', 'message', 'confirm', 'submitting'];
 const monoFont = 'Nimbus Mono PS, monospace';
 
 function generateReceiptId() {
@@ -33,7 +30,6 @@ export function ContactDrawer() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showClosing, setShowClosing] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const { send: sendContact } = useContactForm();
 
@@ -56,7 +52,6 @@ export function ContactDrawer() {
     setShowSuccess(false);
     setShowClosing(false);
     setShowSuccessModal(false);
-    setRecaptchaToken(null);
   }
 
   function handleClose() {
@@ -68,13 +63,36 @@ export function ContactDrawer() {
     setShowSuccessModal(false);
   }
 
-  async function submitForm() {
+  function handleNameKeyDown(e: React.KeyboardEvent) {
+    if (e.key === 'Enter' && name.trim()) {
+      e.preventDefault();
+      setStep('email');
+    }
+  }
+
+  const submitForm = useCallback(async () => {
     setStep('submitting');
     try {
+      // Obtain reCAPTCHA Enterprise token at submission time
+      let token: string | undefined;
+      try {
+        const grecaptcha = (window as any).grecaptcha;
+        if (grecaptcha?.enterprise) {
+          // Wait for the enterprise library to be fully ready
+          await new Promise<void>((resolve) => grecaptcha.enterprise.ready(resolve));
+          token = await grecaptcha.enterprise.execute(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY, {
+            action: 'contact',
+          });
+        }
+      } catch {
+        // reCAPTCHA unavailable — proceed without token
+      }
+
       await sendContact({
         identity: name,
         email_address: email,
         transmission: message,
+        recaptcha_token: token ?? null,
       });
       const id = generateReceiptId();
       setReceiptId(id);
@@ -90,14 +108,7 @@ export function ContactDrawer() {
     } catch {
       setStep('confirm');
     }
-  }
-
-  function handleNameKeyDown(e: React.KeyboardEvent) {
-    if (e.key === 'Enter' && name.trim()) {
-      e.preventDefault();
-      setStep('email');
-    }
-  }
+  }, [name, email, message, sendContact]);
 
   function handleEmailKeyDown(e: React.KeyboardEvent) {
     if (e.key === 'Enter' && email.trim()) {
@@ -109,27 +120,16 @@ export function ContactDrawer() {
   function handleMessageKeyDown(e: React.KeyboardEvent) {
     if (e.key === 'Enter' && !e.shiftKey && message.trim()) {
       e.preventDefault();
-      setStep('captcha');
+      setStep('confirm');
     }
-  }
-
-  function handleCaptchaVerify(token: string | null) {
-    // Guard against non-string values (e.g. Event objects when Google API
-    // fails to load or is blocked by an ad blocker)
-    if (typeof token !== 'string') return;
-    setRecaptchaToken(token);
-    setStep('confirm');
   }
 
   const handleConfirmKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       const val = confirmInput.trim().toLowerCase();
-      if ((val === 'y' || val === 'yes') && recaptchaToken) submitForm();
-      else if (val === 'n' || val === 'no') {
-        setRecaptchaToken(null);
-        setStep('captcha');
-      }
+      if (val === 'y' || val === 'yes') submitForm();
+      else if (val === 'n' || val === 'no') setStep('message');
     }
   };
 
@@ -341,57 +341,9 @@ export function ContactDrawer() {
               </Box>
             ))}
 
-          {/* ── reCAPTCHA ── */}
+          {/* ── Submit (Y/N) ── */}
           {stepIndex >= 3 &&
             (stepIndex > 3 ? (
-              <Box sx={{ display: 'flex', gap: '8px' }}>
-                <Typography sx={labelSx}>Verification:</Typography>
-                <Typography sx={valueSx}>Passed</Typography>
-              </Box>
-            ) : (
-              <Box
-                sx={{
-                  mt: '12px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '8px',
-                }}
-              >
-                <Typography sx={labelSx}>Verification:</Typography>
-                <Typography
-                  sx={{
-                    fontFamily: monoFont,
-                    fontSize: '13px',
-                    lineHeight: '18px',
-                    color: 'rgba(185,202,203,0.6)',
-                    mb: '4px',
-                  }}
-                >
-                  Complete the challenge below to proceed:
-                </Typography>
-                {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ? (
-                  <ReCAPTCHA
-                    sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-                    onChange={handleCaptchaVerify}
-                  />
-                ) : (
-                  <Typography
-                    sx={{
-                      fontFamily: monoFont,
-                      fontSize: '13px',
-                      lineHeight: '18px',
-                      color: 'error.main',
-                    }}
-                  >
-                    Error: reCAPTCHA site key not configured.
-                  </Typography>
-                )}
-              </Box>
-            ))}
-
-          {/* ── Submit (Y/N) ── */}
-          {stepIndex >= 4 &&
-            (stepIndex > 4 ? (
               <Box sx={{ display: 'flex', gap: '8px' }}>
                 <Typography sx={labelSx}>Submit (Y/N):</Typography>
                 <Typography sx={valueSx}>{confirmInput}</Typography>
@@ -411,7 +363,7 @@ export function ContactDrawer() {
             ))}
 
           {/* ── Status Log ── */}
-          {stepIndex >= 5 && (
+          {stepIndex >= 4 && (
             <Box
               sx={{
                 borderTop: '1px solid rgba(255,255,255,0.05)',

@@ -235,7 +235,7 @@ export function ProjectDetailHero({ project }: ProjectDetailHeroProps) {
           overflow: 'hidden',
           position: 'relative',
           width: '100%',
-          height: { xs: '280px', md: '480px', lg: '682px' },
+          maxHeight: { xs: '400px', md: '600px' },
           padding: '1px',
         }}
       >
@@ -244,12 +244,9 @@ export function ProjectDetailHero({ project }: ProjectDetailHeroProps) {
           src={project.thumbnail_url}
           alt={project.title}
           sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
             width: '100%',
-            height: '100%',
-            objectFit: 'cover',
+            height: 'auto',
+            display: 'block',
             opacity: 0.8,
           }}
         />
