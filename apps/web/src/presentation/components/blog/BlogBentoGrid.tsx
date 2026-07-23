@@ -250,7 +250,7 @@ function CardImage({ post }: { post: BlogPost }) {
           sx={{
             borderRadius: '4px',
             overflow: 'hidden',
-            height: '190px',
+            aspectRatio: '16 / 9',
             flexShrink: 0,
             position: 'relative',
           }}
@@ -261,12 +261,10 @@ function CardImage({ post }: { post: BlogPost }) {
             alt={post.title}
             sx={{
               position: 'absolute',
+              inset: 0,
               width: '100%',
-              height: '177.79%',
-              top: '-38.9%',
-              left: 0,
+              height: '100%',
               objectFit: 'cover',
-              maxWidth: 'none',
               display: 'block',
             }}
           />
