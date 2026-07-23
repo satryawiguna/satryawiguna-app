@@ -6,7 +6,8 @@ export class ContactService {
   private readonly baseURL: string;
 
   constructor() {
-    this.baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+    const rawUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+    this.baseURL = rawUrl.replace(/\/+$/, '');
   }
 
   /**
