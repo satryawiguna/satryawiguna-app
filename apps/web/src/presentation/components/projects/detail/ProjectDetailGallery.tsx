@@ -44,6 +44,7 @@ export function ProjectDetailGallery({ images }: ProjectDetailGalleryProps) {
               border: '1px solid rgba(255, 255, 255, 0.1)',
               aspectRatio: '16 / 9',
               position: 'relative',
+              backgroundColor: '#0b1326',
             }}
           >
             <Box
@@ -53,7 +54,7 @@ export function ProjectDetailGallery({ images }: ProjectDetailGalleryProps) {
               sx={{
                 width: '100%',
                 height: '100%',
-                objectFit: 'cover',
+                objectFit: 'contain',
                 display: 'block',
               }}
             />

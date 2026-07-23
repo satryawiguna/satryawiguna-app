@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import { Space_Grotesk, Inter } from 'next/font/google';
 import { MuiThemeProvider } from '@/presentation/components/providers/MuiThemeProvider';
 import { PageTransitionProviderWrapper } from '@/presentation/components/providers/PageTransitionProviderWrapper';
@@ -78,6 +79,10 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <Script
+          src={`https://www.google.com/recaptcha/enterprise.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+          strategy="beforeInteractive"
+        />
       </head>
       <body suppressHydrationWarning>
         <MuiThemeProvider>

@@ -168,7 +168,7 @@ export function BlogDetailHero({ post }: BlogDetailHeroProps) {
             overflow: 'hidden',
             position: 'relative',
             width: '100%',
-            height: { xs: '280px', md: '480px', lg: '682px' },
+            maxHeight: { xs: '400px', md: '600px' },
             padding: '1px',
           }}
         >
@@ -176,13 +176,9 @@ export function BlogDetailHero({ post }: BlogDetailHeroProps) {
             src={post.thumbnail_url}
             alt={post.title}
             style={{
-              position: 'absolute',
               width: '100%',
-              height: '178%',
-              top: '-39%',
-              left: 0,
-              objectFit: 'cover',
-              maxWidth: 'none',
+              height: 'auto',
+              display: 'block',
               opacity: 0.8,
             }}
           />

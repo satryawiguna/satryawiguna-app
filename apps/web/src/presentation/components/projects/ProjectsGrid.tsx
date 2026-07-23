@@ -48,7 +48,7 @@ function ProjectCard({ project }: { project: Project }) {
         {/* Image */}
         <Box
           sx={{
-            height: '192px',
+            aspectRatio: '16 / 9',
             position: 'relative',
             overflow: 'hidden',
             borderRadius: '7px 7px 0 0',
@@ -60,12 +60,10 @@ function ProjectCard({ project }: { project: Project }) {
             alt={project.title}
             style={{
               position: 'absolute',
+              inset: 0,
               width: '100%',
-              height: '201.73%',
-              top: '-50.87%',
-              left: 0,
+              height: '100%',
               objectFit: 'cover',
-              maxWidth: 'none',
             }}
           />
           {/* Gradient overlay */}
